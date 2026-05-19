@@ -4,91 +4,97 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
+use App\Models\Album;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GaleriController extends Controller
 {
     public function index()
     {
-        // Mengambil semua album beserta foto pertama di dalamnya sebagai cover
-        $albums = \App\Models\Album::with('galeris')->latest()->paginate(12);
-        return view('admin.galeri.index', compact('albums'));
+        // KUNCI UTAMA: Mengambil data galeri khusus untuk tabel CRUD admin
+        $galeris = Galeri::with('album')->latest()->paginate(10);
+        
+        // DI SINI SALAHNYA KEMARIN! Pastikan manggil view admin, BUKAN public.galeri
+        return view('admin.galeri.index', compact('galeris'));
     }
 
     public function create()
     {
-        // Sudah tidak ambil data album lagi
-        return view('admin.galeri.create');
+        $albums = Album::all();
+        return view('admin.galeri.create', compact('albums'));
     }
 
     public function store(Request $request)
     {
-        // Menambah durasi upload agar tidak timeout saat upload banyak foto
-        set_time_limit(300);
-
+        // 1. Validasi request input dari form tambah foto galeri
         $request->validate([
-            'judul'     => 'required|string|max:200',
-            'tanggal'   => 'required|date',
-            'foto'      => 'required',
-            'foto.*'    => 'mimes:jpg,jpeg,png,webp,mp4,mov,avi|max:20480', // Support video sampai 20MB
-        ]);
-
+            'album_id' => 'required|exists:albums,id',
+            'foto'     => 'required|array',
+            'foto.*'   => 'file|mimes:jpeg,png,jpg,JPEG,PNG,JPG,mp4,mov,avi,MP4,MOV,AVI|max:20480',        ]);
+    
+        // Ambil data album untuk cadangan nama judul foto
+        $album = Album::findOrFail($request->album_id);
+    
+        // Tentukan judul foto (jika input judul kosong, pakai nama albumnya)
+        $judulFoto = $request->judul ?? $album->nama_album;
+    
+        // 2. Lakukan perulangan jika ada file foto yang di-upload
         if ($request->hasFile('foto')) {
-            foreach ($request->file('foto') as $file) {
-                // Proses simpan file ke folder storage/app/public/galeri
+            foreach ($request->file('foto') as $index => $file) {
+                // Simpan ke folder storage/public/galeri
                 $path = $file->store('galeri', 'public');
-
-                // Simpan ke database satu per satu
+    
+                // Simpan murni ke database tabel galeris saja (BEBAS EROR COLUMN NOT FOUND)
                 Galeri::create([
-                    'judul'     => $request->judul,
-                    'tanggal'   => $request->tanggal,
-                    'deskripsi' => $request->deskripsi,
-                    'foto'      => $path,
+                    'album_id'   => $request->album_id,
+                    'judul'      => $judulFoto,
+                    'foto'       => $path,
+                    'tanggal'    => now(), // Otomatis mengisi tanggal upload hari ini
+                    'keterangan' => $request->keterangan ?? null,
                 ]);
             }
         }
-
-        return redirect()->route('admin.galeri.index')->with('success', 'Foto-foto berhasil diunggah!');
+    
+        return redirect()->route('admin.galeri.index')->with('success', 'Foto-foto berhasil ditambahkan ke dalam galeri album.');
+    }
+    public function edit($id)
+    {
+        $galeri = Galeri::findOrFail($id);
+        $albums = Album::all();
+        return view('admin.galeri.edit', compact('galeri', 'albums'));
     }
 
-    public function edit(Galeri $galeri)
+    public function update(Request $request, $id)
     {
-        return view('admin.galeri.edit', compact('galeri'));
-    }
-
-    public function update(Request $request, Galeri $galeri)
-    {
+        $galeri = Galeri::findOrFail($id);
+        
         $request->validate([
-            'judul'     => 'required|string|max:200',
-            'tanggal'   => 'required|date',
-            'deskripsi' => 'nullable|string',
-            'foto'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'album_id' => 'required|exists:albums,id',
+            'judul'    => 'required|string|max:255',
+            'foto'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3072', // Boleh kosong jika tidak ingin ganti foto
         ]);
 
-        $data = $request->only(['judul', 'tanggal', 'deskripsi']);
+        // Ambil data inputan teks saja terlebih dahulu (Aman dari kebocoran file .tmp)
+        $data = $request->only(['album_id', 'judul', 'keterangan']);
 
+        // Jika user mengunggah foto baru saat edit, proses secara aman
         if ($request->hasFile('foto')) {
-            // Hapus foto lama
-            if ($galeri->foto) Storage::disk('public')->delete($galeri->foto);
-            // Simpan foto baru
-            $data['foto'] = $request->file('foto')->store('galeri', 'public');
+            $path = $request->file('foto')->store('galeri', 'public');
+            $data['foto'] = $path;
         }
 
+        // Update data galeri secara spesifik terisolasi hanya untuk ID ini
         $galeri->update($data);
 
-        return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil diperbarui.');
+        return redirect()->route('admin.galeri.index')->with('success', 'Data galeri berhasil diperbarui!');
     }
 
-    public function destroy(Galeri $galeri)
+    public function destroy($id)
     {
-        if ($galeri->foto) Storage::disk('public')->delete($galeri->foto);
+        $galeri = Galeri::findOrFail($id);
         $galeri->delete();
-        return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil dihapus.');
-    }
 
-    public function show(Galeri $galeri) 
-    { 
-        return redirect()->route('admin.galeri.index'); 
+        return redirect()->route('admin.galeri.index')->with('success', 'Foto galeri berhasil dihapus!');
     }
 }

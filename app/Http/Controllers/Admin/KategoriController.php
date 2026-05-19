@@ -11,9 +11,18 @@ use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategoris = Kategori::withCount('tanamanObats')->orderBy('nama_kategori')->paginate(15);
+        // Jika ada request ?show=all, ambil semua data tanpa paginasi
+        if ($request->get('show') === 'all') {
+            // Kita pakai paginate dengan jumlah total data agar link pagination tidak error di Blade
+            $totalData = \App\Models\Kategori::count();
+            $kategoris = \App\Models\Kategori::latest()->paginate($totalData ?: 10);
+        } else {
+            // Standar bawaan dipotong per 15 data
+            $kategoris = \App\Models\Kategori::latest()->paginate(15);
+        }
+    
         return view('admin.kategori.index', compact('kategoris'));
     }
 
@@ -25,15 +34,15 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // Ganti 'nama' menjadi 'nama_kategori'
-            'nama_kategori' => 'required|string|max:255', 
+            'nama_kategori' => 'required|string|max:100|unique:kategoris,nama_kategori',
         ]);
     
         \App\Models\Kategori::create([
             'nama_kategori' => $request->nama_kategori,
         ]);
     
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil disimpan!');
+        // Kembali ke index dengan toast/notifikasi
+        return redirect()->route('admin.kategori.index')->with('success', 'Kategori baru berhasil ditambahkan!');
     }
 
     public function edit(Kategori $kategori)

@@ -4,92 +4,131 @@ namespace App\Http\Controllers\Pj;
 
 use App\Http\Controllers\Controller;
 use App\Models\TanamanObat;
-use App\Models\Kategori;
-use App\Models\Pengunjung;
+use App\Models\Album;
 use App\Models\Berita;
-use App\Models\Galeri;
-use Carbon\Carbon;
+use App\Models\Saran;
+use App\Models\Pengunjung; // Pastikan nama model pengunjung sesuai di proyekmu
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    // --- LAPORAN TANAMAN (Kode Lama Kamu) ---
+    // ==========================================
+    // 1. MODUL LAPORAN TANAMAN OBAT
+    // ==========================================
     public function tanaman(Request $request)
     {
-        $query = TanamanObat::with('kategoris');
-    
-        if ($request->filled('kategori')) {
-            $query->whereHas('kategoris', function($q) use ($request) {
-                $q->where('kategoris.id', $request->kategori);
-            });
-        }
-        
-        $tanaman   = $query->orderBy('nama')->paginate(20)->withQueryString();
-        $kategoris = Kategori::all();
-    
-        $stats = [
-            'total'        => TanamanObat::count(),
-            // TAMBAHKAN BARIS INI:
-            'tersedia'     => TanamanObat::where('status', 'tersedia')->count(), 
-            'per_kategori' => Kategori::withCount('tanamanObats')->get(),
-        ];
-    
-        return view('pj.laporan.tanaman', compact('tanaman','kategoris','stats'));
-    }
+        $query = TanamanObat::query();
 
-    // --- LAPORAN BERITA (Baru) ---
-    public function berita()
-    {
-        $beritas = Berita::orderBy('created_at', 'desc')->get();
-        return view('pj.laporan.berita', compact('beritas'));
-    }
-
-    public function cetakBerita()
-    {
-        $beritas = Berita::orderBy('created_at', 'desc')->get();
-        $tgl = now()->format('d/m/Y');
-        return view('pj.laporan.cetak_berita', compact('beritas', 'tgl'));
-    }
-
-    // --- LAPORAN GALERI (Baru) ---
-    public function galeri()
-    {
-        $galeris = Galeri::orderBy('tanggal', 'desc')->get();
-        return view('pj.laporan.galeri', compact('galeris'));
-    }
-
-    public function cetakGaleri()
-    {
-        $galeris = Galeri::orderBy('tanggal', 'desc')->get();
-        $tgl = now()->format('d/m/Y');
-        return view('pj.laporan.cetak_galeri', compact('galeris', 'tgl'));
-    }
-
-    // --- LAPORAN PENGUNJUNG (Kode Lama Kamu) ---
-    public function pengunjung()
-    {
-        $hari   = Pengunjung::where('tanggal', Carbon::today())->count();
-        $minggu = Pengunjung::whereBetween('tanggal', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
-        $bulan  = Pengunjung::whereMonth('tanggal', Carbon::now()->month)->count();
-        $total  = Pengunjung::count();
-
-        $grafik = [];
-        for ($i = 29; $i >= 0; $i--) {
-            $tgl = Carbon::today()->subDays($i);
-            $grafik[] = [
-                'tanggal' => $tgl->format('d/m'),
-                'jumlah'  => Pengunjung::where('tanggal', $tgl)->count(),
-            ];
+        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
+            $query->whereBetween('created_at', [$request->tanggal_mulai . ' 00:00:00', $request->tanggal_selesai . ' 23:59:59']);
+        } elseif ($request->has('rentang_waktu') && $request->rentang_waktu != 'semua') {
+            if ($request->rentang_waktu == 'tiga_bulan') { $query->where('created_at', '>=', now()->subMonths(3)); }
+            elseif ($request->rentang_waktu == 'enam_bulan') { $query->where('created_at', '>=', now()->subMonths(6)); }
         }
 
-        return view('pj.laporan.pengunjung', compact('hari','minggu','bulan','total','grafik'));
+        $tanamans = $query->latest()->paginate(10);
+        return view('pj.laporan.tanaman', compact('tanamans'));
     }
 
+    // ==========================================
+    // 2. MODUL LAPORAN BERITA & ARTIKEL
+    // ==========================================
+    public function berita(Request $request)
+    {
+        $query = Berita::query();
+
+        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
+            $query->whereBetween('created_at', [$request->tanggal_mulai . ' 00:00:00', $request->tanggal_selesai . ' 23:59:59']);
+        } elseif ($request->has('rentang_waktu') && $request->rentang_waktu != 'semua') {
+            if ($request->rentang_waktu == 'tiga_bulan') { $query->where('created_at', '>=', now()->subMonths(3)); }
+            elseif ($request->rentang_waktu == 'enam_bulan') { $query->where('created_at', '>=', now()->subMonths(6)); }
+        }
+
+        $beritas = $query->latest()->paginate(10);
+        return view('pj.laporan.berita', compact('beritas')); // Menyesuaikan nama rute blademu nanti
+    }
+
+    // ==========================================
+    // 3. MODUL LAPORAN GALERI DOKUMENTASI
+    // ==========================================
+    public function galeri(Request $request)
+    {
+        $query = Album::withCount('galeris');
+
+        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
+            $query->whereBetween('created_at', [$request->tanggal_mulai . ' 00:00:00', $request->tanggal_selesai . ' 23:59:59']);
+        } elseif ($request->has('rentang_waktu') && $request->rentang_waktu != 'semua') {
+            if ($request->rentang_waktu == 'tiga_bulan') { $query->where('created_at', '>=', now()->subMonths(3)); }
+            elseif ($request->rentang_waktu == 'enam_bulan') { $query->where('created_at', '>=', now()->subMonths(6)); }
+        }
+
+        $albums = $query->latest()->get();
+        return view('pj.laporan.galeri', compact('albums'));
+    }
+
+    // ==========================================
+    // 4. MODUL LAPORAN STATISTIK PENGUNJUNG
+    // ==========================================
+    public function pengunjung(Request $request)
+    {
+        // Pengaman jika tabel log pengunjung belum dibuat, biar tidak crash saat demo
+        if (!class_exists(Pengunjung::class)) {
+            $pengunjungs = [];
+            return view('pj.laporan.pengunjung', compact('pengunjungs'));
+        }
+
+        $query = Pengunjung::query();
+
+        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
+            $query->whereBetween('created_at', [$request->tanggal_mulai . ' 00:00:00', $request->tanggal_selesai . ' 23:59:59']);
+        } elseif ($request->has('rentang_waktu') && $request->rentang_waktu != 'semua') {
+            if ($request->rentang_waktu == 'tiga_bulan') { $query->where('created_at', '>=', now()->subMonths(3)); }
+            elseif ($request->rentang_waktu == 'enam_bulan') { $query->where('created_at', '>=', now()->subMonths(6)); }
+        }
+
+        $pengunjungs = $query->latest()->paginate(15);
+        return view('pj.laporan.pengunjung', compact('pengunjungs'));
+    }
+
+    // ==========================================
+    // ACTION MASTER EXPORT / CETAK (ALL-IN-ONE)
+    // ==========================================
     public function export(Request $request)
     {
-        $tanaman = TanamanObat::with('kategoris')->orderBy('nama')->get();
-        $tgl     = now()->format('Y-m-d');
-        return response()->view('pj.laporan.export', compact('tanaman', 'tgl'))
-            ->header('Content-Type', 'text/html');
+        $jenis = $request->get('jenis_laporan', 'tanaman');
+        $rentang = $request->get('rentang_cetak', 'semua');
+        $tgl_mulai = $request->get('cetak_tanggal_mulai');
+        $tgl_selesai = $request->get('cetak_tanggal_selesai');
+
+        // 1. Tentukan Model Kueri Berdasarkan Jenis Laporan
+        if ($jenis == 'berita') { $query = Berita::query(); $judul = "LAPORAN PUBLIKASI BERITA & ARTIKEL MEA"; }
+        elseif ($jenis == 'galeri') { $query = Album::withCount('galeris'); $judul = "LAPORAN DATA ALBUM DOKUMENTASI DENTAL"; }
+        elseif ($jenis == 'pengunjung') { $query = class_exists(Pengunjung::class) ? Pengunjung::query() : null; $judul = "LAPORAN KUNJUNGAN MONITORING SITOBAT-UP"; }
+        else { $query = TanamanObat::query(); $judul = "LAPORAN DATA KOLEKSI TANAMAN OBAT KELUARGA"; }
+
+        if (!$query) return "Struktur tabel belum siap.";
+
+        // 2. Terapkan Saringan Waktu Cetak
+        if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
+            $query->whereBetween('created_at', [$tgl_mulai . ' 00:00:00', $tgl_selesai . ' 23:59:59']);
+            $keterangan_waktu = "Periode " . date('d/m/Y', strtotime($tgl_mulai)) . " s/d " . date('d/m/Y', strtotime($tgl_selesai));
+        } else {
+            if ($rentang == 'tiga_bulan') { $query->where('created_at', '>=', now()->subMonths(3)); $keterangan_waktu = "3 Bulan Terakhir"; }
+            elseif ($rentang == 'enam_bulan') { $query->where('created_at', '>=', now()->subMonths(6)); $keterangan_waktu = "6 Bulan Terakhir"; }
+            else { $keterangan_waktu = "Semua Data Koleksi"; }
+        }
+
+        $data = $query->latest()->get();
+        
+        return view('pj.laporan.master_cetak', [
+            'data' => $data,
+            'jenis' => $jenis,
+            'judul_laporan' => $judul,
+            'keterangan_waktu' => $keterangan_waktu
+        ]);
     }
+
+    // Bypass rute cetak bawaan yang beralih fungsi ke master export
+    public function cetakBerita() { return redirect()->back(); }
+    public function cetakGaleri() { return redirect()->back(); }
 }

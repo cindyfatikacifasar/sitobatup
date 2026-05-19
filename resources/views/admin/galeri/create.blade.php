@@ -1,74 +1,74 @@
 @extends('layouts.admin')
-
+@section('title', 'Tambah Foto Galeri')
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0 fw-bold text-success">Tambah Koleksi Galeri</h5>
+
+<div class="mb-4">
+    <div class="d-flex align-items-center gap-2">
+        <a href="{{ route('admin.galeri.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📸 Tambah Foto Galeri Baru</h5>
+    </div>
+</div>
+
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+        <h6 class="fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i> Gagal Unggah Galeri:</h6>
+        <ul class="mb-0 small ps-3">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="row">
+                {{-- Pilih Album --}}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Pilih Album *</label>
+                    <select name="album_id" id="album_id" class="form-select @error('album_id') is-invalid @enderror" required>
+                        <option value="" disabled selected>-- Pilih Album Koleksi --</option>
+                        @foreach($albums as $album)
+                            <option value="{{ $album->id }}" {{ old('album_id') == $album->id ? 'selected' : '' }}>{{ $album->nama_album }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6 border-end">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Judul Kegiatan *</label>
-                                    <input type="text" name="judul" class="form-control" placeholder="Misal: Kunjungan Mahasiswa" required>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label fw-bold">Tanggal *</label>
-                                        <input type="date" name="tanggal" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="mb-0">
-                                    <label class="form-label fw-bold">Deskripsi</label>
-                                    <textarea name="deskripsi" class="form-control" rows="4" placeholder="Keterangan singkat..."></textarea>
-                                </div>
-                            </div>
-            
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Unggah Media (Foto/Video) *</label>
-                                <div class="border-dashed p-3 text-center rounded bg-light" style="border: 2px dashed #28a745; min-height: 150px;">
-                                    <input type="file" name="foto[]" class="form-control mb-2" accept="image/*,video/*" multiple required onchange="previewMedia(this, 'preview-container')">
-                                    <small class="text-muted">Sindi bisa pilih banyak file sekaligus.<br>Format: JPG, PNG, MP4. Maks: 10MB</small>
-                                </div>
-                                
-                                <div id="preview-container" class="mt-3 d-flex flex-wrap gap-2" style="max-height: 180px; overflow-y: auto;"></div>
-                            </div>
-                        </div>
-            
-                        <div class="text-end border-top mt-3 pt-3">
-                            <button type="submit" class="btn btn-success px-5">Simpan Galeri</button>
-                        </div>
-                    </form>
+
+                {{-- Judul Foto (Opsional) --}}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Judul Foto <span class="text-muted font-monospace small">(Opsional)</span></label>
+                    <input type="text" name="judul_foto" class="form-control" value="{{ old('judul_foto') }}" placeholder="Kosongkan jika ingin menyamakan dengan nama album">
+                </div>
+
+                {{-- File Foto/Video (Multiple - Pakai nama foto[]) --}}
+                <div class="col-md-12 mb-3">
+                    <label class="form-label fw-bold">File Foto/Video * <span class="text-success small">(Bisa pilih banyak sekaligus)</span></label>
+                    <input type="file" name="foto[]" class="form-control @error('foto') is-invalid @enderror" accept="image/*,video/mp4" multiple required>
+                    <div class="form-text small text-muted">Sindi bisa tahan tombol <b>Ctrl</b> di keyboard untuk memilih lebih dari 1 foto/video sekaligus.</div>
+                </div>
+
+                {{-- Keterangan Singkat (Opsional) --}}
+                <div class="col-md-12 mb-4">
+                    <label class="form-label fw-bold">Keterangan Singkat <span class="text-muted font-monospace small">(Opsional)</span></label>
+                    <textarea name="keterangan" class="form-control" rows="4" placeholder="Ceritakan sedikit tentang foto ini (boleh dikosongkan)...">{{ old('keterangan') }}</textarea>
                 </div>
             </div>
-            
-            <script>
-            function previewMedia(input, targetId) {
-                const container = document.getElementById(targetId);
-                container.innerHTML = '';
-                if (input.files) {
-                    Array.from(input.files).forEach(file => {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const div = document.createElement('div');
-                            div.className = 'position-relative';
-                            
-                            if (file.type.startsWith('video/')) {
-                                div.innerHTML = `<video src="${e.target.result}" class="rounded border" style="width:80px; height:80px; object-fit:cover;"></video>
-                                                 <span class="badge bg-dark position-absolute bottom-0 start-0" style="font-size:10px;">Video</span>`;
-                            } else {
-                                div.innerHTML = `<img src="${e.target.result}" class="rounded border" style="width:80px; height:80px; object-fit:cover;">`;
-                            }
-                            container.appendChild(div);
-                        }
-                        reader.readAsDataURL(file);
-                    });
-                }
-            }
-            </script>
+
+            {{-- Tombol Aksi --}}
+            <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                <a href="{{ route('admin.galeri.index') }}" class="btn btn-light btn-sm px-3">Batal</a>
+                <button type="submit" class="btn btn-success btn-sm px-4 fw-bold shadow-sm">
+                    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Simpan ke Galeri
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @endsection

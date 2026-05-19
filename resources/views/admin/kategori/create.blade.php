@@ -1,5 +1,5 @@
-{{-- resources/views/admin/kategori/create.blade.php --}}
-@extends('layouts.admin')
+{{-- {{-- resources/views/admin/kategori/create.blade.php --}}
+// @extends('layouts.admin')
 @section('title','Tambah Kategori')
 @section('content')
 
@@ -39,4 +39,4 @@
     </div>
 </form>
 
-@endsection
+@endsection  --}}

@@ -48,24 +48,24 @@ class TanamanObatController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kategori_ids'        => 'required|array',
-            'nama'                => 'required|string|max:150',
-            'nama_ilmiah'         => 'required|string|max:150',
-            'deskripsi'           => 'required|string',
-            'khasiat'             => 'required|string',
-            'bagian_digunakan'    => 'nullable|array',
-            'asal_usul'           => 'nullable|string|max:100',
-            'kolektor'            => 'nullable|string|max:100',
-            'is_favourite'        => 'required|boolean',
-            'foto'                => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'nama'         => 'required|string|max:255',
+            'nama_ilmiah'  => 'required|string|max:255', // <-- Tambahkan ini
+            'kategori_id'  => 'required|exists:kategoris,id',
+            'kolektor'     => 'required|string|max:255', // <-- Tambahkan ini
+            // validasi lainnya...
+        ]);
+        
+        Tanaman::create([
+            'nama'         => $request->nama,
+            'nama_ilmiah'  => $request->nama_ilmiah, // <-- Simpan ini
+            'kategori_id'  => $request->kategori_id,
+            'kolektor'     => $request->kolektor,    // <-- Simpan ini
+            // field lainnya...
         ]);
 
         $data = $request->except(['foto', '_token', 'kategori_ids']);
         
-        // Handle Checkbox Bagian Digunakan
-        if ($request->has('bagian_digunakan')) {
-            $data['bagian_digunakan'] = implode(', ', $request->bagian_digunakan);
-        }
+
 
         // Handle Slug Otomatis
         $slug = Str::slug($request->nama);
@@ -117,19 +117,13 @@ class TanamanObatController extends Controller
             'nama_ilmiah'         => 'required|string|max:150',
             'deskripsi'           => 'required|string',
             'khasiat'             => 'required|string',
-            'bagian_digunakan'    => 'nullable|array',
             'is_favourite'        => 'required|boolean',
             'foto'                => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
 
         $data = $request->except(['foto', '_token', '_method', 'kategori_ids']);
 
-        // Handle Checkbox Bagian Digunakan
-        if ($request->has('bagian_digunakan')) {
-            $data['bagian_digunakan'] = implode(', ', $request->bagian_digunakan);
-        } else {
-            $data['bagian_digunakan'] = null;
-        }
+
 
         // Update Slug jika nama berubah
         if ($request->nama !== $tanaman->nama) {

@@ -1,86 +1,135 @@
-{{-- resources/views/public/berita.blade.php --}}
 @extends('layouts.app')
-@section('title','Berita')
+@section('title', 'Berita & Informasi')
 @section('content')
-<div style="background:linear-gradient(135deg,#1a5c2a,#2d8a4e);padding:40px 0 30px;color:white;">
-    <div class="container">
-        <h1 class="h3 fw-bold mb-1">📰 Berita & Informasi</h1>
-        <p class="mb-0" style="opacity:.85;font-size:.9rem;">Kabar terbaru dari Taman Koleksi Tanaman Obat Kebun Raya UP</p>
+
+<style>
+    .news-card {
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #fff;
+    }
+    .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .news-img {
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
+    }
+    .search-section {
+        background: #f8fdf9;
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 20px; /* Diubah dari minus agar tidak tenggelam di bawah navbar */
+        position: relative;
+        z-index: 10;
+    }
+    .btn-search {
+        background: #1a5c2a;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 25px;
+    }
+    .btn-search:hover {
+        background: #13441e;
+        color: white;
+    }
+    .badge-date {
+        background: rgba(26, 92, 42, 0.1);
+        color: #1a5c2a;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+    .badge-view {
+        background: rgba(0, 123, 255, 0.1);
+        color: #007bff;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+</style>
+
+{{-- Header Hijau --}}
+<div style="background: #1a5c2a; padding: 60px 0 40px 0; color: white;">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-2">📰 Berita & Informasi</h2>
+        <p class="opacity-75 mb-0">Kabar terbaru dari Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</p>
     </div>
 </div>
 
-<div class="container py-4">
-    <!-- Filter -->
-    <form method="GET" class="row g-2 mb-4">
-        <div class="col-md-6">
-            <input type="text" name="search" class="form-control" placeholder="Cari berita..." value="{{ request('search') }}">
-        </div>
-        <div class="col-md-3">
-
-        <div class="col-md-3 d-flex gap-2">
-            <button type="submit" class="btn btn-hijau flex-fill"><i class="bi bi-search me-1"></i>Cari</button>
-            <a href="{{ route('berita') }}" class="btn btn-outline-secondary">Reset</a>
-        </div>
-    </form>
-
-    <div class="row g-3">
-        @forelse($beritas as $b)
-        <div class="col-md-4">
-            <div class="card-tanaman h-100 shadow-sm" style="border-radius: 12px; overflow: hidden; background: white;">
-                <div style="height:180px;overflow:hidden;background:#e3f2fd;display:flex;align-items:center;justify-content:center;">
-                    @if($b->foto)
-                        <img src="{{ Storage::url($b->foto) }}" alt="{{ $b->judul }}" style="width:100%;height:180px;object-fit:cover;">
-                    @else
-                        <span style="font-size:3.5rem;">📰</span>
+<div class="container mb-5">
+    {{-- Search Bar dimunculkan kembali dengan rapi --}}
+    <div class="search-section shadow-sm mx-auto" style="max-width: 900px;">
+        <form action="{{ route('berita') }}" method="GET">
+            <div class="row g-2">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" name="cari" class="form-control border-start-0 ps-0" placeholder="Cari judul berita..." value="{{ request('cari') }}">
+                    </div>
+                </div>
+                <div class="col-md-3 d-grid gap-2 d-md-flex">
+                    <button type="submit" class="btn btn-search flex-grow-1">Cari</button>
+                    @if(request('cari'))
+                        <a href="{{ route('berita') }}" class="btn btn-outline-secondary">Reset</a>
                     @endif
                 </div>
-                <div class="p-3">
-                    <div class="d-flex gap-2 mb-2">
-                        <span class="text-muted" style="font-size:.74rem;"><i class="bi bi-eye me-1"></i>{{ $b->views }}</span>
+            </div>
+        </form>
+    </div>
+
+    {{-- Daftar Berita --}}
+    <div class="row mt-4 g-4">
+        @forelse($beritas as $b)
+        <div class="col-md-4">
+            <div class="card h-100 news-card shadow-sm">
+                <div class="position-relative bg-light">
+                    {{-- SINKRONISASI: Mengganti $b->gambar menjadi $b->foto sesuai dengan controller --}}
+                    @if(Str::contains($b->foto, 'berita/'))
+                        <img src="{{ asset('storage/' . $b->foto) }}" class="card-img-top news-img" alt="{{ $b->judul }}">
+                    @else
+                        <img src="{{ asset('storage/berita/' . $b->foto) }}" class="card-img-top news-img" alt="{{ $b->judul }}">
+                    @endif
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex gap-2 mb-3">
+                        <span class="badge badge-date">
+                            <i class="bi bi-calendar3 me-1"></i> {{ $b->created_at->format('d M Y') }}
+                        </span>
+                        <span class="badge badge-view">
+                            <i class="bi bi-eye me-1"></i> {{ $b->views }} Telah Dilihat
+                        </span>
                     </div>
                     
-                    {{-- Judul dengan pemutus kata otomatis --}}
-                    <h6 class="fw-bold" style="font-size:.88rem; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">
-                        {{ Str::limit($b->judul, 65) }}
-                    </h6>
-
-                    {{-- Isi berita dengan pemutus kata otomatis agar tidak keluar kotak --}}
-                    <p class="text-muted" style="font-size:.8rem; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word;">
-                        {{ Str::limit(strip_tags($b->isi), 90) }}
+                    <h5 class="fw-bold text-dark mb-3 line-clamp-2" style="min-height: 3rem; line-height: 1.4;">{{ $b->judul }}</h5>
+                    <p class="text-muted small mb-4">
+                        {{ Str::limit(strip_tags($b->isi), 100) }}
                     </p>
-
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        <small class="text-muted">{{ $b->created_at->format('d M Y') }}</small>
-                        <a href="{{ route('berita.detail',$b->slug) }}" class="btn btn-sm btn-hijau px-3" style="border-radius: 8px;">Baca</a>
-                    </div>
+                    <a href="{{ route('berita.detail', $b->slug) }}" class="btn btn-link text-success p-0 fw-bold text-decoration-none">
+                        Baca Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
         @empty
         <div class="col-12 text-center py-5">
-            <div style="font-size:4rem;">📰</div>
-            <h5 class="text-muted">Belum ada berita ditemukan</h5>
+            <img src="https://illustrations.popsy.co/green/falling.svg" style="width: 200px;" alt="Data tidak ditemukan">
+            <p class="text-muted mt-3">Maaf, berita yang kamu cari tidak ditemukan.</p>
         </div>
         @endforelse
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
+    <div class="mt-5 d-flex justify-content-center">
         {{ $beritas->links() }}
     </div>
 </div>
 
-<style>
-    .card-tanaman {
-        transition: transform 0.3s ease;
-    }
-    .card-tanaman:hover {
-        transform: translateY(-5px);
-    }
-    /* Tambahan pengaman global untuk teks panjang */
-    .card-tanaman h6, .card-tanaman p {
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-word;
-    }
-</style>
 @endsection

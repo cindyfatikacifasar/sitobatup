@@ -74,4 +74,45 @@ class DashboardController extends Controller
         $user->save();
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
+
+    // ==========================================
+    // KHUSUS HALAMAN PENANGGUNG JAWAB (PJ)
+    // ==========================================
+
+    // 1. LAPORAN TANAMAN OBAT (READ-ONLY)
+    public function pjTanaman()
+    {
+        $tanamans = \App\Models\Tanaman::latest()->paginate(10);
+        return view('pj.laporan_tanaman', compact('tanamans'));
+    }
+
+    // 2. LAPORAN GALERI DOKUMENTASI
+    public function pjGaleri()
+    {
+        $albums = \App\Models\Album::withCount('galeris')->latest()->get();
+        return view('pj.laporan_galeri', compact('albums'));
+    }
+
+    // 3. LAPORAN BERITA & ARTIKEL
+    public function pjBerita()
+    {
+        $beritas = \App\Models\Berita::latest()->paginate(10);
+        return view('pj.laporan_berita', compact('beritas'));
+    }
+
+    // 4. LAPORAN SARAN MASUK
+    public function pjSaran()
+    {
+        $sarans = \App\Models\Saran::where('pengirim', 'pengunjung')->latest()->paginate(10);
+        return view('pj.saran', compact('sarans'));
+    }
+
+    // 5. AKSI PJ: TANDAI SARAN SUDAH DIBACA
+    public function pjBacaSaran($id)
+    {
+        $saran = \App\Models\Saran::findOrFail($id);
+        $saran->update(['is_read' => true]);
+
+        return redirect()->back()->with('success', 'Saran dari pengunjung berhasil ditandai telah ditinjau.');
+    }
 }

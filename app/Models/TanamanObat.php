@@ -17,7 +17,6 @@ class TanamanObat extends Model
         'nama_ilmiah', 
         'deskripsi', 
         'khasiat', 
-        'bagian_digunakan', 
         'asal_usul', 
         'kolektor', 
         'is_favourite', 
@@ -26,11 +25,7 @@ class TanamanObat extends Model
         'qr_code'
     ];
 
-    /**
-     * Karena di Controller kita menggunakan implode(', ', $request->bagian_digunakan),
-     * data yang masuk ke database adalah STRING (contoh: "Daun, Akar").
-     * Jadi, jangan gunakan $casts array agar tidak terjadi konflik data.
-     */
+
     protected $casts = [
         'is_favourite' => 'boolean',
     ];

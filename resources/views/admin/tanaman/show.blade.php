@@ -31,23 +31,33 @@
     <div class="col-md-8">
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="fw-bold" style="color:#1a5c2a;">{{ $tanaman->nama }}</h5>
-                <p class="text-muted fst-italic mb-3">{{ $tanaman->nama_ilmiah }}</p>
-                <div class="row g-2" style="font-size:.85rem;">
-                    <div class="col-6"><strong>Kategori:</strong> {{ $tanaman->kategori->nama ?? '-' }}</div>
-                    <div class="col-6"><strong>Bagian:</strong> {{ ucfirst($tanaman->bagian_digunakan??'-') }}</div>
-                    <div class="col-6"><strong>Asal Usul:</strong> {{ $tanaman->asal_usul??'-' }}</div>
-                    <div class="col-6"><strong>Lokasi:</strong> {{ $tanaman->lokasi_etalase??'-' }}</div>
-
-                    <div class="col-6"><strong>Views:</strong> {{ number_format($tanaman->views) }}</div>
+               
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6 border-bottom pb-2">
+                        <label class="text-muted small d-block mb-1">Nama Tanaman</label>
+                        <span class="fw-bold text-dark fs-5">{{ $tanaman->nama }}</span>
+                    </div>
+                    <div class="col-md-6 border-bottom pb-2">
+                        <label class="text-muted small d-block mb-1">Nama Ilmiah (Latin)</label>
+                        <span class="fw-bold text-dark fs-5 *fst-italic*">{{ $tanaman->nama_ilmiah }}</span>
+                    </div>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6 border-bottom pb-2">
+                        <label class="text-muted small d-block mb-1">Kategori Khasiat</label>
+                        <span class="badge bg-light text-success border border-success px-2 py-1">{{ $tanaman->kategori->nama_kategori ?? '-' }}</span>
+                    </div>
+                    <div class="col-md-6 border-bottom pb-2">
+                        <label class="text-muted small d-block mb-1">Kolektor / Sumber Tanaman</label>
+                        <span class="fw-bold text-dark">{{ $tanaman->kolektor ?? '-' }}</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card mb-2"><div class="card-header fw-600">Deskripsi</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->deskripsi }}</div></div>
         <div class="card mb-2"><div class="card-header fw-600">Khasiat</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->khasiat }}</div></div>
-        @if($tanaman->cara_pengolahan)
-        <div class="card"><div class="card-header fw-600">Cara Pengolahan</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->cara_pengolahan }}</div></div>
-        @endif
+
     </div>
 </div>
 @endsection

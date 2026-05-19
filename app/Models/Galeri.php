@@ -5,5 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 class Galeri extends Model
 {
     protected $table = 'galeris';
-    protected $fillable = ['judul','foto','deskripsi','tanggal'];
+        // Di dalam class Galeri
+        protected $fillable = ['album_id', 'judul', 'keterangan', 'foto', 'tanggal'];
+    public function album()
+    {
+        return $this->belongsTo(Album::class, 'album_id');
+    }
 }

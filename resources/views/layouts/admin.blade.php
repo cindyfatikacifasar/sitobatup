@@ -77,10 +77,13 @@
             <i class="bi bi-tags"></i> Kategori
         </a>
         
-
+        <a href="{{ route('admin.album.index') }}" class="nav-link {{ request()->is('admin/album*') ? 'active' : '' }}">
+            <i class="bi bi-folder-fill me-2"></i>
+            <span>Galeri Album</span>
+        </a>
         
         <a href="{{ route('admin.galeri.index') }}" class="nav-link {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
-            <i class="bi bi-images"></i> Galeri (Foto)
+            <i class="bi bi-images"></i> <span>Galeri (Foto)</span>
         </a>
         
         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">

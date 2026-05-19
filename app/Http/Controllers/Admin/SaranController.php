@@ -10,19 +10,22 @@ class SaranController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Saran::query();
+        // Mulai kueri dari model Saran
+        $query = \App\Models\Saran::query();
 
-        if ($request->filled('status')) {
-            $query->where('is_read', $request->status === 'dibaca' ? true : false);
+        // JIKA USER MENGISI TANGGAL MULAI DAN SELESAI PADA KALENDER
+        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
+            $query->whereBetween('created_at', [
+                $request->tanggal_mulai . ' 00:00:00', 
+                $request->tanggal_selesai . ' 23:59:59'
+            ]);
         }
-        if ($request->filled('pengirim')) {
-            $query->where('pengirim', $request->pengirim);
-        }
 
-        $sarans        = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
-        $belumDibaca   = Saran::where('is_read', false)->count();
+        // Ambil data saran yang masuk dengan batas 10 per halaman
+        $sarans = $query->latest()->paginate(10);
 
-        return view('admin.saran.index', compact('sarans', 'belumDibaca'));
+        // Lempar datanya ke file blade saran kamu
+        return view('pj.saran.index', compact('sarans')); 
     }
 
     public function show(int $id)
@@ -45,4 +48,20 @@ class SaranController extends Controller
         Saran::findOrFail($id)->delete();
         return redirect()->route('admin.saran.index')->with('success', 'Saran berhasil dihapus.');
     }
+
+    public function toggleDisplay($id)
+    {
+    // Cari data ulasan berdasarkan ID
+    $saran = \App\Models\Saran::findOrFail($id);
+    
+    // Balikkan nilai status (jika 0 jadi 1, jika 1 jadi 0)
+    $saran->is_displayed = !$saran->is_displayed;
+    $saran->save();
+
+    // Berikan pesan notifikasi sukses yang dinamis
+    $statusPesan = $saran->is_displayed ? 'ditampilkan di halaman publik web.' : 'disembunyikan dari halaman publik web.';
+    
+    return redirect()->back()->with('success', 'Ulasan dari ' . $saran->nama . ' berhasil ' . $statusPesan);
+    }
+
 }

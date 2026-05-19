@@ -1,87 +1,118 @@
 {{-- resources/views/admin/tanaman/index.blade.php --}}
 @extends('layouts.admin')
-@section('title','Kelola Tanaman Obat')
+@section('title', 'Kelola Tanaman Obat')
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Tanaman Obat</h5>
-    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-hijau btn-sm"><i class="bi bi-plus me-1"></i>Tambah Tanaman</a>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Tanaman Obat</h5>
+        <p class="text-muted small">Kelola seluruh data koleksi tanaman obat keluarga (TOGA) beserta klasifikasinya.</p>
+    </div>
+    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+        <i class="bi bi-plus-lg me-1"></i> Tambah Tanaman
+    </a>
 </div>
-<!-- Filter -->
-<div class="card mb-3">
-    <div class="card-body py-2">
-        <form method="GET" class="row g-2 align-items-end">
-            <div class="col-md-4"><input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama..." value="{{ request('search') }}"></div>
-            <div class="col-md-3">
-                <select name="kategori" class="form-select form-select-sm">
+
+{{-- FILTER & PENCARIAN BARU: Seragam dan Kompak ala Halaman Berita, Album, Galeri, Kategori, & Saran --}}
+<div class="card shadow-sm border-0 mb-4" style="border-radius: 10px;">
+    <div class="card-body p-3">
+        <form method="GET" action="{{ route('admin.tanaman.index') }}" class="row g-2 align-items-center">
+            <div class="col-md-5">
+                <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama tanaman (Indonesia / Latin)..." value="{{ request('search') }}" style="border-radius: 5px;">
+            </div>
+            <div class="col-md-4">
+                <select name="kategori" class="form-select form-select-sm" style="border-radius: 5px;">
                     <option value="">Semua Kategori</option>
-                    @foreach($kategoris as $k)<option value="{{ $k->id }}" {{ request('kategori')==$k->id?'selected':'' }}>{{ $k->nama }}</option>@endforeach
+                    @foreach($kategoris as $k)
+                        <option value="{{ $k->id }}" {{ request('kategori')==$k->id?'selected':'' }}>{{ $k->nama }}</option>
+                    @endforeach
                 </select>
             </div>
-
-            <div class="col-md-3 d-flex gap-1">
-                <button type="submit" class="btn btn-hijau btn-sm flex-fill"><i class="bi bi-search me-1"></i>Cari</button>
-                <a href="{{ route('admin.tanaman.index') }}" class="btn btn-outline-secondary btn-sm">Reset</a>
+            <div class="col-md-auto d-flex gap-1">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                    <i class="bi bi-search me-1"></i> Cari
+                </button>
+                @if(request('search') || request('kategori'))
+                    <a href="{{ route('admin.tanaman.index') }}" class="btn btn-secondary btn-sm px-3" style="border-radius: 5px;">Reset</a>
+                @endif
             </div>
         </form>
     </div>
 </div>
-<div class="card">
+
+<div class="card shadow-sm border-0" style="border-radius: 10px;">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead><tr>
-                    <th width="40">#</th>
-                    <th>Nama Tanaman</th>
-                    <th class="d-none d-md-table-cell">Kategori</th>
-                    <th class="d-none d-lg-table-cell">Bagian</th>
-                    <th class="d-none d-lg-table-cell">Views</th>
-                    <th>Aksi</th>
-                </tr></thead>
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary" width="60">#</th>
+                        <th class="py-3 text-secondary">Nama Tanaman</th>
+                        <th class="py-3 text-secondary d-none d-md-table-cell" style="width: 200px;">Kategori</th>
+                        <th class="py-3 text-secondary d-none d-lg-table-cell" style="width: 100px;">Views</th>
+                        <th class="py-3 text-secondary text-center" style="width: 180px;">Aksi</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @forelse($tanaman as $i => $t)
                     <tr>
-                        <td>{{ $tanaman->firstItem() + $i }}</td>
+                        <td class="px-4 fw-bold text-muted">{{ $tanaman->firstItem() + $i }}</td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 @if($t->foto)
-                                <img src="{{ Storage::url($t->foto) }}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;">
+                                    <img src="{{ Storage::url($t->foto) }}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;" class="shadow-sm">
                                 @else
-                                <div style="width:36px;height:36px;background:#e8f5e9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🌿</div>
+                                    <div style="width:36px;height:36px;background:#e8f5e9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;" class="shadow-sm">🌿</div>
                                 @endif
                                 <div>
-                                    <div style="font-weight:600;font-size:.88rem;">{{ $t->nama }}</div>
+                                    <div style="font-weight:600;font-size:.88rem;" class="text-dark">{{ $t->nama }}</div>
                                     <div style="font-size:.75rem;color:#888;font-style:italic;">{{ $t->nama_ilmiah }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="d-none d-md-table-cell"><span class="badge" style="background:#e8f5e9;color:#1a5c2a;font-size:.74rem;">{{ $t->kategori->nama ?? '-' }}</span></td>
-                        <td class="d-none d-lg-table-cell" style="font-size:.84rem;">{{ ucfirst($t->bagian_digunakan ?? '-') }}</td>
                         <td class="d-none d-md-table-cell">
-
+                            <span class="badge bg-light text-success border border-success px-2 py-1" style="font-size:.74rem; border-radius: 4px;">
+                                {{ $t->kategori->nama ?? '-' }}
+                            </span>
                         </td>
-                        <td class="d-none d-lg-table-cell" style="font-size:.84rem;">{{ number_format($t->views) }}</td>
-                        <td>
-                            <div class="d-flex gap-1 flex-wrap">
-                                <a href="{{ route('admin.tanaman.show', $t->id) }}" class="btn btn-sm btn-outline-info" title="Detail">
+                        <td class="d-none d-lg-table-cell text-muted small fw-bold">{{ number_format($t->views) }}</td>
+                        <td class="text-center">
+                            <div class="btn-group gap-1 flex-wrap justify-content-center">
+                                <a href="{{ route('admin.tanaman.show', $t->id) }}" class="btn btn-sm btn-outline-primary" style="padding: 2px 6px;" title="Detail">
                                     <i class="bi bi-eye"></i>
-                                </a>                                <a href="{{ route('admin.tanaman.edit',$t) }}" class="btn btn-sm btn-outline-warning" title="Edit"><i class="bi bi-pencil"></i></a>
-                                <a href="{{ route('admin.tanaman.qr-download',$t->id) }}" class="btn btn-sm btn-outline-success" title="Download QR"><i class="bi bi-qr-code"></i></a>
-                                <form method="POST" action="{{ route('admin.tanaman.destroy',$t) }}" onsubmit="return confirm('Hapus tanaman ini?')">
+                                </a>
+                                <a href="{{ route('admin.tanaman.edit',$t) }}" class="btn btn-sm btn-outline-warning" style="padding: 2px 6px;" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{{ route('admin.tanaman.qr-download',$t->id) }}" class="btn btn-sm btn-outline-success" style="padding: 2px 6px;" title="Download QR">
+                                    <i class="bi bi-qr-code"></i>
+                                </a>
+                                <form method="POST" action="{{ route('admin.tanaman.destroy',$t) }}" class="d-inline" onsubmit="return confirm('Hapus tanaman ini?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="padding: 2px 6px;" title="Hapus">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="7" class="text-center py-4 text-muted">Belum ada data tanaman obat.</td></tr>
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="bi bi-tree-fill fs-1 d-block mb-2" style="color: #1a5c2a; opacity: 0.5;"></i>
+                            Belum ada data tanaman obat yang ditemukan.
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
     @if($tanaman->hasPages())
-    <div class="card-footer">{{ $tanaman->links() }}</div>
+        <div class="card-footer bg-white border-top-0 py-3">
+            {{ $tanaman->links() }}
+        </div>
     @endif
 </div>
+
 @endsection

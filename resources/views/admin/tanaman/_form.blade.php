@@ -28,25 +28,7 @@
         </div>
     </div>
     
-    {{-- BAGIAN YANG DIGUNAKAN (CHECKBOX MULTIPLE) --}}
-    <div class="col-md-6 mb-3">
-        <label class="form-label d-block">Bagian yang Digunakan *</label>
-        <div class="d-flex flex-wrap gap-3 p-3 border rounded bg-light">
-            @php
-                $opsiBagian = ['Daun', 'Akar', 'Batang', 'Bunga', 'Buah', 'Rimpang', 'Kulit Kayu', 'Biji'];
-                $oldBagian = old('bagian_digunakan', $tanaman->bagian_digunakan ?? []);
-                if(is_string($oldBagian)) $oldBagian = explode(', ', $oldBagian);
-            @endphp
-            @foreach($opsiBagian as $opsi)
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="bagian_digunakan[]" 
-                           value="{{ $opsi }}" id="check{{ $opsi }}"
-                           {{ in_array($opsi, (array)$oldBagian) ? 'checked' : '' }}>
-                    <label class="form-check-label" for="check{{ $opsi }}" style="cursor:pointer;">{{ $opsi }}</label>
-                </div>
-            @endforeach
-        </div>
-    </div>
+
 </div>
 
 <div class="row">

@@ -109,12 +109,29 @@ class PublicController extends Controller
 
     public function galeri(Request $request)
     {
-        $query = Galeri::query();
-        if ($request->filled('search')) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+        // Ambil kata kunci pencarian jika ada
+        $cari = $request->input('cari');
+    
+        // Mengambil album beserta jumlah foto, dan mengambil 1 FOTO TERBARU untuk dijadikan sampul
+        $query = \App\Models\Album::withCount('galeris')->with(['galeris' => function($q) {
+            $q->latest()->limit(1);
+        }]);
+    
+        // Jika user mengetik sesuatu di kolom pencarian
+        if ($cari) {
+            $query->where('nama_album', 'like', '%' . $cari . '%');
         }
-        $galeris = $query->orderBy('tanggal', 'desc')->paginate(12)->withQueryString();
-        return view('public.galeri', compact('galeris'));
+    
+        $albums = $query->latest()->paginate(9);
+    
+        return view('public.galeri', compact('albums', 'cari'));
+    }
+    
+    public function showAlbum($id)
+    {
+        // Mengambil data satu album tertentu beserta seluruh foto didalamnya
+        $album = \App\Models\Album::with('galeris')->findOrFail($id);
+        return view('public.galeri_detail', compact('album'));
     }
 
     public function berita(Request $request)
@@ -145,18 +162,38 @@ class PublicController extends Controller
         return view('public.detail-berita', compact('berita', 'beritaTerkait'));
     }
 
-    public function saran() { return view('public.saran'); }
-
+    public function saran()
+    {
+        // Ambil ulasan yang hanya di-approve oleh admin untuk ditampilkan di halaman depan
+        $reviewsTampil = \App\Models\Saran::where('is_displayed', 1)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+    
+        return view('public.saran', compact('reviewsTampil'));
+    }
+    
     public function kirimSaran(Request $request)
     {
-        $request->validate(['nama'=>'required','pesan'=>'required|min:10']);
-        Saran::create([
-            'nama' => $request->nama,
-            'kontak' => $request->kontak,
-            'pesan' => $request->pesan,
-            'is_read' => false
+        // Validasi input dari pengunjung
+        $request->validate([
+            'nama'    => 'required|string|max:100',
+            'kontak'  => 'nullable|string|max:50', // Ubah jadi nullable (opsional)
+            'pesan'   => 'required|string',
+            'rating'  => 'required|integer|min:1|max:5', // Validasi rating bintang wajib diisi
         ]);
-        return back()->with('success', 'Saran terkirim!');
+    
+        // Simpan ke database
+        \App\Models\Saran::create([
+            'nama'         => $request->nama,
+            'kontak'       => $request->kontak,
+            'pesan'        => $request->pesan,
+            'rating'       => $request->rating,
+            'pengirim'     => 'pengunjung', // Default pengirim via form publik
+            'is_read'      => 0,            // Status belum dibaca oleh admin
+            'is_displayed' => 0,            // Default 0 (harus melewati moderasi admin dulu)
+        ]);
+    
+        return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda telah dikirim dan akan ditampilkan setelah ditinjau oleh pihak pengelola.');
     }
 
     public function scanQr(string $slug) { return redirect()->route('tanaman.detail', $slug); }

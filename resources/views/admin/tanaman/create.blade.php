@@ -13,19 +13,32 @@
             
             <div class="row">
                 <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-600">Nama Tanaman <span class="text-danger">*</span></label>
-                            <input type="text" name="nama_tanaman" class="form-control" placeholder="Contoh: Jahe Merah" required>
+                    {{-- BARIS 1: Nama Tanaman & Nama Ilmiah --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Nama Tanaman <span class="text-danger">*</span></label>
+                            <input type="text" name="nama" class="form-control form-control-sm" placeholder="Contoh: Jahe Merah" value="{{ old('nama') }}" required style="border-radius: 5px;">
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-600">Kategori <span class="text-danger">*</span></label>
-                            <select name="kategori_id" class="form-select" required>
-                                <option value="">-- Pilih Kategori --</option>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Nama Ilmiah (Latin) <span class="text-danger">*</span></label>
+                            <input type="text" name="nama_ilmiah" class="form-control form-control-sm" placeholder="Contoh: Zingiber officinale var. rubrum" value="{{ old('nama_ilmiah') }}" required style="border-radius: 5px; font-style: italic;">
+                        </div>
+                    </div>
+
+                    {{-- BARIS 2: Kategori & Kolektor --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Kategori <span class="text-danger">*</span></label>
+                            <select name="kategori_id" class="form-select form-select-sm" required style="border-radius: 5px;">
+                                <option value="">-- Pilih Kategori Khasiat --</option>
                                 @foreach($kategoris as $k)
-                                    <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
+                                    <option value="{{ $k->id }}" {{ old('kategori_id') == $k->id ? 'selected' : '' }}>{{ $k->nama_kategori }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Kolektor / Sumber Tanaman <span class="text-danger">*</span></label>
+                            <input type="text" name="kolektor" class="form-control form-control-sm" placeholder="Contoh: Laboratorium Biologi UP / Nama Penemu" value="{{ old('kolektor') }}" required style="border-radius: 5px;">
                         </div>
                     </div>
 
@@ -48,19 +61,7 @@
                         <small class="text-muted">Format: JPG, PNG. Maks: 2MB</small>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-600">Bagian yang Digunakan</label>
-                        <div class="d-flex flex-wrap gap-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bagian[]" value="Daun" id="daun">
-                                <label class="form-check-label" for="daun">Daun</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bagian[]" value="Batang" id="batang">
-                                <label class="form-check-label" for="batang">Batang</label>
-                            </div>
-                            </div>
-                    </div>
+                  
                 </div>
             </div>
 

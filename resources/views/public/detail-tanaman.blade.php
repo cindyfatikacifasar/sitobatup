@@ -26,35 +26,27 @@
                         <span style="font-size:6rem;">🌿</span>
                     @endif
                 </div>
-                <div class="card-body">
-                    <h4 class="fw-bold" style="color:#1a5c2a;">{{ $tanaman->nama }}</h4>
-                    <p class="text-muted fst-italic mb-3">{{ $tanaman->nama_ilmiah }}</p>
-
-                    <table class="table table-sm" style="font-size:.85rem;">
-                        <tr>
-                            <td class="text-muted" width="45%">Kategori</td>
-                            <td><strong>{{ $tanaman->kategori->nama ?? '-' }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Bagian Digunakan</td>
-                            <td><strong>{{ ucfirst($tanaman->bagian_digunakan ?? '-') }}</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td class="text-muted">Status</td>
-                            <td>
-                                @if($tanaman->status_ketersediaan === 'tersedia')
-                                    <span class="badge bg-success">Ada</span>
-                                @else
-                                    <span class="badge bg-danger">Tidak Ada</span>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Dilihat</td>
-                            <td><strong>{{ number_format($tanaman->views) }} kali</strong></td>
-                        </tr>
-                    </table>
+                <div class="card border-0 shadow-sm p-3 mb-4" style="border-radius: 10px; background-color: #f8f9fa;">
+                    <h6 class="fw-bold mb-3" style="color: #1a5c2a;"><i class="bi bi-info-circle-fill me-1"></i> Informasi Botani Tanaman</h6>
+                    <ul class="list-unstyled mb-0" style="font-size: 0.88rem; line-height: 1.8;">
+                        <li class="mb-2">
+                            <i class="bi bi-bookmark-fill text-success me-2"></i>
+                            <strong class="text-secondary">Nama Lokal:</strong> <span class="text-dark fw-bold">{{ $tanaman->nama }}</span>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-translate text-success me-2"></i>
+                            <strong class="text-secondary">Nama Ilmiah:</strong> <span class="text-dark fw-bold fst-italic">{{ $tanaman->nama_ilmiah }}</span>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-tags-fill text-success me-2"></i>
+                            <strong class="text-secondary">Kategori Khasiat:</strong> <span class="badge bg-success-subtle text-success border border-success-subtle">{{ $tanaman->kategori->nama_kategori ?? '-' }}</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-person-badge-fill text-success me-2"></i>
+                            <strong class="text-secondary">Kolektor/Sumber:</strong> <span class="text-dark">{{ $tanaman->kolektor ?? '-' }}</span>
+                        </li>
+                    </ul>
+                
 
 
 
