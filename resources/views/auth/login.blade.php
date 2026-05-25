@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | SITOBAT-UP</title>
+    <title>Login | SITOBAT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -54,7 +54,6 @@
         <div class="login-header">
             <div class="login-icon">🌿</div>
             <h4>SITOBAT-UP</h4>
-            <p>Sistem Informasi Tanaman Obat<br>Kebun Raya Universitas Pahlawan</p>
         </div>
         <div class="login-body">
             @if($errors->any())
@@ -93,10 +92,7 @@
                 </div>
 
                 <div class="mb-4 d-flex align-items-center justify-content-between">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="remember" id="remember">
-                        <label class="form-check-label" for="remember" style="font-size:.85rem; cursor:pointer;">Ingat saya</label>
-                    </div>
+
                     <a href="javascript:void(0)" class="forgot-link" onclick="alert('Lupa password? \n\nSilakan hubungi Administrator IT Kebun Raya Universitas Pahlawan untuk mereset password akun Anda.')">
                         Lupa Password?
                     </a>

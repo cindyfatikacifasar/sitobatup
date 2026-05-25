@@ -10,23 +10,12 @@ class SaranController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Filter awal: Hanya mengambil saran dari pengunjung
         $query = Saran::where('pengirim', 'pengunjung');
 
-        // 2. Filter bawaan: Berdasarkan status dibaca / belum dibaca
         if ($request->filled('status')) {
             $query->where('is_read', $request->status === 'dibaca');
         }
 
-        // 3. TAMBAHAN FILTER: Berdasarkan rentang tanggal kalender kustom
-        if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
-            $query->whereBetween('created_at', [
-                $request->tanggal_mulai . ' 00:00:00', 
-                $request->tanggal_selesai . ' 23:59:59'
-            ]);
-        }
-
-        // 4. Ambil data dengan mempertahankan parameter filter di URL pagination
         $sarans      = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
         $belumDibaca = Saran::where('pengirim', 'pengunjung')->where('is_read', false)->count();
 

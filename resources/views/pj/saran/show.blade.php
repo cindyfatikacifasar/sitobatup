@@ -1,4 +1,4 @@
-@extends('layouts.app_pj')
+@extends('layouts.pj')
 @section('title', 'Detail Saran Masuk')
 @section('content')
 

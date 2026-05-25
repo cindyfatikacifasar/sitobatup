@@ -6,11 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SITOBAT-UP') | Sistem Informasi Tanaman Obat</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -28,7 +25,8 @@
             padding: 12px 0;
         }
         .navbar-brand-text { color: #fff !important; font-weight: 700; font-size: 1.4rem; line-height: 1.1; }
-        .navbar-brand-sub  { font-size: 0.65rem; font-weight: 400; color: #fff !important; opacity: 1; display: block; }        .navbar-sitobat .nav-link { color: rgba(255,255,255,0.88) !important; font-weight: 500; transition: all .2s; padding: 8px 14px !important; border-radius: 6px; }
+        .navbar-brand-sub  { font-size: 0.65rem; font-weight: 400; color: #fff !important; opacity: 1; display: block; }
+        .navbar-sitobat .nav-link { color: rgba(255,255,255,0.88) !important; font-weight: 500; transition: all .2s; padding: 8px 14px !important; border-radius: 6px; }
         .navbar-sitobat .nav-link:hover, .navbar-sitobat .nav-link.active { color: #fff !important; background: rgba(255,255,255,0.15); }
         
         .footer-main { background: var(--hijau-tua); color: rgba(255,255,255,0.85); padding: 50px 0 20px; }
@@ -37,8 +35,8 @@
         .footer-main a:hover { color: white; }
         .footer-bottom { background: rgba(0,0,0,0.2); padding: 14px 0; text-align: center; color: rgba(255,255,255,0.6); font-size: .85rem; }
 
- /* =====================
-            SOLUSI FINAL SLIDER (KHUSUS BACKGROUND)
+        /* =====================
+        SOLUSI FINAL SLIDER (KHUSUS BACKGROUND)
         ======================== */
         .carousel-item {
             height: 600px !important;
@@ -97,8 +95,8 @@
             .carousel-caption h1 { font-size: 2rem; }
         }
 
-    /* CSS Penanda Aktif di Navbar */
-    .nav-custom {
+        /* CSS Penanda Aktif di Navbar */
+        .nav-custom {
             display: flex;
             align-items: center;
             height: 100%;
@@ -107,6 +105,7 @@
             position: relative;
             font-size: 14px;
             transition: 0.3s;
+            white-space: nowrap; /* PERBAIKAN: Mencegah tulisan Sitobat-AI patah ke bawah */
         }
         
         .nav-custom.active-link {
@@ -129,6 +128,24 @@
         .navbar-nav .nav-item {
             display: flex;
             align-items: center;
+        }
+
+        /* PERBAIKAN UI/UX: Desain Mewah Tombol Login Publik */
+        .btn-login-custom {
+            background-color: rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            padding: 7px 18px !important;
+            border-radius: 8px !important;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-login-custom:hover {
+            background-color: #ffffff !important;
+            color: var(--hijau-tua) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
         }
     </style>
     @stack('styles')
@@ -160,7 +177,7 @@
                 {{-- Katalog --}}
                 <li class="nav-item">
                     <a class="nav-link nav-custom {{ request()->is('katalog*') ? 'active-link' : '' }}" href="{{ url('/katalog') }}">
-                        <i class="bi bi-grid me-1"></i>Katalog
+                        <i class="bi bi-grid me-1"></i>Tanaman Obat
                     </a>
                 </li>
 
@@ -181,18 +198,13 @@
                 {{-- Saran --}}
                 <li class="nav-item">
                     <a class="nav-link nav-custom {{ request()->is('saran*') ? 'active-link' : '' }}" href="{{ url('/saran') }}">
-                        <i class="bi bi-chat-dots me-1"></i>Saran
+                        <i class="bi bi-chat-dots me-1"></i>Ulasan
                     </a>
                 </li>
 
-                {{-- Sitobat-AI (Sekarang Lurus!) --}}
-                <li class="nav-item">
-                    <a class="nav-link nav-custom {{ request()->is('sitobat-ai*') ? 'active-link' : '' }}" href="{{ url('/sitobat-ai') }}">
-                        <i class="bi bi-robot me-1"></i>Sitobat-AI
-                    </a>
-                </li>
 
-                {{-- Tombol Login (Proporsional & Sejajar) --}}
+
+                {{-- Tombol Login (SUDAH DISULAP JADI HIGHLIGHT PUTIH PREMIUM COCOK UI/UX) --}}
                 <li class="nav-item ms-lg-2">
                     @auth
                         <a href="{{ auth()->user()->role == 'admin' ? url('/admin/dashboard') : url('/pj/dashboard') }}" 
@@ -225,10 +237,7 @@
                 <ul class="list-unstyled" style="font-size:.9rem;">
                     <li><i class="bi bi-geo-alt me-2"></i>Bangkinang, Kab. Kampar, Riau</li>
                     <li><i class="bi bi-building me-2"></i>Universitas Pahlawan</li>
-                    <li class="mt-3">
-                        <!-- Satu tombol login saja sesuai permintaan -->
-                        <a href="{{ url('/login') }}" class="btn btn-sm btn-outline-light px-4 py-2"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a>
-                    </li>
+  
                 </ul>
             </div>
         </div>

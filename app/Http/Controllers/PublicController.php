@@ -109,21 +109,22 @@ class PublicController extends Controller
 
     public function galeri(Request $request)
     {
-        // Ambil kata kunci pencarian jika ada
-        $cari = $request->input('cari');
-    
-        // Mengambil album beserta jumlah foto, dan mengambil 1 FOTO TERBARU untuk dijadikan sampul
-        $query = \App\Models\Album::withCount('galeris')->with(['galeris' => function($q) {
-            $q->latest()->limit(1);
-        }]);
-    
-        // Jika user mengetik sesuatu di kolom pencarian
-        if ($cari) {
-            $query->where('nama_album', 'like', '%' . $cari . '%');
+        // 1. Mulai kueri Album lengkap dengan hitungan item dan data foto di dalamnya
+        $query = \App\Models\Album::with(['galeris'])->withCount('galeris');
+
+        // 2. Logika Saringan Kotak Pencarian (Biar fitur "Cari Album" di blade kamu berfungsi!)
+        if ($request->filled('cari')) {
+            $cari = $request->cari;
+            $query->where('nama_album', 'like', '%' . $cari . '%')
+                  ->orWhere('deskripsi', 'like', '%' . $cari . '%');
+        } else {
+            $cari = null;
         }
-    
+
+        // 3. Ambil data album menggunakan paginate agar link halaman di bawahnya aktif
         $albums = $query->latest()->paginate(9);
-    
+
+        // 4. Lempar data secara utuh ke file blade kamu
         return view('public.galeri', compact('albums', 'cari'));
     }
     

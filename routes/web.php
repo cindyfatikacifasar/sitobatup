@@ -29,7 +29,6 @@ Route::get('/berita', [PublicController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [PublicController::class, 'detailBerita'])->name('berita.detail');
 Route::get('/saran', [PublicController::class, 'saran'])->name('saran');
 Route::post('/saran', [PublicController::class, 'kirimSaran'])->name('saran.kirim');
-Route::view('/sitobat-ai', 'public.sitobat-ai')->name('sitobat-ai');
 Route::get('/qr/{slug}', [PublicController::class, 'scanQr'])->name('qr.scan');
 
 /* --- AUTH ROUTES --- */
@@ -55,14 +54,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::resource('berita', AdminBerita::class)->parameters(['berita' => 'berita']);
     Route::resource('user', AdminUser::class);
     
+    // Route Saran internal Admin (Aman dari bentrokan rute PJ)
     Route::get('/saran', [AdminSaran::class, 'index'])->name('saran.index');
     Route::get('/saran/{id}', [AdminSaran::class, 'show'])->name('saran.show');
     Route::patch('/saran/{id}/toggle-display', [AdminSaran::class, 'toggleDisplay'])->name('saran.toggle-display');
     Route::delete('/saran/{id}', [AdminSaran::class, 'destroy'])->name('saran.destroy');
 });
 
-/* --- PENANGGUNG JAWAB ROUTES (AKSES DIKUNCI BYPASS BIAR NYAMAN) --- */
-Route::prefix('pj')->name('pj.')->middleware(['auth'])->group(function () {
+/* --- PENANGGUNG JAWAB ROUTES (PROSES ISOLASI ROLE DIKUNCI BIAR TIDAK BENTROK) --- */
+Route::prefix('pj')->name('pj.')->middleware(['auth', 'role:penanggungjawab'])->group(function () {
     Route::get('/dashboard', [PjDashboard::class, 'index'])->name('dashboard');
     Route::get('/profil', [PjDashboard::class, 'profil'])->name('profil');
     Route::put('/profil', [PjDashboard::class, 'updateProfil'])->name('profil.update');
@@ -77,7 +77,7 @@ Route::prefix('pj')->name('pj.')->middleware(['auth'])->group(function () {
     Route::get('/laporan-galeri', [$routingLaporan, 'galeri'])->name('laporan.galeri');
     Route::get('/laporan-galeri/cetak', [$routingLaporan, 'cetakGaleri'])->name('laporan.galeri.cetak');
 
-    // Saran PJ
+    // Route Laporan Saran PJ (Terisolasi sempurna di bawah middleware role penanggungjawab)
     $routingSaran = PjSaran::class;
     Route::get('/saran', [$routingSaran, 'index'])->name('saran.index');
     Route::get('/saran/create', [$routingSaran, 'create'])->name('saran.create');

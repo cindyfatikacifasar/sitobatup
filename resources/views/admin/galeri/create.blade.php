@@ -50,7 +50,7 @@
                 <div class="col-md-12 mb-3">
                     <label class="form-label fw-bold">File Foto/Video * <span class="text-success small">(Bisa pilih banyak sekaligus)</span></label>
                     <input type="file" name="foto[]" class="form-control @error('foto') is-invalid @enderror" accept="image/*,video/mp4" multiple required>
-                    <div class="form-text small text-muted">Sindi bisa tahan tombol <b>Ctrl</b> di keyboard untuk memilih lebih dari 1 foto/video sekaligus.</div>
+                    <div class="form-text small text-muted">tahan tombol <b>Ctrl</b> di keyboard untuk memilih lebih dari 1 foto/video sekaligus.</div>
                 </div>
 
                 {{-- Keterangan Singkat (Opsional) --}}

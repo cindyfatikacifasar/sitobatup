@@ -116,7 +116,7 @@
 
    
         <a href="{{ route('pj.saran.index') }}" class="nav-link {{ request()->routeIs('pj.saran.*') ? 'active' : '' }}">
-            <i class="bi bi-chat-dots"></i> Saran
+            <i class="bi bi-chat-dots"></i> Laporan Review
             @php $belumBaca = \App\Models\Saran::where('pengirim','pengunjung')->where('is_read',false)->count(); @endphp
             @if($belumBaca > 0)<span class="sidebar-badge">{{ $belumBaca }}</span>@endif
         </a>

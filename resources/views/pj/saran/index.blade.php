@@ -4,7 +4,8 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h4 class="fw-bold text-dark mb-1">💬 Kotak Saran & Masukan Pengunjung</h4>
+        {{-- Mengubah nama judul halaman menjadi Laporan Saran --}}
+        <h4 class="fw-bold text-dark mb-1">💬 Laporan Saran & Masukan Pengunjung</h4>
         <p class="text-muted small mb-0">Review kritik, saran, dan umpan balik masyarakat terhadap sistem SITOBAT Universitas Pahlawan.</p>
     </div>
     {{-- TAMBAHAN: Tombol Cetak Laporan Saran --}}
@@ -27,7 +28,7 @@
             </div>
             <div class="col-md-4">
                 <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">
-                    <i class="bi bi-filter me-1"></i> Terapkan Saringan Saran
+                    <i class="bi bi-filter me-1"></i> Filter Tanggal
                 </button>
             </div>
         </form>

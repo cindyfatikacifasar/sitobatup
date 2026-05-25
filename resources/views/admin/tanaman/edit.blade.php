@@ -1,8 +1,5 @@
-{{-- resources/views/admin/tanaman/edit.blade.php --}}
 @extends('layouts.admin')
-@section('title', 'Edit Tanaman Obat')
 @section('content')
-
 <div class="d-flex align-items-center gap-2 mb-4">
     <a href="{{ route('admin.tanaman.index') }}" class="btn btn-sm btn-outline-secondary" style="border-radius: 5px;">
         <i class="bi bi-arrow-left"></i>
@@ -32,18 +29,22 @@
                         </div>
                     </div>
 
-                    {{-- BARIS 2: Kategori & Kolektor --}}
+                    {{-- BARIS 2: Kategori Khasiat (CEKLIS MULTIPLE) & Kolektor --}}
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Kategori Khasiat <span class="text-danger">*</span></label>
-                            <select name="kategori_id" class="form-select form-select-sm" required style="border-radius: 5px;">
-                                <option value="">-- Pilih Kategori --</option>
+                            <label class="form-label small fw-bold text-dark d-block mb-2">Kategori Khasiat <span class="text-danger">*</span></label>
+                            <div class="p-3 border rounded bg-white" style="max-height: 150px; overflow-y: auto; border-radius: 5px;">
                                 @foreach($kategoris as $k)
-                                    <option value="{{ $k->id }}" {{ old('kategori_id', $tanaman->kategori_id) == $k->id ? 'selected' : '' }}>
-                                        {{ $k->nama_kategori }}
-                                    </option>
+                                    <div class="form-check mb-2">
+                                        {{-- Memeriksa apakah ID kategori ada di dalam daftar kategori tanaman saat ini --}}
+                                        <input class="form-check-input" type="checkbox" name="kategori_id[]" value="{{ $k->id }}" id="kategori_{{ $k->id }}" 
+                                            {{ in_array($k->id, old('kategori_id', $tanaman->kategoris->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                        <label class="form-check-label small text-dark" for="kategori_{{ $k->id }}">
+                                            {{ $k->nama_kategori }}
+                                        </label>
+                                    </div>
                                 @endforeach
-                            </select>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-dark">Kolektor / Sumber Tanaman <span class="text-danger">*</span></label>
@@ -51,16 +52,16 @@
                         </div>
                     </div>
 
-                    {{-- BARIS 3: Deskripsi Singkat Tanaman --}}
+                    {{-- BARIS 3: Asal Usul Tanaman (PERBAIKAN: TEXTAREA LEBAR & name="asal_usul") --}}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">Asal Usul Tanaman <span class="text-danger">*</span></label>
+                        <textarea name="asal_usul" rows="3" class="form-control form-control-sm" required style="border-radius: 5px;">{{ old('asal_usul', $tanaman->asal_usul) }}</textarea>
+                    </div>
+
+                    {{-- BARIS 4: Deskripsi Tanaman --}}
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-dark">Deskripsi Tanaman</label>
                         <textarea name="deskripsi" rows="3" class="form-control form-control-sm" style="border-radius: 5px;">{{ old('deskripsi', $tanaman->deskripsi) }}</textarea>
-                    </div>
-
-                    {{-- BARIS 4: Asal Tanaman Obat --}}
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">Asal Tanaman Obat</label>
-                        <textarea name="asal_tanaman" rows="2" class="form-control form-control-sm" style="border-radius: 5px;">{{ old('asal_tanaman', $tanaman->asal_tanaman) }}</textarea>
                     </div>
 
                     {{-- BARIS 5: Khasiat & Manfaat --}}
@@ -76,7 +77,6 @@
                     <div class="card bg-light border-0 p-3 mb-3" style="border-radius: 8px;">
                         <label class="form-label small fw-bold text-dark d-block mb-2">Foto Utama Tanaman</label>
                         
-                        {{-- Preview Foto Lama --}}
                         <div class="mb-3 text-center">
                             @if($tanaman->foto)
                                 <img src="{{ Storage::url($tanaman->foto) }}" class="img-fluid rounded shadow-sm" style="max-height: 180px; object-fit: cover;">
@@ -87,7 +87,6 @@
                             @endif
                         </div>
 
-                        {{-- Input Upload File Baru --}}
                         <input type="file" name="foto" class="form-control form-control-sm" style="border-radius: 5px;">
                         <div class="form-text text-muted" style="font-size: 0.7rem;">Format: JPG, PNG. Maks: 2MB. Kosongkan jika tidak ingin mengubah foto.</div>
                     </div>
@@ -107,5 +106,4 @@
         </form>
     </div>
 </div>
-
 @endsection

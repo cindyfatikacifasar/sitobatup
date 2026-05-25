@@ -1,6 +1,4 @@
-{{-- resources/views/admin/tanaman/show.blade.php --}}
 @extends('layouts.admin')
-@section('title','Detail Tanaman')
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-3">
     <a href="{{ route('admin.tanaman.index') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
@@ -39,14 +37,21 @@
                     </div>
                     <div class="col-md-6 border-bottom pb-2">
                         <label class="text-muted small d-block mb-1">Nama Ilmiah (Latin)</label>
-                        <span class="fw-bold text-dark fs-5 *fst-italic*">{{ $tanaman->nama_ilmiah }}</span>
+                        <span class="fw-bold text-dark fs-5 fst-italic">{{ $tanaman->nama_ilmiah }}</span>
                     </div>
                 </div>
                 
                 <div class="row g-3 mb-3">
                     <div class="col-md-6 border-bottom pb-2">
                         <label class="text-muted small d-block mb-1">Kategori Khasiat</label>
-                        <span class="badge bg-light text-success border border-success px-2 py-1">{{ $tanaman->kategori->nama_kategori ?? '-' }}</span>
+                        {{-- PERBAIKAN: Looping untuk menampilkan banyak kategori khasiat --}}
+                        <div class="d-flex gap-1 flex-wrap">
+                            @forelse($tanaman->kategoris as $kat)
+                                <span class="badge bg-light text-success border border-success px-2 py-1">{{ $kat->nama_kategori }}</span>
+                            @empty
+                                <span class="text-muted small">-</span>
+                            @endforelse
+                        </div>
                     </div>
                     <div class="col-md-6 border-bottom pb-2">
                         <label class="text-muted small d-block mb-1">Kolektor / Sumber Tanaman</label>
@@ -55,8 +60,15 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-2"><div class="card-header fw-600">Deskripsi</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->deskripsi }}</div></div>
-        <div class="card mb-2"><div class="card-header fw-600">Khasiat</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->khasiat }}</div></div>
+        
+        {{-- PERBAIKAN: Menambahkan blok tampilan Asal Usul Tanaman --}}
+        <div class="card mb-2">
+            <div class="card-header fw-600 bg-white text-dark small fw-bold">Asal Usul Tanaman</div>
+            <div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->asal_usul ?? '-' }}</div>
+        </div>
+
+        <div class="card mb-2"><div class="card-header fw-600 bg-white text-dark small fw-bold">Deskripsi</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->deskripsi }}</div></div>
+        <div class="card mb-2"><div class="card-header fw-600 bg-white text-dark small fw-bold">Khasiat</div><div class="card-body" style="font-size:.88rem;line-height:1.8;">{{ $tanaman->khasiat }}</div></div>
 
     </div>
 </div>

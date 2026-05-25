@@ -25,20 +25,20 @@ class TanamanObat extends Model
         'qr_code'
     ];
 
-
     protected $casts = [
         'is_favourite' => 'boolean',
     ];
 
-    // Relasi Many-to-Many untuk fitur Multi-Kategori
+    /**
+     * Relasi Many-to-Many untuk Fitur Pilihan Multi-Kategori Khasiat
+     * Menggunakan tabel jembatan 'kategori_tanaman'
+     */
+/**
+     * Relasi Many-to-Many untuk Fitur Pilihan Multi-Kategori Khasiat
+     */
     public function kategoris()
     {
-        return $this->belongsToMany(Kategori::class, 'tanaman_has_kategori', 'tanaman_id', 'kategori_id');
-    }
-
-    // Relasi ke kategori utama (jika masih digunakan di tabel lama)
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        // Ubah 'tanaman_obat_id' menjadi 'tanaman_id' di bawah ini
+        return $this->belongsToMany(Kategori::class, 'kategori_tanaman', 'tanaman_id', 'kategori_id');
     }
 }

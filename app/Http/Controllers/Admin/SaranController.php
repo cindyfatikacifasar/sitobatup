@@ -24,8 +24,8 @@ class SaranController extends Controller
         // Ambil data saran yang masuk dengan batas 10 per halaman
         $sarans = $query->latest()->paginate(10);
 
-        // Lempar datanya ke file blade saran kamu
-        return view('pj.saran.index', compact('sarans')); 
+        // FIX SAKTI: Diubah ke view admin agar tidak nyasar ke halaman PJ lagi!
+        return view('admin.saran.index', compact('sarans')); 
     }
 
     public function show(int $id)
@@ -51,17 +51,16 @@ class SaranController extends Controller
 
     public function toggleDisplay($id)
     {
-    // Cari data ulasan berdasarkan ID
-    $saran = \App\Models\Saran::findOrFail($id);
-    
-    // Balikkan nilai status (jika 0 jadi 1, jika 1 jadi 0)
-    $saran->is_displayed = !$saran->is_displayed;
-    $saran->save();
+        // Cari data ulasan berdasarkan ID
+        $saran = \App\Models\Saran::findOrFail($id);
+        
+        // Balikkan nilai status (jika 0 jadi 1, jika 1 jadi 0)
+        $saran->is_displayed = !$saran->is_displayed;
+        $saran->save();
 
-    // Berikan pesan notifikasi sukses yang dinamis
-    $statusPesan = $saran->is_displayed ? 'ditampilkan di halaman publik web.' : 'disembunyikan dari halaman publik web.';
-    
-    return redirect()->back()->with('success', 'Ulasan dari ' . $saran->nama . ' berhasil ' . $statusPesan);
+        // Berikan pesan notifikasi sukses yang dinamis
+        $statusPesan = $saran->is_displayed ? 'ditampilkan di halaman publik web.' : 'disembunyikan dari halaman publik web.';
+        
+        return redirect()->back()->with('success', 'Ulasan dari ' . $saran->nama . ' berhasil ' . $statusPesan);
     }
-
 }

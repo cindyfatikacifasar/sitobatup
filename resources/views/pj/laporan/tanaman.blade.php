@@ -112,7 +112,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 15px; border: none;">
             <div class="modal-header text-white" style="background-color: #11411c; border-top-left-radius: 14px; border-top-right-radius: 14px;">
-                <h5 class="modal-title fw-bold" id="modalCetakLaporanLabel">🖨️ Parameter Cetak Laporan</h5>
+                <h5 class="modal-title fw-bold" id="modalCetakLaporanLabel">🖨️ Cetak Laporan</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('pj.laporan.export') }}" method="GET" target="_blank">
@@ -149,7 +149,7 @@
                 <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
                     <button type="button" class="btn btn-secondary fw-bold px-3" style="border-radius: 8px;" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn text-white fw-bold px-4" style="background-color: #1a5c2a; border-radius: 8px;">
-                        <i class="bi bi-printer-fill me-1"></i> Proses Cetak
+                        <i class="bi bi-printer me-1"></i> Proses Cetak
                     </button>
                 </div>
             </form>

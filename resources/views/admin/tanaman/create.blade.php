@@ -6,6 +6,18 @@
     <a href="{{ route('admin.tanaman.index') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
     <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">+ Tambah Tanaman Obat Baru</h5>
 </div>
+
+{{-- Menampilkan pesan error validasi tepat di bawah judul --}}
+@if ($errors->any())
+    <div class="alert alert-danger mb-3 py-2 shadow-sm" style="border-radius: 5px;">
+        <ul class="small fw-bold mb-0">
+            @foreach ($errors->all() as $error)
+                <li>❌ {{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="card">
     <div class="card-body">
         <form action="{{ route('admin.tanaman.store') }}" method="POST" enctype="multipart/form-data">
@@ -25,16 +37,21 @@
                         </div>
                     </div>
 
-                    {{-- BARIS 2: Kategori & Kolektor --}}
+                    {{-- BARIS 2: Kategori (Ceklis Pendek) & Kolektor Berdampingan --}}
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Kategori <span class="text-danger">*</span></label>
-                            <select name="kategori_id" class="form-select form-select-sm" required style="border-radius: 5px;">
-                                <option value="">-- Pilih Kategori Khasiat --</option>
+                            <label class="form-label small fw-bold text-dark d-block mb-2">Kategori Khasiat <span class="text-danger">*</span></label>
+                            <div class="p-3 border rounded bg-white" style="max-height: 150px; overflow-y: auto; border-radius: 5px;">
                                 @foreach($kategoris as $k)
-                                    <option value="{{ $k->id }}" {{ old('kategori_id') == $k->id ? 'selected' : '' }}>{{ $k->nama_kategori }}</option>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" name="kategori_id[]" value="{{ $k->id }}" id="kategori_{{ $k->id }}" {{ is_array(old('kategori_id')) && in_array($k->id, old('kategori_id')) ? 'checked' : '' }}>
+                                        <label class="form-check-label small text-dark" for="kategori_{{ $k->id }}">
+                                            {{ $k->nama_kategori }}
+                                        </label>
+                                    </div>
                                 @endforeach
-                            </select>
+                            </div>
+                            <small class="text-muted" style="font-size: 11px;">Bisa menceklis lebih dari satu.</small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-dark">Kolektor / Sumber Tanaman <span class="text-danger">*</span></label>
@@ -42,14 +59,22 @@
                         </div>
                     </div>
 
+                    {{-- BARIS 3: Asal Usul Tanaman --}}
                     <div class="mb-3">
-                        <label class="form-label fw-600">Deskripsi Singkat</label>
-                        <textarea name="deskripsi" class="form-control" rows="3" placeholder="Jelaskan asal usul tanaman..."></textarea>
+                        <label class="form-label small fw-bold text-dark">Asal Usul Tanaman <span class="text-danger">*</span></label>
+                        <textarea name="asal_usul" class="form-control" rows="3" placeholder="Jelaskan sejarah, teori, atau daerah asal usul tanaman..." required style="border-radius: 5px;">{{ old('asal_usul') }}</textarea>
                     </div>
 
+                    {{-- BARIS 4: Deskripsi Singkat --}}
+                    <div class="mb-3">
+                        <label class="form-label fw-600">Deskripsi Singkat</label>
+                        <textarea name="deskripsi" class="form-control" rows="3" placeholder="Jelaskan gambaran umum tanaman..." style="border-radius: 5px;">{{ old('deskripsi') }}</textarea>
+                    </div>
+
+                    {{-- BARIS 5: Khasiat & Manfaat --}}
                     <div class="mb-3">
                         <label class="form-label fw-600">Khasiat & Manfaat</label>
-                        <textarea name="khasiat" id="editor_khasiat" class="form-control"></textarea>
+                        <textarea name="khasiat" id="editor_khasiat" class="form-control">{{ old('khasiat') }}</textarea>
                     </div>
                 </div>
 
@@ -60,8 +85,6 @@
                         <input type="file" name="foto_utama" class="form-control" onchange="previewImage(this)">
                         <small class="text-muted">Format: JPG, PNG. Maks: 2MB</small>
                     </div>
-
-                  
                 </div>
             </div>
 

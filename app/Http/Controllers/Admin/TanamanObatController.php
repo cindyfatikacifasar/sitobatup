@@ -31,8 +31,6 @@ class TanamanObatController extends Controller
             });
         }
 
-
-
         $tanaman   = $query->orderBy('nama')->paginate(15)->withQueryString();
         $kategoris = Kategori::all();
 
@@ -47,58 +45,74 @@ class TanamanObatController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi pastikan kategori berupa array
         $request->validate([
-            'nama'         => 'required|string|max:255',
-            'nama_ilmiah'  => 'required|string|max:255', // <-- Tambahkan ini
-            'kategori_id'  => 'required|exists:kategoris,id',
-            'kolektor'     => 'required|string|max:255', // <-- Tambahkan ini
-            // validasi lainnya...
+            'kategori_id' => 'required|array', 
+            'nama'        => 'required|string|max:150',
+            'nama_ilmiah' => 'required|string|max:150',
+            'kolektor'    => 'required|string|max:255',
+            'asal_usul'   => 'required|string',
+            'deskripsi'   => 'nullable|string',
+            'khasiat'     => 'nullable|string',
+            'foto_utama'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-        
-        Tanaman::create([
-            'nama'         => $request->nama,
-            'nama_ilmiah'  => $request->nama_ilmiah, // <-- Simpan ini
-            'kategori_id'  => $request->kategori_id,
-            'kolektor'     => $request->kolektor,    // <-- Simpan ini
-            // field lainnya...
-        ]);
+    
+        // Proses upload file foto jika ada
+        $pathFoto = null;
+        if ($request->hasFile('foto_utama')) {
+            $pathFoto = $request->file('foto_utama')->store('tanaman', 'public');
+        }
 
-        $data = $request->except(['foto', '_token', 'kategori_ids']);
-        
-
-
-        // Handle Slug Otomatis
+        // Logika otomatis menangani duplikasi slug agar tidak memicu error duplicate entry
         $slug = Str::slug($request->nama);
         $originalSlug = $slug;
         $i = 1;
         while (TanamanObat::where('slug', $slug)->exists()) {
             $slug = $originalSlug . '-' . $i++;
         }
-        $data['slug'] = $slug;
 
-        // Handle Upload Foto
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('tanaman', 'public');
+        // Simpan data tanaman dengan mencocokkan input form ke kolom database
+        $tanaman = TanamanObat::create([
+            'user_id'     => auth()->id(),
+            'nama'        => $request->nama,
+            'nama_ilmiah' => $request->nama_ilmiah,
+            'slug'        => $slug,
+            'kolektor'    => $request->kolektor,
+            'asal_usul'   => $request->asal_usul,
+            'deskripsi'   => $request->deskripsi,
+            'khasiat'     => $request->khasiat,
+            'foto'        => $pathFoto,
+        ]);
+    
+        // Ikat banyak ID kategori ke tabel jembatan secara otomatis
+        $tanaman->kategoris()->attach($request->kategori_id);
+    
+        // PERBAIKAN 1: Cari atau buat otomatis satu album induk bersama dengan nama 'Tanaman Obat'
+        $albumInduk = \App\Models\Album::firstOrCreate(
+            ['nama_album' => 'Tanaman Obat'],
+            ['user_id'    => auth()->id()]
+        );
+    
+        // PERBAIKAN 2: Jika admin melampirkan foto, masukkan ke galeri dengan kolom judul agar tidak error
+        // Jika admin melampirkan foto, masukkan langsung ke galeri dengan kolom judul dan tanggal
+        if ($pathFoto) {
+            \App\Models\Galeri::create([
+                'album_id'   => $albumInduk->id,
+                'judul'      => 'Foto ' . $tanaman->nama,
+                'foto'       => $pathFoto,
+                'keterangan' => 'Foto Utama Tanaman ' . $tanaman->nama,
+                'tanggal'    => now(), // <-- INI TAMBAHANNYA BIAR GA ERROR TANGGAL LAGI SINDI!
+            ]);
         }
-
-        $tanaman = TanamanObat::create($data);
-
-        // Handle Multi-Kategori (Sync)
-        $tanaman->kategoris()->sync($request->kategori_ids);
-
-        // Buat QR Code Otomatis
+        
         $this->buatQrCode($tanaman);
-
-        return redirect()->route('admin.tanaman.index')->with('success', 'Tanaman obat berhasil ditambahkan.');
+    
+        return redirect()->route('admin.tanaman.index')->with('success', 'Data Tanaman Obat Berhasil Disimpan!');
     }
-
+    
     public function show($id)
     {
-        // 1. Cari data berdasarkan ID, bukan SLUG (karena ini area Admin)
         $tanaman = TanamanObat::with('kategoris')->findOrFail($id); 
-    
-        // 2. Karena di Admin kita tidak butuh "Tanaman Terkait", kodenya bisa lebih simpel
-        // Cukup kirim data tanaman saja ke view folder admin
         return view('admin.tanaman.show', compact('tanaman'));
     }
 
@@ -122,8 +136,6 @@ class TanamanObatController extends Controller
         ]);
 
         $data = $request->except(['foto', '_token', '_method', 'kategori_ids']);
-
-
 
         // Update Slug jika nama berubah
         if ($request->nama !== $tanaman->nama) {

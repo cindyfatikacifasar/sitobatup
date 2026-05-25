@@ -21,6 +21,6 @@ class Kategori extends Model
 
     public function tanamanObats()
     {
-        return $this->hasMany(TanamanObat::class, 'kategori_id');
+        return $this->belongsToMany(TanamanObat::class, 'kategori_tanaman', 'kategori_id', 'tanaman_obat_id');
     }
 }

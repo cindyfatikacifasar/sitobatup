@@ -2,26 +2,79 @@
 @section('title', 'Beranda')
 
 @section('content')
-<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="4000">
-    <div class="carousel-indicators">
+{{-- CSS KHUSUS STRUKTUR CAROUSEL AGAR NO KOTAK HITAM DAN SELALU RAPI RATA KIRI --}}
+<style>
+    .carousel-item-custom {
+        height: 600px !important; /* Tinggi seragam yang pas untuk desktop */
+        background-color: #1a5c2a !important; /* Warna pencegah jika gambar gagal muat */
+        background-position: center !important;
+        background-size: cover !important; /* KUNCI UTAMA: Gambar penuh tanpa menyisakan ruang hitam */
+        background-repeat: no-repeat !important;
+        position: relative;
+    }
+
+    /* Penataan teks caption agar fleksibel, rapi rata kiri, dan kontras tinggi */
+    .carousel-caption-custom {
+        position: absolute;
+        z-index: 10 !important;
+        text-align: left !important; /* Rata kiri modern */
+        left: 10% !important;
+        bottom: 15% !important;
+        right: auto !important;
+        max-width: 680px !important; /* Mencegah teks memanjang terlalu kanan */
+        text-shadow: 2px 2px 12px rgba(0,0,0,0.8);
+    }
+
+    /* Modifikasi tombol baca selengkapnya agar kontras dan estetik */
+    .btn-baca-baru {
+        background-color: #ffc107 !important;
+        color: #000 !important;
+        font-weight: 700;
+        padding: 12px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-baca-baru:hover {
+        background-color: #e0a800;
+        color: #000 !important;
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+
+    /* Penyesuaian responsif layar handphone */
+    @media (max-width: 768px) {
+        .carousel-item-custom { height: 420px !important; }
+        .carousel-caption-custom { left: 5% !important; bottom: 10% !important; max-width: 90% !important; }
+        .carousel-caption-custom h1 { font-size: 1.8rem !important; }
+        .carousel-caption-custom p { font-size: 0.85rem !important; }
+    }
+</style>
+
+<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">    <div class="carousel-indicators">
         @foreach($beritaCarousel as $key => $b)
             <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"></button>
         @endforeach
     </div>
     
-    <div class="carousel-inner">
+    <div class="carousel-inner" style="overflow: hidden; border-radius: 0 0 25px 25px;">
         @forelse($beritaCarousel as $key => $b)
         <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-            <div style="height: 500px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('{{ Storage::url($b->foto) }}'); background-size: cover; background-position: center;" class="d-flex align-items-center">
-                <div class="container text-white">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold">⭐ Berita Taman Koleksi Tanaman Obat</span>
-                            <h1 class="display-4 fw-bold mb-3">{{ $b->judul }}</h1>
-                            <p class="lead mb-4 opacity-75">{{ Str::limit(strip_tags($b->isi), 160) }}</p>
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('berita.detail', $b->slug) }}" class="btn btn-warning btn-lg px-4 fw-bold shadow">Baca Selengkapnya</a>
-                            </div>
+            {{-- MENGGANTI STRUKTUR MENJADI BACKGROUND-IMAGE DENGAN OVERLAY LINIER GELAP --}}
+            <div class="carousel-item-custom d-flex align-items-center" 
+                 style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.65)), url('{{ Storage::url($b->foto) }}');">
+                
+                <div class="container">
+                    <div class="carousel-caption-custom text-white">
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm">
+                            ⭐ Berita Taman Koleksi Tanaman Obat
+                        </span>
+                        <h1 class="display-5 fw-bold mb-3" style="line-height: 1.2;">{{ $b->judul }}</h1>
+                        <p class="lead mb-4 opacity-90" style="font-size: 1.05rem; line-height: 1.6;">{{ Str::limit(strip_tags($b->isi), 160) }}</p>
+                        <div>
+                            <a href="{{ route('berita.detail', $b->slug) }}" class="btn-baca-baru shadow">Baca Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -38,8 +91,12 @@
         </div>
         @endforelse
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
-    <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+    <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev" style="z-index: 12;">
+        <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next" style="z-index: 12;">
+        <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle"></span>
+    </button>
 </div>
 
 <section class="py-5 bg-light border-bottom">
@@ -142,7 +199,7 @@
                         @endif
                         <div class="p-3 text-center">
                             <div class="fw-bold text-dark small mb-1 text-truncate">{{ $tanaman->nama }}</div>
-                            <div class="text-muted italic" style="font-size: .7rem; font-style: italic;">{{ $tanaman->nama_ilmiah }}</div>
+                            <div class="text-muted italic" style="font-size: .7rem; font-style: italic;">{{ $tanaman_ilmiah ?? $tanaman->nama_ilmiah }}</div>
                         </div>
                     </div>
                 </a>
