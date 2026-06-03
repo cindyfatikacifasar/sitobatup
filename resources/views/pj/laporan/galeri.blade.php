@@ -3,16 +3,56 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div><h4 class="fw-bold text-dark mb-1">🖼️ Laporan Album Dokumentasi</h4><p class="text-muted small mb-0">Review album visual kegiatan kebun raya.</p></div>
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak">📂 Cetak Laporan</button>
+    {{-- ⚡ REVISI: Menambahkan ikon printer fill agar kembar identik dengan tombol cetak di image_f5eef2.png --}}
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak"><i class="bi bi-printer-fill me-1"></i> Cetak Laporan</button>
 </div>
 
 {{-- Saringan Filter --}}
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;"><div class="card-body p-3"><form action="{{ route('pj.laporan.galeri') }}" method="GET" class="row g-3 align-items-end"><div class="col-md-3"><label class="form-label small fw-bold text-muted mb-1">Paket Waktu:</label><select name="rentang_waktu" class="form-select form-select-sm" style="border-radius: 8px;"><option value="semua">✨ Semua Data</option><option value="tiga_bulan">📅 3 Bulan Terakhir</option><option value="enam_bulan">🗓️ 6 Bulan Terakhir</option></select></div><div class="col-md-3"><label class="form-label small fw-bold text-muted mb-1">Dari:</label><input type="date" name="tanggal_mulai" class="form-control form-control-sm" style="border-radius: 8px;"></div><div class="col-md-3"><label class="form-label small fw-bold text-muted mb-1">Sampai:</label><input type="date" name="tanggal_selesai" class="form-control form-control-sm" style="border-radius: 8px;"></div><div class="col-md-3"><button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">🔍 Terapkan</button></div></form></div></div>
 
-<div class="row g-3">
-    @forelse($albums as $album)
-    <div class="col-md-4"><div class="card border-0 shadow-sm h-100" style="border-radius: 12px; overflow: hidden;"><div class="card-body p-3"><h6 class="fw-bold text-dark mb-1 text-truncate">📁 {{ $album->nama_album }}</h6><p class="text-muted small mb-2 text-truncate">{{ $album->deskripsi ?? 'Tidak ada deskripsi.' }}</p><span class="badge bg-success bg-opacity-10 text-success fw-bold"><i class="bi bi-image me-1"></i> {{ $album->galeris_count }} Berkas Foto</span></div></div></div>
-    @empty<div class="col-12 text-center text-muted py-4">Belum ada album visual terdokumentasi.</div>@endforelse
+{{-- ⚡ REVISI UI/UX UTAMA SINDI: Mengubah Tampilan Grid Card Menjadi Bentuk Tabel Linear Agar Sinkron dengan Laporan Berita --}}
+<div class="card shadow-sm border-0" style="border-radius: 10px;">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary" style="width: 70px;">No</th>
+                        <th class="py-3 text-secondary">Nama Album Dokumentasi</th>
+                        <th class="py-3 text-secondary" style="width: 320px;">Deskripsi Album</th>
+                        <th class="py-3 text-secondary text-center" style="width: 180px;">Total Foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($albums as $i => $album)
+                    <tr>
+                        <td class="px-4 fw-bold text-muted">{{ $loop->iteration }}</td>
+                        <td>
+                            <div class="fw-bold text-dark" style="font-size:0.88rem;">
+                                <i class="bi bi-folder-fill text-warning me-2"></i>{{ $album->nama_album }}
+                            </div>
+                        </td>
+                        <td class="text-muted small">
+                            {{ $album->deskripsi ?? 'Tidak ada deskripsi.' }}
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-1 fw-bold" style="border-radius: 30px; font-size: 0.75rem;">
+                                <i class="bi bi-image me-1"></i> {{ $album->galeris_count }} Berkas Foto
+                            </span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-5">
+                            <i class="bi bi-images fs-2 d-block mb-2 text-secondary opacity-50"></i>
+                            Belum ada album visual terdokumentasi.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 {{-- MODAL PARAMETER POPUP CETAK --}}

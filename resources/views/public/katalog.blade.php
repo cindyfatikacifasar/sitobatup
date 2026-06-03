@@ -5,7 +5,7 @@
 {{-- HEADER HIJAU MELENGKUNG IDENTIK DENGAN HALAMAN BERITA --}}
 <div class="py-5 text-center text-white" style="background-color: #1a5c2a; border-radius: 0 0 50px 50px; margin-top: -24px;">
     <div class="container">
-        <h2 class="fw-bold mb-2">🌿 Katalog Tanaman Obat</h2>
+        <h2 class="fw-bold mb-2">🌿Tanaman Obat</h2>
         <p class="lead small opacity-75 mb-0">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan &mdash; {{ $tanaman->total() }} tanaman obat</p>
     </div>
 </div>

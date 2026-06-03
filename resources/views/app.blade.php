@@ -164,7 +164,7 @@
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.katalog') ? 'active':'' }}" href="{{ route('public.katalog') }}"><i class="fas fa-seedling me-1"></i>Katalog</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.galeri') ? 'active':'' }}" href="{{ route('public.galeri') }}"><i class="fas fa-images me-1"></i>Galeri</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.berita*') ? 'active':'' }}" href="{{ route('public.berita') }}"><i class="fas fa-newspaper me-1"></i>Berita</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.saran') ? 'active':'' }}" href="{{ route('public.saran') }}"><i class="fas fa-comment-alt me-1"></i>Saran</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.ulasan') ? 'active':'' }}" href="{{ route('public.ulasan') }}"><i class="fas fa-comment-alt me-1"></i>Ulasan</a></li>
             </ul>
         </div>
     </div>
@@ -205,7 +205,7 @@
                     <li class="mb-1"><a href="{{ route('public.katalog') }}">Katalog</a></li>
                     <li class="mb-1"><a href="{{ route('public.galeri') }}">Galeri</a></li>
                     <li class="mb-1"><a href="{{ route('public.berita') }}">Berita</a></li>
-                    <li class="mb-1"><a href="{{ route('public.saran') }}">Saran</a></li>
+                    <li class="mb-1"><a href="{{ route('public.ulasan') }}">Ulasan</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md-3">

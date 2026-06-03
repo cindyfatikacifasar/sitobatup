@@ -7,7 +7,7 @@ use App\Models\TanamanObat;
 use App\Models\Kategori;
 use App\Models\Berita;
 use App\Models\Galeri;
-use App\Models\Saran;
+use App\Models\Ulasan;
 use App\Models\Pengunjung;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $totalGaleri     = Galeri::count();
         
         // PERBAIKAN: Menghapus filter 'pengirim' karena kolomnya tidak ada di database
-        $saranBelumBaca  = Saran::where('is_read', false)->count();
+        $ulasanBelumBaca  = Ulasan::where('is_read', false)->count();
         
         // Statistik Pengunjung harian sesuai tracker SITOBAT
         $pengunjungHari  = Pengunjung::where('tanggal', Carbon::today())->count();
@@ -45,7 +45,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact(
             'totalTanaman','totalKategori','totalBerita','totalGaleri',
-            'saranBelumBaca','pengunjungHari','grafik','tanamanPopuler'
+            'ulasanBelumBaca','pengunjungHari','grafik','tanamanPopuler'
         ));
     }
 

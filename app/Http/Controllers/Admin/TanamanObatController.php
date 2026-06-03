@@ -14,6 +14,7 @@ class TanamanObatController extends Controller
 {
     public function index(Request $request)
     {
+        // Tetap mempertahankan kueri eager loading relasi jamak 'kategoris' bawaan asli kamu Sindi
         $query = TanamanObat::with('kategoris');
 
         // Fitur Pencarian
@@ -31,6 +32,7 @@ class TanamanObatController extends Controller
             });
         }
 
+        // Tetap menggunakan pengurutan nama dan pagination 15 item per halaman
         $tanaman   = $query->orderBy('nama')->paginate(15)->withQueryString();
         $kategoris = Kategori::all();
 
@@ -93,15 +95,14 @@ class TanamanObatController extends Controller
             ['user_id'    => auth()->id()]
         );
     
-        // PERBAIKAN 2: Jika admin melampirkan foto, masukkan ke galeri dengan kolom judul agar tidak error
-        // Jika admin melampirkan foto, masukkan langsung ke galeri dengan kolom judul dan tanggal
+        // PERBAIKAN 2: Jika admin melampirkan foto, masukkan langsung ke galeri dengan kolom judul dan tanggal
         if ($pathFoto) {
             \App\Models\Galeri::create([
                 'album_id'   => $albumInduk->id,
                 'judul'      => 'Foto ' . $tanaman->nama,
                 'foto'       => $pathFoto,
                 'keterangan' => 'Foto Utama Tanaman ' . $tanaman->nama,
-                'tanggal'    => now(), // <-- INI TAMBAHANNYA BIAR GA ERROR TANGGAL LAGI SINDI!
+                'tanggal'    => now(),
             ]);
         }
         
@@ -125,19 +126,23 @@ class TanamanObatController extends Controller
 
     public function update(Request $request, TanamanObat $tanaman)
     {
+        // PERBAIKAN VALIDASI: Disesuaikan dengan isi form asli di image_0fdf40.png
         $request->validate([
-            'kategori_ids'        => 'required|array',
-            'nama'                => 'required|string|max:150',
-            'nama_ilmiah'         => 'required|string|max:150',
-            'deskripsi'           => 'required|string',
-            'khasiat'             => 'required|string',
-            'is_favourite'        => 'required|boolean',
-            'foto'                => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'kategori_ids' => 'required|array',
+            'nama'         => 'required|string|max:150',
+            'nama_ilmiah'  => 'required|string|max:150',
+            'kolektor'     => 'required|string|max:255', // <-- TAMBAHKAN INI SINDI
+            'asal_usul'    => 'required|string',          // <-- TAMBAHKAN INI SINDI
+            'deskripsi'    => 'nullable|string',          // <-- UBAH JADI NULLABLE BILA BOLEH KOSONG
+            'khasiat'      => 'nullable|string',          // <-- UBAH JADI NULLABLE BILA BOLEH KOSONG
+            'is_favourite' => 'nullable|boolean',         // <-- UBAH JADI NULLABLE AGAR TIDAK MEMBAL ERROR
+            'foto'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
 
+        // Tetap menggunakan logika pemisahan array bawaan asli kamu Sindi
         $data = $request->except(['foto', '_token', '_method', 'kategori_ids']);
 
-        // Update Slug jika nama berubah
+        // Update Slug jika nama berubah (Kodingan asli kamu jangan diganggu)
         if ($request->nama !== $tanaman->nama) {
             $slug = Str::slug($request->nama);
             $originalSlug = $slug;

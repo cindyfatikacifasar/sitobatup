@@ -195,9 +195,9 @@
                     </a>
                 </li>
 
-                {{-- Saran --}}
+                {{-- Ulasan --}}
                 <li class="nav-item">
-                    <a class="nav-link nav-custom {{ request()->is('saran*') ? 'active-link' : '' }}" href="{{ url('/saran') }}">
+                    <a class="nav-link nav-custom {{ request()->is('ulasan*') ? 'active-link' : '' }}" href="{{ url('/ulasan') }}">
                         <i class="bi bi-chat-dots me-1"></i>Ulasan
                     </a>
                 </li>

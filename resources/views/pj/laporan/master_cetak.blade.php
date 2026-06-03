@@ -16,7 +16,7 @@
 <div class="container-fluid my-4">
     <div class="text-center kop-surat">
         <h4 class="fw-bold mb-0">{{ $judul_laporan }}</h4>
-        <h5 class="fw-bold mb-1">KEBUN RAYA UNIVERSITAS PAHLAWAN TUANKU TAMBUSAI</h5>
+        <h5 class="fw-bold mb-1">TAMAN KOLEKSI TANAMAN OBAT KEBUN RAYA UNIVERSITAS PAHLAWAN TUANKU TAMBUSAI</h5>
         <p class="text-muted small mb-0">Rentang Dokumen: <b>{{ $keterangan_waktu }}</b> | Dicetak otomatis sistem SITOBAT-UP</p>
     </div>
 
@@ -75,15 +75,16 @@
                 @empty<tr><td colspan="4" class="text-center">Tidak ada log riwayat kunjungan.</td></tr>@endforelse
             </tbody>
 
-        {{-- SWITCH TABEL 5: KHUSUS KOTAK SARAN MASUK --}}
-        @elseif($jenis == 'saran')
+        {{-- PERBAIKAN: SWITCH TABEL 5: KHUSUS ULASAN (DIKUNCI SAMA DENGAN VALUE CONTROLLER 'Ulasan') --}}
+        @elseif($jenis == 'Ulasan' || $jenis == 'ulasan')
             <thead>
                 <tr>
                     <th style="width: 50px;">No</th>
                     <th>Nama Pengirim</th>
-                    <th>Kontak (Email/HP)</th>
-                    <th>Isi Umpan Balik / Kritik & Saran</th>
+                    <th>Isi Ulasan</th>
                     <th style="width: 170px;">Tanggal Masuk</th>
+                    <th style="width: 100px; text-align: center;">Rating</th>
+                    <th style="width: 150px; text-align: center;">Kontak HP</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,12 +92,19 @@
                 <tr>
                     <td class="text-center">{{ $i + 1 }}</td>
                     <td class="fw-bold">{{ $d->nama ?? 'Anonim' }}</td>
-                    <td>{{ $d->email ?? $d->no_hp ?? '-' }}</td>
-                    <td>{{ $d->isi_saran ?? $d->pesan ?? $d->isi }}</td>
+                    <td>{{ $d->isi_ulasan ?? $d->pesan ?? $d->isi ?? '-' }}</td>
                     <td class="text-center">{{ $d->created_at ? $d->created_at->format('d-m-Y H:i') : '-' }} WIB</td>
+                    {{-- Menampilkan angka rating ulasan --}}
+                    <td class="text-center">
+                        {{ $d->rating ?? 5 }} / 5
+                    </td>
+                    {{-- Menampilkan kontak handphone pengunjung --}}
+                    <td class="text-center">
+                        {{ $d->no_hp ?? $d->telepon ?? '-' }}
+                    </td>
                 </tr>
                 @empty
-                <tr><td colspan="5" class="text-center">Tidak ada data kritik atau saran pada periode ini.</td></tr>
+                <tr><td colspan="6" class="text-center">Tidak ada data Ulasan pada periode ini.</td></tr>
                 @endforelse
             </tbody>
         @endif

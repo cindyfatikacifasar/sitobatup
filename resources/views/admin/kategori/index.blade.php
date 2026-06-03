@@ -1,3 +1,4 @@
+{{-- resources/views/admin/kategori/index.blade.php --}}
 @extends('layouts.admin')
 @section('title', 'Manajemen Kategori')
 @section('content')
@@ -46,6 +47,8 @@
                 <tr>
                     <th class="px-4 py-3" style="width: 50px;">No</th>
                     <th>Nama Kategori</th>
+                    {{-- PERBAIKAN: Menambahkan tajuk kolom jumlah tanaman baru --}}
+                    <th class="text-center" style="width: 200px;">Jumlah Tanaman</th>
                     <th class="text-center" style="width: 200px;">Aksi</th>
                 </tr>
             </thead>
@@ -55,6 +58,14 @@
                     {{-- Perbaikan Penomoran Agar Berlanjut Otomatis ke Angka 16 dst --}}
                     <td class="px-4 text-muted">{{ $kategoris->firstItem() + $index }}</td>
                     <td class="fw-bold">{{ $k->nama_kategori }}</td>
+                    
+                    {{-- PERBAIKAN: Menampilkan nilai statistik hitungan real-time dari relasi database --}}
+                    <td class="text-center">
+                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle fw-bold px-3 py-1.5" style="border-radius: 30px; font-size: 0.8rem;">
+                            <i class="bi bi-tree-fill me-1"></i> {{ $k->tanaman_obats_count ?? 0 }} Tanaman
+                        </span>
+                    </td>
+
                     <td class="text-center">
                         <div class="btn-group gap-1">
                             {{-- Tombol Detail - Ikon Mata Berwarna Biru --}}
@@ -113,7 +124,7 @@
                     @if(request('show') === 'all')
                         <span class="page-link bg-success border-success text-white fw-bold" style="cursor: default;">All</span>
                     @else
-                        <a class="page-link text-success fw-bold" href="{{ route('admin.kategori.index', ['show' => 'all']) }}">All</a>
+                        <a class="page-link text-success" href="{{ route('admin.kategori.index', ['show' => 'all']) }}"><b>All</b></a>
                     @endif
                 </li>
             </ul>
@@ -138,10 +149,12 @@
                         <label class="text-muted small d-block mb-1">Nama Kategori</label>
                         <span class="fw-bold text-dark fs-5">{{ $k->nama_kategori }}</span>
                     </div>
+                    {{-- PERBAIKAN: Menambahkan info total tanaman terikat di dalam modal detail khasiat --}}
                     <div class="mb-3 border-bottom pb-2">
-                        <label class="text-muted small d-block mb-1">ID Kategori (Database)</label>
-                        <span class="fw-bold text-dark">{{ $k->id }}</span>
+                        <label class="text-muted small d-block mb-1">Total Tanaman</label>
+                        <span class="fw-bold text-success"><i class="bi bi-tree-fill me-1"></i> {{ $k->tanaman_obats_count ?? 0 }} Tanaman Obat</span>
                     </div>
+
                     <div>
                         <label class="text-muted small d-block mb-1">Dibuat Pada</label>
                         <span class="fw-bold text-dark">{{ $k->created_at->format('d M Y H:i') }} WIB</span>

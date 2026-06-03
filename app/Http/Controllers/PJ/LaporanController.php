@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TanamanObat;
 use App\Models\Album;
 use App\Models\Berita;
-use App\Models\Saran;
+use App\Models\Ulasan;
 use App\Models\Pengunjung; // Pastikan nama model pengunjung sesuai di proyekmu
 use Illuminate\Http\Request;
 
@@ -30,8 +30,20 @@ class LaporanController extends Controller
         return view('pj.laporan.tanaman', compact('tanamans'));
     }
 
+    // =======================================================
+    // BARU: 2. MODUL ULASAN MASUK (PENGGANTI MODUL SARAN)
+    // =======================================================
+    public function ulasan()
+    {
+        // Mengambil data ulasan terbaru dari database
+        $ulasan = Ulasan::orderBy('created_at', 'desc')->paginate(10);
+        
+        // Mengarah ke halaman view indeks ulasan khusus hak akses Penanggung Jawab (PJ)
+        return view('pj.ulasan.index', compact('ulasan'));
+    }
+
     // ==========================================
-    // 2. MODUL LAPORAN BERITA & ARTIKEL
+    // 3. MODUL LAPORAN BERITA & ARTIKEL
     // ==========================================
     public function berita(Request $request)
     {
@@ -49,7 +61,7 @@ class LaporanController extends Controller
     }
 
     // ==========================================
-    // 3. MODUL LAPORAN GALERI DOKUMENTASI
+    // 4. MODUL LAPORAN GALERI DOKUMENTASI
     // ==========================================
     public function galeri(Request $request)
     {
@@ -67,7 +79,7 @@ class LaporanController extends Controller
     }
 
     // ==========================================
-    // 4. MODUL LAPORAN STATISTIK PENGUNJUNG
+    // 5. MODUL LAPORAN STATISTIK PENGUNJUNG
     // ==========================================
     public function pengunjung(Request $request)
     {
@@ -101,9 +113,11 @@ class LaporanController extends Controller
         $tgl_selesai = $request->get('cetak_tanggal_selesai');
 
         // 1. Tentukan Model Kueri Berdasarkan Jenis Laporan
+        // 1. Tentukan Model Kueri Berdasarkan Jenis Laporan
         if ($jenis == 'berita') { $query = Berita::query(); $judul = "LAPORAN PUBLIKASI BERITA & ARTIKEL MEA"; }
         elseif ($jenis == 'galeri') { $query = Album::withCount('galeris'); $judul = "LAPORAN DATA ALBUM DOKUMENTASI DENTAL"; }
         elseif ($jenis == 'pengunjung') { $query = class_exists(Pengunjung::class) ? Pengunjung::query() : null; $judul = "LAPORAN KUNJUNGAN MONITORING SITOBAT-UP"; }
+        elseif ($jenis == 'Ulasan') { $query = Ulasan::query(); $judul = "LAPORAN DATA ULASAN DAN REVIEW PENGUNJUNG"; } // <-- INI TAMBAHANNYA SINDI!
         else { $query = TanamanObat::query(); $judul = "LAPORAN DATA KOLEKSI TANAMAN OBAT KELUARGA"; }
 
         if (!$query) return "Struktur tabel belum siap.";

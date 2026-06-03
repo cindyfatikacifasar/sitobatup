@@ -13,14 +13,17 @@ class KategoriController extends Controller
 {
     public function index(Request $request)
     {
+        // 1. Mulai kueri Kategori dengan menyertakan hitungan otomatis relasi tanamanObats
+        $query = \App\Models\Kategori::withCount('tanamanObats');
+
         // Jika ada request ?show=all, ambil semua data tanpa paginasi
         if ($request->get('show') === 'all') {
             // Kita pakai paginate dengan jumlah total data agar link pagination tidak error di Blade
             $totalData = \App\Models\Kategori::count();
-            $kategoris = \App\Models\Kategori::latest()->paginate($totalData ?: 10);
+            $kategoris = $query->latest()->paginate($totalData ?: 10);
         } else {
             // Standar bawaan dipotong per 15 data
-            $kategoris = \App\Models\Kategori::latest()->paginate(15);
+            $kategoris = $query->latest()->paginate(15);
         }
     
         return view('admin.kategori.index', compact('kategoris'));

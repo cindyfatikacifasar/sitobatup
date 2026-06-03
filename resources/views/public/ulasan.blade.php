@@ -47,7 +47,7 @@
     {{-- HEADER HALAMAN UTAMA --}}
     <div class="text-center mb-5">
         <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 fw-bold mb-2" style="border-radius: 30px; font-size: 0.78rem;">📢 SUARA PENGUNJUNG</span>
-        <h2 class="fw-bold text-dark">Laporan Saran & Ulasan Masuk</h2>
+        <h2 class="fw-bold text-dark">Laporan Ulasan Masuk</h2>
         <p class="text-muted mx-auto mb-0" style="max-width: 600px; font-size: 0.92rem;">Apresiasi dan masukan Anda sangat berarti untuk pengembangan fasilitas koleksi tanaman obat Kebun Raya Universitas Pahlawan.</p>
     </div>
 
@@ -66,14 +66,21 @@
                     </div>
                 </div>
 
-                {{-- NOTIFIKASI SUKSES --}}
+                {{-- PERBAIKAN UX OPSIONAL 1: Notifikasi Edukatif Biar Pengunjung Tanpa Login Tidak Panik --}}
                 @if(session('success'))
-                    <div class="alert alert-success border-0 small mb-4 shadow-sm" style="background-color: #e8f5e9; color: #1a5c2a; border-radius: 10px;">
-                        <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <div class="alert alert-success border-0 small mb-4 shadow-sm p-3" style="background-color: #e8f5e9; color: #1a5c2a; border-radius: 10px; line-height: 1.5;">
+                        <div class="d-flex align-items-start gap-2">
+                            <i class="bi bi-check-circle-fill mt-1"></i>
+                            <div>
+                                <strong class="d-block mb-1">Ulasan Berhasil Terkirim!</strong>
+                                Terima kasih atas partisipasi Anda. Demi kenyamanan informasi bersama, ulasan Anda telah masuk antrean sistem dan akan segera tampil di halaman ini setelah diverifikasi oleh Admin Sitobat.
+                            </div>
+                        </div>
                     </div>
                 @endif
 
-                <form action="{{ route('saran.kirim') }}" method="POST">
+                {{-- TAMBAHAN ID PADA FORM UNTUK TRIGGER JAVASCRIPT ANTI-SPAM --}}
+                <form action="{{ route('ulasan.kirim') }}" method="POST" id="formUlasanPublik">
                     @csrf
                     
                     {{-- Input Nama --}}
@@ -169,5 +176,19 @@
 
     </div>
 </div>
+
+{{-- PERBAIKAN UX MODUL 3: JAVASCRIPT LOCK MECHANISM (Kunci Tombol & Tampilkan Efek Spinner Loading) --}}
+<script>
+    document.getElementById('formUlasanPublik').addEventListener('submit', function() {
+        // Ambil elemen tombol submit di dalam form ulasan publik
+        var submitBtn = this.querySelector('button[type="submit"]');
+        
+        // Kunci tombol secepat kilat agar tidak bisa ditekan berkali-kali oleh user
+        submitBtn.disabled = true;
+        
+        // Ubah isi tombol menjadi loading spinner bawaan bootstrap biar interaktif
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sedang Mengirim Ulasan...';
+    });
+</script>
 
 @endsection

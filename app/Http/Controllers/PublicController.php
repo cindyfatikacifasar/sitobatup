@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TanamanObat, Kategori, Galeri, Berita, Saran, Pengunjung};
+use App\Models\{TanamanObat, Kategori, Galeri, Berita, Ulasan, Pengunjung};
 use Illuminate\Support\Facades\{Http, DB};
 
 class PublicController extends Controller
@@ -124,6 +124,22 @@ class PublicController extends Controller
         // 3. Ambil data album menggunakan paginate agar link halaman di bawahnya aktif
         $albums = $query->latest()->paginate(9);
 
+        // =======================================================================
+        // ⚡ TAMBAHAN LOGIKA AUTO-COVER: Jangan ganggu kode atas, ini menambal foto tanaman
+        // =======================================================================
+        foreach ($albums as $album) {
+            // Jika di dalam album tersebut ada foto dokumentasi manualnya (tabel galeris)
+            if ($album->galeris_count > 0 && $album->galeris->first()) {
+                // Gunakan foto pertama dari galeri album tersebut sebagai cover sampul
+                $album->foto_sampul = \Storage::url($album->galeris->first()->foto);
+            } else {
+                // JIKA KOSONG (Kasus Album Tanaman Obat), kita pinjam otomatis dari foto TanamanObat terbaru!
+                $tanamanFoto = \App\Models\TanamanObat::whereNotNull('foto')->latest()->first();
+                $album->foto_sampul = $tanamanFoto ? \Storage::url($tanamanFoto->foto) : null;
+            }
+        }
+        // =======================================================================
+
         // 4. Lempar data secara utuh ke file blade kamu
         return view('public.galeri', compact('albums', 'cari'));
     }
@@ -163,17 +179,17 @@ class PublicController extends Controller
         return view('public.detail-berita', compact('berita', 'beritaTerkait'));
     }
 
-    public function saran()
+    public function ulasan()
     {
         // Ambil ulasan yang hanya di-approve oleh admin untuk ditampilkan di halaman depan
-        $reviewsTampil = \App\Models\Saran::where('is_displayed', 1)
+        $reviewsTampil = \App\Models\Ulasan::where('is_displayed', 1)
                             ->orderBy('created_at', 'desc')
                             ->get();
     
-        return view('public.saran', compact('reviewsTampil'));
+        return view('public.ulasan', compact('reviewsTampil'));
     }
     
-    public function kirimSaran(Request $request)
+    public function kirimUlasan(Request $request)
     {
         // Validasi input dari pengunjung
         $request->validate([
@@ -184,7 +200,7 @@ class PublicController extends Controller
         ]);
     
         // Simpan ke database
-        \App\Models\Saran::create([
+        \App\Models\Ulasan::create([
             'nama'         => $request->nama,
             'kontak'       => $request->kontak,
             'pesan'        => $request->pesan,

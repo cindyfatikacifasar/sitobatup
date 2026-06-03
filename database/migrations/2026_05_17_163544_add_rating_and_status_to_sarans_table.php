@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('sarans', function (Blueprint $table) {
+        Schema::table('ulasans', function (Blueprint $table) {
             // Menambahkan input rating bintang (default 5 jika tidak diisi)
             $table->integer('rating')->default(5)->after('pesan');
             
@@ -22,7 +22,7 @@ return new class extends Migration
     
     public function down()
     {
-        Schema::table('sarans', function (Blueprint $table) {
+        Schema::table('ulasans', function (Blueprint $table) {
             $table->dropColumn(['rating', 'is_displayed']);
         });
     }

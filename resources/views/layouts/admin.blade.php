@@ -64,44 +64,44 @@
     </div>
 
     <nav class="py-2">
-        <div class="nav-section">Menu Utama</div>
-        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        {{-- ⚡ Teks pembatas Menu Utama telah dihapus, diganti dengan margin bawah agar layout tetap seimbang --}}
+        <a href="{{ route('admin.dashboard') }}" class="nav-link mb-1 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
-
-        <div class="nav-section">Kelola Data</div>
-        <a href="{{ route('admin.tanaman.index') }}" class="nav-link {{ request()->routeIs('admin.tanaman.*') ? 'active' : '' }}">
+    
+        {{-- ⚡ Teks pembatas Kelola Data telah dihapus --}}
+        <a href="{{ route('admin.tanaman.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.tanaman.*') ? 'active' : '' }}">
             <i class="bi bi-flower1"></i> Tanaman Obat
         </a>
-        <a href="{{ route('admin.kategori.index') }}" class="nav-link {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.kategori.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
             <i class="bi bi-tags"></i> Kategori
         </a>
         
-        <a href="{{ route('admin.album.index') }}" class="nav-link {{ request()->is('admin/album*') ? 'active' : '' }}">
+        <a href="{{ route('admin.album.index') }}" class="nav-link mb-1 {{ request()->is('admin/album*') ? 'active' : '' }}">
             <i class="bi bi-folder-fill me-2"></i>
             <span>Galeri Album</span>
         </a>
         
-        <a href="{{ route('admin.galeri.index') }}" class="nav-link {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.galeri.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
             <i class="bi bi-images"></i> <span>Galeri (Foto)</span>
         </a>
         
-        <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.berita.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
             <i class="bi bi-newspaper"></i> Berita
         </a>
-
-        <div class="nav-section">Interaksi</div>
-        <a href="{{ route('admin.saran.index') }}" class="nav-link {{ request()->routeIs('admin.saran.*') ? 'active' : '' }}">
-            <i class="bi bi-chat-dots"></i> Saran Masuk
-            @php $belumBaca = \App\Models\Saran::where('is_read',false)->count(); @endphp
+    
+        {{-- ⚡ Teks pembatas Interaksi telah dihapus --}}
+        <a href="{{ route('admin.ulasan.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.ulasan.*') ? 'active' : '' }}">
+            <i class="bi bi-chat-dots"></i> Ulasan Masuk
+            @php $belumBaca = \App\Models\Ulasan::where('is_read',false)->count(); @endphp
             @if($belumBaca > 0)<span class="sidebar-badge">{{ $belumBaca }}</span>@endif
         </a>
-
-        <div class="nav-section">Pengaturan</div>
-        <a href="{{ route('admin.profil') }}" class="nav-link {{ request()->routeIs('admin.profil') ? 'active' : '' }}">
+    
+        {{-- ⚡ Teks pembatas Pengaturan telah dihapus --}}
+        <a href="{{ route('admin.profil') }}" class="nav-link mb-1 {{ request()->routeIs('admin.profil') ? 'active' : '' }}">
             <i class="bi bi-person-circle"></i> Profil Saya
         </a>
-
+    
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>

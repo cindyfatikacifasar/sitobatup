@@ -24,7 +24,9 @@
                 <select name="kategori" class="form-select form-select-sm" style="border-radius: 5px;">
                     <option value="">Semua Kategori</option>
                     @foreach($kategoris as $k)
-                        <option value="{{ $k->id }}" {{ request('kategori')==$k->id?'selected':'' }}>{{ $k->nama }}</option>
+                        <option value="{{ $k->id }}" {{ request('kategori') == $k->id ? 'selected' : '' }}>
+                            {{ $k->nama_kategori ?? $k->nama }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -70,10 +72,17 @@
                                 </div>
                             </div>
                         </td>
+                        {{-- PERBAIKAN: Menggunakan looping badge kecil untuk menampilkan multi-kategori khasiat dinamis --}}
                         <td class="d-none d-md-table-cell">
-                            <span class="badge bg-light text-success border border-success px-2 py-1" style="font-size:.74rem; border-radius: 4px;">
-                                {{ $t->kategori->nama ?? '-' }}
-                            </span>
+                            <div class="d-flex flex-wrap gap-1">
+                                @forelse($t->kategoris as $kat)
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 fw-bold" style="font-size:.72rem; border-radius: 4px;">
+                                        {{ $kat->nama_kategori ?? $kat->nama }}
+                                    </span>
+                                @empty
+                                    <span class="badge bg-light text-muted border border-light-subtle px-2 py-1 fw-normal" style="font-size:.72rem; border-radius: 4px;">-</span>
+                                @endforelse
+                            </div>
                         </td>
                         <td class="d-none d-lg-table-cell text-muted small fw-bold">{{ number_format($t->views) }}</td>
                         <td class="text-center">

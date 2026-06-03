@@ -1,10 +1,10 @@
 @extends('layouts.pj')
-@section('title', 'Detail Saran Masuk')
+@section('title', 'Detail Ulasan Masuk')
 @section('content')
 
 <div class="mb-4">
-    <a href="{{ route('pj.saran.index') }}" class="btn btn-sm btn-light border fw-semibold px-3" style="border-radius: 8px;">
-        <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Saran
+    <a href="{{ route('pj.ulasan.index') }}" class="btn btn-sm btn-light border fw-semibold px-3" style="border-radius: 8px;">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Ulasan
     </a>
 </div>
 
@@ -15,23 +15,23 @@
     <div class="card-body p-4">
         <div class="row mb-3 border-bottom pb-2">
             <div class="col-md-3 fw-bold text-muted">Nama Pengirim :</div>
-            <div class="col-md-9 fw-bold text-dark">{{ $saran->nama ?? 'Anonim' }}</div>
+            <div class="col-md-9 fw-bold text-dark">{{ $ulasan->nama ?? 'Anonim' }}</div>
         </div>
         
         <div class="row mb-3 border-bottom pb-2">
             <div class="col-md-3 fw-bold text-muted">Kontak (Email/HP) :</div>
-            <div class="col-md-9 text-dark">{{ $saran->email ?? $saran->no_hp ?? '-' }}</div>
+            <div class="col-md-9 text-dark">{{ $ulasan->email ?? $ulasan->no_hp ?? '-' }}</div>
         </div>
 
         <div class="row mb-3 border-bottom pb-2">
             <div class="col-md-3 fw-bold text-muted">Tanggal Kirim :</div>
-            <div class="col-md-9 text-muted">{{ $saran->created_at ? $saran->created_at->format('d F Y H:i') : '-' }} WIB</div>
+            <div class="col-md-9 text-muted">{{ $ulasan->created_at ? $ulasan->created_at->format('d F Y H:i') : '-' }} WIB</div>
         </div>
 
         <div class="row mb-2">
-            <div class="col-md-3 fw-bold text-muted">Isi Kritik & Saran :</div>
+            <div class="col-md-3 fw-bold text-muted">Isi Ulasan :</div>
             <div class="col-md-9 bg-light p-3 rounded-3 text-dark" style="white-space: pre-line; line-height: 1.6;">
-                {{ $saran->isi_saran ?? $saran->pesan ?? $saran->isi ?? 'Tidak ada teks pesan.' }}
+                {{ $ulasan->isi_ulasan ?? $ulasan->pesan ?? $ulasan->isi ?? 'Tidak ada teks pesan.' }}
             </div>
         </div>
     </div>

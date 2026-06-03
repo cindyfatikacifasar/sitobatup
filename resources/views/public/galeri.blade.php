@@ -108,12 +108,12 @@
                             <i class="bi bi-images me-1"></i> {{ $album->galeris_count }} Item
                         </span>
                         
-                        @if($album->galeris->isNotEmpty())
-                            {{-- PERBAIKAN: Menggunakan Storage::url() agar path link file dibaca sempurna oleh Windows symlink --}}
-                            <img src="{{ Storage::url($album->galeris->first()->foto) }}" class="cover-img" alt="Cover {{ $album->nama_album }}">
+                        {{-- PERBAIKAN: Menggunakan variabel foto_sampul dinamis hasil bypass controller --}}
+                        @if($album->foto_sampul)
+                            <img src="{{ $album->foto_sampul }}" class="cover-img" alt="Cover {{ $album->nama_album }}">
                             <div class="cover-overlay"></div>
                         @else
-                            {{-- Jika kosong, beri gambar placeholder hijau estetik --}}
+                            {{-- Jika benar-benar kosong total dari aset mana pun, beri gambar placeholder hijau estetik --}}
                             <div class="text-center opacity-50">
                                 <i class="bi bi-image fs-1 d-block mb-1"></i>
                                 <small class="fw-bold">Belum Ada Foto</small>

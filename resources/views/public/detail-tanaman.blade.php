@@ -4,19 +4,19 @@
 @section('content')
 <div style="background:linear-gradient(135deg,#1a5c2a,#2d8a4e);padding:30px 0 20px;color:white;">
     <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0" style="font-size:.85rem;">
-                <li class="breadcrumb-item"><a href="{{ route('beranda') }}" style="color:rgba(255,255,255,.7);">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('katalog') }}" style="color:rgba(255,255,255,.7);">Katalog</a></li>
-                <li class="breadcrumb-item active" style="color:white;">{{ $tanaman->nama }}</li>
-            </ol>
-        </nav>
+        {{-- TAMBAHAN: Tombol Kembali ke Katalog dipasang rapi di atas breadcrumb agar user anti-tersesat --}}
+        <div class="mb-3">
+            <a href="{{ route('katalog') }}" class="btn btn-sm text-white border border-white border-opacity-25 fw-semibold px-3 py-1.5" style="border-radius: 8px; background: rgba(255,255,255,0.1); font-size: 0.82rem; transition: 0.2s;">
+                <i class="bi bi-arrow-left me-1"></i> 
+            </a>
+        </div>
+
+
     </div>
 </div>
 
 <div class="container py-4">
     <div class="row g-4">
-        <!-- Foto & Info Ringkas -->
         <div class="col-lg-4">
             <div class="card">
                 <div style="height:280px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
@@ -37,20 +37,26 @@
                             <i class="bi bi-translate text-success me-2"></i>
                             <strong class="text-secondary">Nama Ilmiah:</strong> <span class="text-dark fw-bold fst-italic">{{ $tanaman->nama_ilmiah }}</span>
                         </li>
+                        {{-- PERBAIKAN: Mengganti tanda minus dengan looping badge koleksi kategori khasiat dinamis --}}
                         <li class="mb-2">
                             <i class="bi bi-tags-fill text-success me-2"></i>
-                            <strong class="text-secondary">Kategori Khasiat:</strong> <span class="badge bg-success-subtle text-success border border-success-subtle">{{ $tanaman->kategori->nama_kategori ?? '-' }}</span>
+                            <strong class="text-secondary">Kategori Khasiat:</strong> 
+                            <div class="d-inline-flex flex-wrap gap-1 mt-1">
+                                @forelse($tanaman->kategoris as $kat)
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-bold" style="font-size: 0.75rem; border-radius: 4px;">
+                                        {{ $kat->nama_kategori ?? $kat->nama }}
+                                    </span>
+                                @empty
+                                    <span class="text-muted small">-</span>
+                                @endforelse
+                            </div>
                         </li>
                         <li>
                             <i class="bi bi-person-badge-fill text-success me-2"></i>
                             <strong class="text-secondary">Kolektor/Sumber:</strong> <span class="text-dark">{{ $tanaman->kolektor ?? '-' }}</span>
                         </li>
                     </ul>
-                
-
-
-
-                    <!-- Share -->
+                    
                     <div class="mt-3">
                         <div class="text-muted mb-2" style="font-size:.82rem;font-weight:600;">Bagikan:</div>
                         <div class="d-flex gap-2">
@@ -69,7 +75,6 @@
             </div>
         </div>
 
-        <!-- Detail Informasi -->
         <div class="col-lg-8">
             <div class="card mb-3">
                 <div class="card-header">
@@ -98,8 +103,6 @@
                 </div>
             </div>
 
-
-
             <div class="card" style="background:linear-gradient(135deg,#e8f5e9,#f1f8f2);border:none;">
                 <div class="card-body">
                     <div class="d-flex gap-2 align-items-start">
@@ -107,7 +110,7 @@
                         <div>
                             <strong style="font-size:.88rem;">Peringatan</strong>
                             <p class="text-muted mb-0" style="font-size:.82rem;">
-                                Informasi ini bersifat edukatif. Konsultasikan dengan tenaga medis sebelum menggunakan tanaman obat untuk pengobatan. Data telah divalidasi oleh Penanggungjawab Taman Koleksi Tanaman Obat Kebun Raya UP.
+                                Informasi ini bersifat edukatif. Consultasikan dengan tenaga medis sebelum menggunakan tanaman obat untuk pengobatan. Data telah divalidasi oleh Penanggungjawab Taman Koleksi Tanaman Obat Kebun Raya UP.
                             </p>
                         </div>
                     </div>
@@ -115,8 +118,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 @push('scripts')

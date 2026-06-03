@@ -27,6 +27,7 @@ class BeritaController extends Controller
         // 1. VALIDASI: Menyesuaikan nama field sesuai form create baru
         $request->validate([
             'judul'           => 'required|string|max:255',
+            'penulis'           => 'required|string|max:100',
             'isi_berita'      => 'required', // Menyesuaikan name="isi_berita" dari CKEditor
             'tanggal_publish' => 'required|date',
             'foto_cover'      => 'required|image|mimes:jpg,jpeg,png|max:3072', // Menyesuaikan name="foto_cover"

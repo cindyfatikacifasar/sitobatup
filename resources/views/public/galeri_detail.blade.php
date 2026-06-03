@@ -77,7 +77,7 @@
 <div style="background: linear-gradient(135deg, #1a5c2a 0%, #11411c 100%); padding: 50px 0 40px 0; color: white;">
     <div class="container">
         <a href="{{ route('public.galeri') }}" class="btn-back-uat text-decoration-none text-success mb-3">
-            <i class="bi bi-arrow-left fw-bold"></i> Kembali ke Galeri
+            <i class="bi bi-arrow-left fw-bold"></i> 
         </a>
         <h2 class="fw-bold mb-1">📂 {{ $album->nama_album }}</h2>
         <p class="small opacity-75 mb-0">Menampilkan isi berkas dari album resmi</p>

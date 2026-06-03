@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title','Tambah Berita')
 
 @section('content')
 <div class="container-fluid">
@@ -18,6 +19,10 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold text-dark">Judul Berita/Artikel *</label>
                             <input type="text" name="judul" class="form-control form-control-lg" placeholder="Masukkan Judul Berita..." required style="border-radius: 6px; font-size: 1.1rem;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark">Penulis *<span class="text-danger">*</span></label>
+                            <input type="text" name="penulis" class="form-control form-control-sm" placeholder="Contoh: Admin, Humas UP" value="{{ old('penulis', 'Admin') }}" required style="border-radius: 5px;">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold text-dark">Isi Berita *</label>

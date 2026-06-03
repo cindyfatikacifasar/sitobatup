@@ -14,27 +14,19 @@
     </button>
 </div>
 
-{{-- FORM FILTER UTAMA (DI HALAMAN UTAMA) --}}
+{{-- FORM FILTER UTAMA (DI HALAMAN UTAMA - ⚡ REVISI: PAKET WAKTU DIHAPUS & GRID DIPERLEBAR) --}}
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
     <div class="card-body p-3">
         <form action="{{ route('pj.laporan.tanaman') }}" method="GET" class="row g-3 align-items-end">
-            <div class="col-md-3">
-                <label class="form-label small fw-bold text-muted mb-1">Pilihan Paket Waktu:</label>
-                <select name="rentang_waktu" class="form-select form-select-sm" style="border-radius: 8px;">
-                    <option value="semua" {{ request('rentang_waktu') == 'semua' ? 'selected' : '' }}>✨ Semua Data Tanaman</option>
-                    <option value="tiga_bulan" {{ request('rentang_waktu') == 'tiga_bulan' ? 'selected' : '' }}>📅 3 Bulan Terakhir</option>
-                    <option value="enam_bulan" {{ request('rentang_waktu') == 'enam_bulan' ? 'selected' : '' }}>🗓️ 6 Bulan Terakhir</option>
-                </select>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <label class="form-label small fw-bold text-muted mb-1">Dari Tanggal:</label>
                 <input type="date" name="tanggal_mulai" class="form-control form-control-sm" value="{{ request('tanggal_mulai') }}" style="border-radius: 8px;">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <label class="form-label small fw-bold text-muted mb-1">Sampai Tanggal:</label>
                 <input type="date" name="tanggal_selesai" class="form-control form-control-sm" value="{{ request('tanggal_selesai') }}" style="border-radius: 8px;">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">
                     <i class="bi bi-filter me-1"></i> Terapkan Filter
                 </button>
@@ -107,48 +99,34 @@
     {{ method_exists($tanamans, 'links') ? $tanamans->links() : '' }}
 </div>
 
-{{-- MODAL POP-UP CETAK LAPORAN (SEKARANG SUDAH ADA INPUT PILIHAN RENTANG TANGGAL KALENDER) --}}
+{{-- MODAL POP-UP CETAK LAPORAN (⚡ REVISI UTAMA: MODAL-LG & PADDING P-5 SUPAYA LAPANG & RAPI, PAKET CETAK DIHAPUS) --}}
 <div class="modal fade" id="modalCetakLaporan" tabindex="-1" aria-labelledby="modalCetakLaporanLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 15px; border: none;">
-            <div class="modal-header text-white" style="background-color: #11411c; border-top-left-radius: 14px; border-top-right-radius: 14px;">
-                <h5 class="modal-title fw-bold" id="modalCetakLaporanLabel">🖨️ Cetak Laporan</h5>
+    <div class="modal-dialog modal-lg modal-dialog-centered"> {{-- ⚡ Perubahan ukuran menjadi modal-lg --}}
+        <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+            <div class="modal-header text-white px-4 py-3" style="background-color: #11411c; border-top-left-radius: 14px; border-top-right-radius: 14px;">
+                <h5 class="modal-title fw-bold" id="modalCetakLaporanLabel">🖨️ Cetak Dokumen Laporan Koleksi Tanaman</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('pj.laporan.export') }}" method="GET" target="_blank">
-                <div class="modal-body p-4">
-                    <p class="text-muted small mb-4">Silakan tentukan waktu cetak data tanaman obat. Kamu bisa memilih paket waktu **atau** mengisi rentang tanggal kustom di bawah.</p>
+                <input type="hidden" name="jenis_laporan" value="tanaman">
+                <div class="modal-body p-5"> {{-- ⚡ Perubahan padding menjadi p-5 agar visual terasa longgar dan rapi --}}
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Silakan tentukan rentang kalender di bawah ini untuk mengunduh berkas fisik laporan data tanaman obat keluarga secara berkala.</p>
                     
-                    {{-- Dropdown Paket Cetak --}}
-                    <div class="mb-4">
-                        <label class="form-label fw-bold text-dark small">Pilihan Paket Cetak:</label>
-                        <select name="rentang_cetak" class="form-select" style="border-radius: 8px;">
-                            <option value="semua">✨ Semua Data Tanaman (Keseluruhan)</option>
-                            <option value="tiga_bulan">📅 3 Bulan Terakhir</option>
-                            <option value="enam_bulan">🗓️ 6 Bulan Terakhir</option>
-                        </select>
-                    </div>
-
-                    <div class="text-center my-3 position-relative">
-                        <hr class="text-muted">
-                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small fw-bold"> ATUR TANGGAL</span>
-                    </div>
-
-                    {{-- Rentang Tanggal Kalender Kustom --}}
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <label class="form-label fw-bold text-dark small">Dari Tanggal:</label>
-                            <input type="date" name="cetak_tanggal_mulai" class="form-control" style="border-radius: 8px;">
+                    {{-- Rentang Tanggal Kalender Kustom Kolom Lebar --}}
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small mb-2">Dari Tanggal:</label>
+                            <input type="date" name="cetak_tanggal_mulai" class="form-control form-control-lg" style="border-radius: 8px; font-size: 0.95rem;">
                         </div>
-                        <div class="col-6">
-                            <label class="form-label fw-bold text-dark small">Sampai Tanggal:</label>
-                            <input type="date" name="cetak_tanggal_selesai" class="form-control" style="border-radius: 8px;">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small mb-2">Sampai Tanggal:</label>
+                            <input type="date" name="cetak_tanggal_selesai" class="form-control form-control-lg" style="border-radius: 8px; font-size: 0.95rem;">
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                    <button type="button" class="btn btn-secondary fw-bold px-3" style="border-radius: 8px;" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn text-white fw-bold px-4" style="background-color: #1a5c2a; border-radius: 8px;">
+                <div class="modal-footer bg-light px-4 py-3" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; border-top: 1px solid #eee;">
+                    <button type="button" class="btn btn-secondary fw-bold px-4 py-2" style="border-radius: 8px;" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn text-white fw-bold px-5 py-2" style="background-color: #1a5c2a; border-radius: 8px;">
                         <i class="bi bi-printer me-1"></i> Proses Cetak
                     </button>
                 </div>

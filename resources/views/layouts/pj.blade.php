@@ -86,50 +86,47 @@
     </div>
 
     <nav class="py-2">
-        <div class="nav-section">Menu Utama</div>
-        <a href="{{ route('pj.dashboard') }}" class="nav-link {{ request()->routeIs('pj.dashboard') ? 'active' : '' }}">
+        {{-- ⚡ Teks pembatas Menu Utama telah dihapus --}}
+        <a href="{{ route('pj.dashboard') }}" class="nav-link mb-1 {{ request()->routeIs('pj.dashboard') ? 'active' : '' }}">
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
-
-        <div class="nav-section">Laporan</div>
+    
+        {{-- ⚡ Teks pembatas Laporan telah dihapus --}}
         {{-- 1. Laporan Tanaman --}}
-        <a href="{{ route('pj.laporan.tanaman') }}" class="nav-link {{ request()->routeIs('pj.laporan.tanaman') ? 'active' : '' }}">
+        <a href="{{ route('pj.laporan.tanaman') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.tanaman') ? 'active' : '' }}">
             <i class="bi bi-flower1"></i> Laporan Tanaman
         </a>
         
         {{-- 2. TAMBAHAN: Laporan Berita --}}
-        <a href="{{ route('pj.laporan.berita') }}" class="nav-link {{ request()->routeIs('pj.laporan.berita') ? 'active' : '' }}">
+        <a href="{{ route('pj.laporan.berita') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.berita') ? 'active' : '' }}">
             <i class="bi bi-newspaper"></i> Laporan Berita
         </a>
-
+    
         {{-- 3. TAMBAHAN: Laporan Galeri --}}
-        <a href="{{ route('pj.laporan.galeri') }}" class="nav-link {{ request()->routeIs('pj.laporan.galeri') ? 'active' : '' }}">
+        <a href="{{ route('pj.laporan.galeri') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.galeri') ? 'active' : '' }}">
             <i class="bi bi-images"></i> Laporan Galeri
         </a>
-
+    
         {{-- 4. Laporan Pengunjung --}}
-        <a href="{{ route('pj.laporan.pengunjung') }}" class="nav-link {{ request()->routeIs('pj.laporan.pengunjung') ? 'active' : '' }}">
+        <a href="{{ route('pj.laporan.pengunjung') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.pengunjung') ? 'active' : '' }}">
             <i class="bi bi-people"></i> Laporan Pengunjung
         </a>
         
-
-
-   
-        <a href="{{ route('pj.saran.index') }}" class="nav-link {{ request()->routeIs('pj.saran.*') ? 'active' : '' }}">
-            <i class="bi bi-chat-dots"></i> Laporan Review
-            @php $belumBaca = \App\Models\Saran::where('pengirim','pengunjung')->where('is_read',false)->count(); @endphp
+        <a href="{{ route('pj.ulasan.index') }}" class="nav-link mb-1 {{ request()->routeIs('pj.ulasan.*') ? 'active' : '' }}">
+            <i class="bi bi-chat-dots"></i> Laporan Ulasan
+            @php $belumBaca = \App\Models\Ulasan::where('pengirim','pengunjung')->where('is_read',false)->count(); @endphp
             @if($belumBaca > 0)<span class="sidebar-badge">{{ $belumBaca }}</span>@endif
         </a>
-
-        <div class="nav-section">Akun</div>
-        <a href="{{ route('pj.profil') }}" class="nav-link {{ request()->routeIs('pj.profil') ? 'active' : '' }}">
+    
+        {{-- ⚡ Teks pembatas Akun telah dihapus --}}
+        <a href="{{ route('pj.profil') }}" class="nav-link mb-1 {{ request()->routeIs('pj.profil') ? 'active' : '' }}">
             <i class="bi bi-person-circle"></i> Profil Saya
         </a>
-
+    
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>
-        <a href="#" class="nav-link" style="color: rgba(255,80,80,.85);" 
+        <a href="#" class="nav-link mt-2" style="color: rgba(255,80,80,.85);" 
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bi bi-box-arrow-left"></i> Logout
         </a>

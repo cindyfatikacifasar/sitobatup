@@ -2,8 +2,8 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Saran extends Model
+class Ulasan extends Model
 {
-    protected $table = 'sarans';
+    protected $table = 'ulasans';
     protected $fillable = ['nama','kontak','pesan','pengirim','is_read'];
 }

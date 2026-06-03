@@ -1,4 +1,6 @@
 @extends('layouts.admin')
+@section('title','Edit Tanaman Obat')
+
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-4">
     <a href="{{ route('admin.tanaman.index') }}" class="btn btn-sm btn-outline-secondary" style="border-radius: 5px;">
@@ -6,6 +8,17 @@
     </a>
     <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Edit Data Tanaman: {{ $tanaman->nama }}</h5>
 </div>
+
+{{-- ⚡ TAMBAHAN UI/UX: Memunculkan kotak pesan error validasi jika terjadi kendala data form --}}
+@if ($errors->any())
+    <div class="alert alert-danger border-0 shadow-sm mb-4" style="border-radius: 8px;">
+        <ul class="mb-0 small fw-bold">
+            @foreach ($errors->all() as $error)
+                <li><i class="bi bi-exclamation-triangle-fill me-1"></i> {{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <div class="card shadow-sm border-0" style="border-radius: 10px;">
     <div class="card-body p-4">
@@ -36,9 +49,9 @@
                             <div class="p-3 border rounded bg-white" style="max-height: 150px; overflow-y: auto; border-radius: 5px;">
                                 @foreach($kategoris as $k)
                                     <div class="form-check mb-2">
-                                        {{-- Memeriksa apakah ID kategori ada di dalam daftar kategori tanaman saat ini --}}
-                                        <input class="form-check-input" type="checkbox" name="kategori_id[]" value="{{ $k->id }}" id="kategori_{{ $k->id }}" 
-                                            {{ in_array($k->id, old('kategori_id', $tanaman->kategoris->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                        {{-- PERBAIKAN UTAMA SINDI: Mengubah nama input menjadi kategori_ids[] agar sinkron dengan request Controller --}}
+                                        <input class="form-check-input" type="checkbox" name="kategori_ids[]" value="{{ $k->id }}" id="kategori_{{ $k->id }}" 
+                                            {{ in_array($k->id, old('kategori_ids', $tanaman->kategoris->pluck('id')->toArray())) ? 'checked' : '' }}>
                                         <label class="form-check-label small text-dark" for="kategori_{{ $k->id }}">
                                             {{ $k->nama_kategori }}
                                         </label>
@@ -52,7 +65,7 @@
                         </div>
                     </div>
 
-                    {{-- BARIS 3: Asal Usul Tanaman (PERBAIKAN: TEXTAREA LEBAR & name="asal_usul") --}}
+                    {{-- BARIS 3: Asal Usul Tanaman --}}
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-dark">Asal Usul Tanaman <span class="text-danger">*</span></label>
                         <textarea name="asal_usul" rows="3" class="form-control form-control-sm" required style="border-radius: 5px;">{{ old('asal_usul', $tanaman->asal_usul) }}</textarea>

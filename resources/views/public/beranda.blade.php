@@ -53,7 +53,8 @@
     }
 </style>
 
-<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">    <div class="carousel-indicators">
+<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+    <div class="carousel-indicators">
         @foreach($beritaCarousel as $key => $b)
             <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"></button>
         @endforeach
@@ -108,20 +109,8 @@
                 <p class="text-muted mb-4" style="text-align: justify;">
                     SITOBAT merupakan platform digital Kebun Raya Universitas Pahlawan yang dirancang untuk memudahkan masyarakat dalam mengenali berbagai jenis tanaman obat. Kami mengintegrasikan teknologi QR Code untuk akses informasi yang cepat, akurat, dan edukatif.
                 </p>
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <div class="p-3 bg-white shadow-sm rounded-3 border-start border-4 border-success">
-                            <h5 class="fw-bold mb-1">{{ $totalTanaman }}+</h5>
-                            <small class="text-muted">Spesies Tanaman</small>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 bg-white shadow-sm rounded-3 border-start border-4 border-warning">
-                            <h5 class="fw-bold mb-1">Edukasi</h5>
-                            <small class="text-muted">Informasi Tanaman Obat</small>
-                        </div>
-                    </div>
-                </div>
+                
+
             </div>
             <div class="col-lg-6">
                 <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
@@ -155,35 +144,13 @@
     </div>
 </section>
 
-<section class="py-4 bg-white border-bottom">
-    <div class="container">
-        <div class="p-4 shadow-sm rounded-4 border bg-white">
-            <div class="row align-items-center">
-                <div class="col-md-3 border-end text-center text-md-start">
-                    <h6 class="text-muted small text-uppercase fw-bold mb-1">Akses Online</h6>
-                    <h3 class="fw-bold text-success mb-0">SITOBAT-UP</h3>
-                </div>
-                <div class="col-md-9 ps-md-4 mt-3 mt-md-0">
-                    <h6 class="fw-bold mb-2 small"><i class="bi bi-globe2 text-primary me-2"></i>Jangkauan Akses Berdasarkan Negara:</h6>
-                    <div class="d-flex flex-wrap gap-2">
-                        @foreach($statsNegara as $sn)
-                        <span class="badge bg-light text-dark border py-2 px-3 fw-normal">
-                            📍 {{ $sn->asal_negara }}: <span class="fw-bold text-success">{{ $sn->total }}</span>
-                        </span>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-5">
+{{-- PERBAIKAN POSISI: Sekarang seksi Tanaman Terpopuler naik ke atas menggantikan posisi Akses Online --}}
+<section class="py-5 bg-white">
     <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
                 <h2 class="fw-bold mb-0" style="color: #1a5c2a;">Tanaman Terpopuler</h2>
-                <p class="text-muted">Koleksi yang paling sering dilihat</p>
+                <p class="text-muted mb-0">Koleksi yang paling sering dilihat</p>
             </div>
             <a href="{{ route('katalog') }}" class="btn btn-outline-success rounded-pill px-4">Lihat Semua</a>
         </div>
@@ -205,6 +172,30 @@
                 </a>
             </div>
             @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- PERBAIKAN POSISI: Sekarang seksi Akses Online dipindahkan di paling bawah halaman --}}
+<section class="py-5 bg-light border-top">
+    <div class="container">
+        <div class="p-4 shadow-sm rounded-4 border bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-3 border-end text-center text-md-start">
+                    <h6 class="text-muted small text-uppercase fw-bold mb-1">Akses Online</h6>
+                    <h3 class="fw-bold text-success mb-0">SITOBAT-UP</h3>
+                </div>
+                <div class="col-md-9 ps-md-4 mt-3 mt-md-0">
+                    <h6 class="fw-bold mb-2 small"><i class="bi bi-globe2 text-primary me-2"></i>Jangkauan Akses Berdasarkan Negara:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach($statsNegara as $sn)
+                        <span class="badge bg-light text-dark border py-2 px-3 fw-normal" style="font-size: 0.85rem;">
+                            📍 {{ $sn->asal_negara }}: <span class="fw-bold text-success">{{ $sn->total }}</span>
+                        </span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

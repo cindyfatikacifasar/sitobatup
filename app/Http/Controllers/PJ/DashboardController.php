@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Pj;
 use App\Http\Controllers\Controller;
 use App\Models\TanamanObat;
 use App\Models\Kategori;
-use App\Models\Saran;
+use App\Models\Ulasan;
 use App\Models\Pengunjung;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,28 +16,42 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalTanaman    = TanamanObat::count();
-        $totalKategori   = Kategori::count();
-        $saranBelumBaca  = Saran::where('is_read', false)->where('pengirim', 'pengunjung')->count();
-        $pengunjungHari  = Pengunjung::where('tanggal', Carbon::today())->count();
-        $pengunjungBulan = Pengunjung::whereMonth('tanggal', Carbon::now()->month)->count();
-
-        // Grafik pengunjung 14 hari
+        // 1. Ambil data hitungan asli dari database agar sinkron dengan admin
+        $totalTanaman = \App\Models\TanamanObat::count();
+        $totalKategori = \App\Models\Kategori::count();
+        $totalBerita = \App\Models\Berita::count();
+        
+        // Jika galeri kamu dihitung berdasarkan jumlah foto, gunakan model Galeri. Jika berdasarkan album, gunakan Album.
+        $totalGaleri = \App\Models\Galeri::count(); 
+        
+        // ⚡ PERBAIKAN SINKRONISASI TOTAL ULASAN: Menghitung total murni dari seluruh baris tabel ulasan tanpa filter is_read
+        $ulasanBelumBaca = \App\Models\Ulasan::count();
+        
+        $totalPengunjung = \App\Models\Pengunjung::count(); // Sesuai nama table counter pengunjungmu
+        $pengunjungHari = \App\Models\Pengunjung::whereDate('created_at', today())->count();
+    
+        // 2. Grafik Pengunjung disinkronkan menjadi 30 hari terakhir (Perbaikan Strict Mode)
+        $grafikData = \App\Models\Pengunjung::selectRaw('DATE(created_at) as tanggal, COUNT(*) as jumlah')
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupByRaw('DATE(created_at)')     // ⚡ PERBAIKAN: Menggunakan groupByRaw agar lolos validasi strict database MySQL
+            ->orderByRaw('DATE(created_at) ASC') // ⚡ PERBAIKAN: Menggunakan orderByRaw agar pengurutan linear waktu sesuai
+            ->get();
+    
         $grafik = [];
-        for ($i = 13; $i >= 0; $i--) {
-            $tgl    = Carbon::today()->subDays($i);
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $found = $grafikData->firstWhere('tanggal', $date);
             $grafik[] = [
-                'tanggal' => $tgl->format('d/m'),
-                'jumlah'  => Pengunjung::where('tanggal', $tgl)->count(),
+                'tanggal' => now()->subDays($i)->format('d/m'),
+                'jumlah' => $found ? $found->jumlah : 0
             ];
         }
-
-        $tanamanPopuler = TanamanObat::orderBy('views', 'desc')->take(5)->get();
-        $saranTerbaru   = Saran::where('pengirim', 'pengunjung')->orderBy('created_at', 'desc')->take(5)->get();
-
+    
+        $tanamanPopuler = \App\Models\TanamanObat::orderBy('views', 'desc')->take(5)->get();
+    
         return view('pj.dashboard', compact(
-            'totalTanaman','totalKategori','saranBelumBaca',
-            'pengunjungHari','pengunjungBulan','grafik','tanamanPopuler','saranTerbaru'
+            'totalTanaman', 'totalKategori', 'totalBerita', 'totalGaleri', 
+            'ulasanBelumBaca', 'totalPengunjung', 'pengunjungHari', 'grafik', 'tanamanPopuler'
         ));
     }
 
@@ -101,18 +115,18 @@ class DashboardController extends Controller
     }
 
     // 4. LAPORAN SARAN MASUK
-    public function pjSaran()
+    public function pjUlasan()
     {
-        $sarans = \App\Models\Saran::where('pengirim', 'pengunjung')->latest()->paginate(10);
-        return view('pj.saran', compact('sarans'));
+        $ulasans = \App\Models\Ulasan::where('pengirim', 'pengunjung')->latest()->paginate(10);
+        return view('pj.ulasan', compact('ulasans'));
     }
 
     // 5. AKSI PJ: TANDAI SARAN SUDAH DIBACA
-    public function pjBacaSaran($id)
+    public function pjBacaUlasan($id)
     {
-        $saran = \App\Models\Saran::findOrFail($id);
-        $saran->update(['is_read' => true]);
+        $ulasan = \App\Models\Ulasan::findOrFail($id);
+        $ulasan->update(['is_read' => true]);
 
-        return redirect()->back()->with('success', 'Saran dari pengunjung berhasil ditandai telah ditinjau.');
+        return redirect()->back()->with('success', 'Ulasan dari pengunjung berhasil ditandai telah ditinjau.');
     }
 }

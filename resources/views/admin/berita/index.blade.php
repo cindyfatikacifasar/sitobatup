@@ -70,7 +70,7 @@
                         <td class="text-center">
                             <div class="btn-group gap-1">
                                 {{-- Tombol Lihat Publik --}}
-                                <a href="{{ route('berita.detail', $b->slug ?? $b->id) }}" target="_blank" class="btn btn-sm btn-outline-primary" style="padding: 2px 6px;" title="Lihat">
+                                <a href="{{ route('admin.berita.show', $b->id) }}" class="btn btn-sm btn-outline-primary" title="Lihat Detail Admin">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 {{-- Tombol Edit --}}

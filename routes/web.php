@@ -11,13 +11,12 @@ use App\Http\Controllers\Admin\KategoriController as AdminKategori;
 use App\Http\Controllers\Admin\AlbumController as AdminAlbum; 
 use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 use App\Http\Controllers\Admin\BeritaController as AdminBerita;
-use App\Http\Controllers\Admin\SaranController as AdminSaran;
+use App\Http\Controllers\Admin\UlasanController as AdminUlasan;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 
 // Controller PJ
 use App\Http\Controllers\Pj\DashboardController as PjDashboard;
 use App\Http\Controllers\Pj\LaporanController as PjLaporan;
-use App\Http\Controllers\Pj\SaranController as PjSaran;
 
 /* --- PUBLIC ROUTES --- */
 Route::get('/', [PublicController::class, 'beranda'])->name('beranda');
@@ -27,8 +26,8 @@ Route::get('/galeri', [PublicController::class, 'galeri'])->name('public.galeri'
 Route::get('/galeri/album/{id}', [PublicController::class, 'showAlbum'])->name('galeri.album');
 Route::get('/berita', [PublicController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [PublicController::class, 'detailBerita'])->name('berita.detail');
-Route::get('/saran', [PublicController::class, 'saran'])->name('saran');
-Route::post('/saran', [PublicController::class, 'kirimSaran'])->name('saran.kirim');
+Route::get('/ulasan', [PublicController::class, 'ulasan'])->name('ulasan');
+Route::post('/ulasan', [PublicController::class, 'kirimUlasan'])->name('ulasan.kirim');
 Route::get('/qr/{slug}', [PublicController::class, 'scanQr'])->name('qr.scan');
 
 /* --- AUTH ROUTES --- */
@@ -55,10 +54,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::resource('user', AdminUser::class);
     
     // Route Saran internal Admin (Aman dari bentrokan rute PJ)
-    Route::get('/saran', [AdminSaran::class, 'index'])->name('saran.index');
-    Route::get('/saran/{id}', [AdminSaran::class, 'show'])->name('saran.show');
-    Route::patch('/saran/{id}/toggle-display', [AdminSaran::class, 'toggleDisplay'])->name('saran.toggle-display');
-    Route::delete('/saran/{id}', [AdminSaran::class, 'destroy'])->name('saran.destroy');
+    Route::get('/ulasann', [AdminUlasan::class, 'index'])->name('ulasan.index');
+    Route::get('/ulasan/{id}', [AdminUlasan::class, 'show'])->name('ulasan.show');
+    Route::patch('/ulasan/{id}/toggle-display', [AdminUlasan::class, 'toggleDisplay'])->name('ulasan.toggle-display');
+    Route::delete('/ulasan/{id}', [AdminUlasan::class, 'destroy'])->name('ulasan.destroy');
+    
+    // ⚡ PERBAIKAN AJAX UTAMA SINDI: Rute pengubah status ulasan otomatis di latar belakang saat detail dibuka
+    Route::post('/ulasan/{id}/read-ajax', [AdminUlasan::class, 'readAjax'])->name('ulasan.readAjax');
 });
 
 /* --- PENANGGUNG JAWAB ROUTES (PROSES ISOLASI ROLE DIKUNCI BIAR TIDAK BENTROK) --- */
@@ -77,11 +79,9 @@ Route::prefix('pj')->name('pj.')->middleware(['auth', 'role:penanggungjawab'])->
     Route::get('/laporan-galeri', [$routingLaporan, 'galeri'])->name('laporan.galeri');
     Route::get('/laporan-galeri/cetak', [$routingLaporan, 'cetakGaleri'])->name('laporan.galeri.cetak');
 
-    // Route Laporan Saran PJ (Terisolasi sempurna di bawah middleware role penanggungjawab)
-    $routingSaran = PjSaran::class;
-    Route::get('/saran', [$routingSaran, 'index'])->name('saran.index');
-    Route::get('/saran/create', [$routingSaran, 'create'])->name('saran.create');
-    Route::post('/saran', [$routingSaran, 'store'])->name('saran.store');
-    Route::get('/saran/{id}', [$routingSaran, 'show'])->name('saran.show');
-    Route::delete('/saran/{id}', [$routingSaran, 'destroy'])->name('saran.destroy');
+    // PERBAIKAN: Dialihkan langsung ke fungsi ulasan() yang berada di dalam LaporanController
+    Route::get('/ulasan', [$routingLaporan, 'ulasan'])->name('ulasan.index');
+    
+    // TAMBAHAN RUTE PENGAMAN: Meredam error ulasan.show di tombol Lihat agar halaman tidak crash
+    Route::get('/ulasan/{id}', [$routingLaporan, 'cetakBerita'])->name('ulasan.show');
 });

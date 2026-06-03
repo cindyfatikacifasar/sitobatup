@@ -86,7 +86,7 @@
                         <li class="nav-item"><a class="nav-link" href="/katalog"><i class="bi bi-grid me-1"></i> Katalog</a></li>
                         <li class="nav-item"><a class="nav-link" href="/galeri"><i class="bi bi-images me-1"></i> Galeri</a></li>
                         <li class="nav-item"><a class="nav-link" href="/berita"><i class="bi bi-newspaper me-1"></i> Berita</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/saran"><i class="bi bi-chat-dots me-1"></i> Saran</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/ulasan"><i class="bi bi-chat-dots me-1"></i> Ulasan</a></li>
                         @if (Route::has('login'))
                             @auth
                                 <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link btn btn-outline-light ms-lg-3">Dashboard</a></li>

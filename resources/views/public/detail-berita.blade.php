@@ -5,13 +5,7 @@
 {{-- Breadcrumb --}}
 <div style="background: #1a5c2a; padding: 15px 0;">
     <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50 text-decoration-none">Beranda</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('/berita') }}" class="text-white-50 text-decoration-none">Berita</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($berita->judul, 30) }}</li>
-            </ol>
-        </nav>
+
     </div>
 </div>
 
@@ -30,6 +24,8 @@
             {{-- Meta Data --}}
             <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
                 <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> {{ $berita->created_at->format('d F Y') }}</span>
+                {{-- SINKRONISASI: Menambahkan info Penulis/Sumber berita di halaman publik --}}
+                <span class="text-muted small"><i class="bi bi-person-fill me-1"></i> Oleh: <strong class="text-dark">{{ $berita->penulis ?? 'Admin' }}</strong></span>
                 <span class="text-muted small"><i class="bi bi-eye me-1"></i> {{ number_format($berita->views) }} dilihat</span>
             </div>
 
@@ -46,7 +42,7 @@
             {{-- Tombol Kembali --}}
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <a href="{{ url('/berita') }}" class="btn btn-outline-success">
-                    <i class="bi bi-arrow-left me-2"></i>Kembali ke Daftar Berita
+                    <i class="bi bi-arrow-left me-2"></i>
                 </a>
                 
                 {{-- Fitur Share Sederhana --}}
@@ -58,7 +54,7 @@
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank" class="btn btn-sm btn-primary rounded-circle">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <button onclick="copyLink()" class="btn btn-sm btn-outline-secondary flex-fill">
+                    <button onclick="copyLink()" class="btn btn-sm btn-outline-secondary flex-fill" style="border-radius: 50px;">
                         <i class="bi bi-link-45deg"></i>
                     </button>
                 </div>

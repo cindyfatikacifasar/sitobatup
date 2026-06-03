@@ -19,7 +19,7 @@
 {{-- FILTER & PENCARIAN MENYATU: Kembar Identik 100% dengan Halaman Berita --}}
 <div class="card shadow-sm border-0 mb-4" style="border-radius: 10px;">
     <div class="card-body p-3">
-        <form method="GET" action="{{ route('admin.saran.index') }}" class="row g-2 align-items-center">
+        <form method="GET" action="{{ route('admin.ulasan.index') }}" class="row g-2 align-items-center">
             <div class="col-md-4">
                 <select name="status" class="form-select form-select-sm" style="border-radius: 5px;">
                     <option value="">Semua Status Tampilan</option>
@@ -39,7 +39,7 @@
 
             @if(request('cari') || request('status'))
                 <div class="col-md-auto">
-                    <a href="{{ route('admin.saran.index') }}" class="btn btn-secondary btn-sm px-3" style="border-radius: 5px;">Reset</a>
+                    <a href="{{ route('admin.ulasan.index') }}" class="btn btn-secondary btn-sm px-3" style="border-radius: 5px;">Reset</a>
                 </div>
             @endif
         </form>
@@ -73,11 +73,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($sarans as $i => $s)
-                    <tr class="{{ !$s->is_read ? 'table-warning' : '' }}">
-                        <td class="px-4 fw-bold text-muted">{{ $sarans->firstItem() + $i }}</td>
+                    @forelse($ulasans as $i => $s)
+                    <tr class="{{ !$s->is_read ? 'table-warning' : '' }}" id="row-ulasan-{{ $s->id }}">
+                        <td class="px-4 fw-bold text-muted">{{ $ulasans->firstItem() + $i }}</td>
                         <td>
-                            <div class="fw-bold text-dark" style="font-size:0.87rem;">{{ $s->nama }}</div>
+                            <div class="nama-pengirim {{ !$s->is_read ? 'fw-bold' : '' }} text-dark" style="font-size:0.87rem;">{{ $s->nama }}</div>
                             @if($s->kontak)
                                 <div class="text-muted small"><i class="bi bi-whatsapp me-1"></i>{{ $s->kontak }}</div>
                             @else
@@ -99,7 +99,7 @@
                             {{ Str::limit($s->pesan, 70) }}
                         </td>
                         <td class="text-center">
-                            <form action="{{ route('admin.saran.toggle-display', $s->id) }}" method="POST">
+                            <form action="{{ route('admin.ulasan.toggle-display', $s->id) }}" method="POST">
                                 @csrf @method('PATCH')
                                 @if($s->is_displayed)
                                     <button type="submit" class="btn btn-sm btn-success px-3 py-1 shadow-sm" style="font-size: 0.75rem; border-radius: 20px;">
@@ -114,11 +114,11 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-1">
-                                {{-- TOMBOL DETAIL MANGGIL POP-UP MODAL (Identik dengan Kategori) --}}
-                                <button type="button" class="btn btn-sm btn-outline-primary" style="padding: 2px 6px;" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $s->id }}" title="Lihat Ulasan Lengkap">
+                                {{-- PERBAIKAN: Menambahkan class btn-baca-ulasan dan data-id untuk memicu aksi AJAX --}}
+                                <button type="button" class="btn btn-sm btn-outline-primary btn-baca-ulasan" data-id="{{ $s->id }}" style="padding: 2px 6px;" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $s->id }}" title="Lihat Ulasan Lengkap">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <form method="POST" action="{{ route('admin.saran.destroy', $s->id) }}" class="d-inline" onsubmit="return confirm('Hapus ulasan ini secara permanen?')">
+                                <form method="POST" action="{{ route('admin.ulasan.destroy', $s->id) }}" class="d-inline" onsubmit="return confirm('Hapus ulasan ini secara permanen?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" style="padding: 2px 6px;" title="Hapus">
                                         <i class="bi bi-trash"></i>
@@ -139,9 +139,9 @@
             </table>
         </div>
     </div>
-    @if($sarans->hasPages())
+    @if($ulasans->hasPages())
         <div class="card-footer bg-white border-top-0 py-3">
-            {{ $sarans->links() }}
+            {{ $ulasans->links() }}
         </div>
     @endif
 </div>
@@ -149,7 +149,7 @@
 {{-- ==========================================
      KUMPULAN POP-UP MODAL DETAIL LENGKAP
      ========================================== --}}
-@foreach($sarans as $s)
+@foreach($ulasans as $s)
     <div class="modal fade" id="modalDetail{{ $s->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow" style="border-radius: 10px;">
@@ -197,5 +197,35 @@
         </div>
     </div>
 @endforeach
+
+{{-- JAVASCRIPT AJAX UNTUK MENGUBAH STATUS BACA OTOMATIS TANPA RELOAD --}}
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.btn-baca-ulasan').on('click', function() {
+        var ulasanId = $(this).data('id');
+        var barisTabel = $('#row-ulasan-' + ulasanId);
+
+        // Kirim permintaan update status via AJAX
+        $.ajax({
+            url: "{{ url('/admin/ulasan') }}/" + ulasanId + "/read-ajax",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Hilangkan warna background kuning secara real-time
+                    barisTabel.removeClass('table-warning');
+                    // Ubah font nama pengirim yang tebal menjadi normal
+                    barisTabel.find('.nama-pengirim').removeClass('fw-bold');
+                }
+            }
+        });
+    });
+});
+</script>
+@endpush
 
 @endsection

@@ -21,6 +21,8 @@ class Kategori extends Model
 
     public function tanamanObats()
     {
-        return $this->belongsToMany(TanamanObat::class, 'kategori_tanaman', 'kategori_id', 'tanaman_obat_id');
+        // Parameter ke-3 adalah foreign key di tabel jembatan (kategori_id)
+        // Parameter ke-4 adalah foreign key untuk tanaman (tanaman_id) sesuai database kamu
+        return $this->belongsToMany(TanamanObat::class, 'kategori_tanaman', 'kategori_id', 'tanaman_id');
     }
 }
