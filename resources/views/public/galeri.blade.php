@@ -104,8 +104,14 @@
             <a href="{{ route('galeri.album', $album->id) }}" class="text-decoration-none">
                 <div class="card h-100 album-card shadow-sm">
                     <div class="cover-wrapper">
+                        {{-- ⚡ REVISI SINKRONISASI BADGE COUNTER: Jika album Tanaman Obat, hitung otomatis dari total data TanamanObat asli --}}
                         <span class="badge-count">
-                            <i class="bi bi-images me-1"></i> {{ $album->galeris_count }} Item
+                            <i class="bi bi-images me-1"></i> 
+                            @if(strtolower($album->nama_album) == 'tanaman obat')
+                                {{ \App\Models\TanamanObat::count() }} Foto
+                            @else
+                                {{ $album->galeris_count }} Foto
+                            @endif
                         </span>
                         
                         {{-- PERBAIKAN: Menggunakan variabel foto_sampul dinamis hasil bypass controller --}}

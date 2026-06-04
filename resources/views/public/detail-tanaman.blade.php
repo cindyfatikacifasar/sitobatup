@@ -10,8 +10,6 @@
                 <i class="bi bi-arrow-left me-1"></i> 
             </a>
         </div>
-
-
     </div>
 </div>
 
@@ -94,12 +92,31 @@
                 </div>
             </div>
 
+            {{-- ⚡ REVISI UI/UX UTAMA: Mengubah Tampilan Khasiat Menjadi List Grid 2 Kolom yang Rapi --}}
             <div class="card mb-3" style="border-left:4px solid #2d8a4e;">
                 <div class="card-header">
                     <i class="bi bi-heart-pulse me-2" style="color:#2d8a4e;"></i>Khasiat & Manfaat
                 </div>
                 <div class="card-body" style="font-size:.9rem;line-height:1.8;color:#444;">
-                    {{ $tanaman->khasiat }}
+                    @if(str_contains($tanaman->khasiat, '✓'))
+                        @php
+                            // Pecah string khasiat berdasarkan karakter ceklis '✓'
+                            $daftarKhasiat = array_filter(array_map('trim', explode('✓', $tanaman->khasiat)));
+                        @endphp
+                        <div class="row g-2">
+                            @foreach($daftarKhasiat as $item)
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <i class="bi bi-check-circle-fill text-success me-2 mt-1" style="font-size: 0.85rem; flex-shrink: 0;"></i>
+                                        <span>{{ $item }}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        {{-- Fallback jika inputan admin tidak sengaja menggunakan format teks biasa tanpa ceklis --}}
+                        {{ $tanaman->khasiat }}
+                    @endif
                 </div>
             </div>
 

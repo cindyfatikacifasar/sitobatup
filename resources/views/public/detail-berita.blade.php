@@ -25,7 +25,7 @@
             <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
                 <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> {{ $berita->created_at->format('d F Y') }}</span>
                 {{-- SINKRONISASI: Menambahkan info Penulis/Sumber berita di halaman publik --}}
-                <span class="text-muted small"><i class="bi bi-person-fill me-1"></i> Oleh: <strong class="text-dark">{{ $berita->penulis ?? 'Admin' }}</strong></span>
+                <span class="text-muted small"><i class="bi bi-person-fill me-1"></i> penulis: <strong class="text-dark">{{ $berita->penulis ?? 'Admin' }}</strong></span>
                 <span class="text-muted small"><i class="bi bi-eye me-1"></i> {{ number_format($berita->views) }} dilihat</span>
             </div>
 

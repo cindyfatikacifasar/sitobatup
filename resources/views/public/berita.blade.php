@@ -105,7 +105,7 @@
                             <i class="bi bi-calendar3 me-1"></i> {{ $b->created_at->format('d M Y') }}
                         </span>
                         <span class="badge badge-view">
-                            <i class="bi bi-eye me-1"></i> {{ $b->views }} Telah Dilihat
+                            <i class="bi bi-eye me-1"></i> {{ $b->views }} views
                         </span>
                     </div>
                     

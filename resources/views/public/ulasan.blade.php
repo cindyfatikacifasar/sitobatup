@@ -130,7 +130,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
                     <div class="d-flex align-items-center gap-2">
                         <i class="bi bi-chat-left-text-fill text-success"></i>
-                        <h5 class="fw-bold text-dark mb-0">Apa Kata Pengunjung?</h5>
+                        <h5 class="fw-bold text-dark mb-0">Ulasan Pengunjung</h5>
                     </div>
                     <span class="badge text-success px-3 py-2 small fw-bold" style="background-color: rgba(26, 92, 42, 0.1); border-radius: 30px; font-size: 0.78rem;">
                         ✔ {{ $reviewsTampil->count() }} Ulasan Terverifikasi

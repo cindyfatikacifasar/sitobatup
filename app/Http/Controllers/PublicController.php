@@ -55,55 +55,52 @@ class PublicController extends Controller
     {
         $query = TanamanObat::with('kategoris');
 
-        // Search Nama/Ilmiah
+        // Pencarian multi-kolom Berdasarkan Nama, Nama Ilmiah, dan Khasiat
         if ($request->filled('search')) {
             $query->where(function($q) use ($request) {
                 $q->where('nama', 'like', '%' . $request->search . '%')
-                  ->orWhere('nama_ilmiah', 'like', '%' . $request->search . '%');
+                  ->orWhere('nama_ilmiah', 'like', '%' . $request->search . '%')
+                  ->orWhere('khasiat', 'like', '%' . $request->search . '%');
             });
         }
 
-        // Filter Kategori
+        // Filter Kategori (Tetap dipertahankan)
         if ($request->filled('kategori')) {
             $query->whereHas('kategoris', function($q) use ($request) {
                 $q->where('kategoris.id', $request->kategori);
             });
         }
 
-        // Filter Bagian
-        if ($request->filled('bagian')) {
-            $query->where('bagian_digunakan', 'like', '%' . $request->bagian . '%');
-        }
+        // ⚡ REVISI SINDI: Logika Filter Bagian yang Digunakan Sudah Dihapus Bersih dari Sini
 
         $tanaman = $query->orderBy('nama')->paginate(12)->withQueryString();
         $kategoris = Kategori::all();
 
-        // Ambil list bagian unik untuk filter
-        $bagians = TanamanObat::whereNotNull('bagian_digunakan')
-                    ->distinct()
-                    ->pluck('bagian_digunakan');
+        // ⚡ REVISI SINDI: Variabel list bagian unik ($bagians) sudah dihapus agar tidak membebani memori server
 
-        return view('public.katalog', compact('tanaman', 'kategoris', 'bagians'));
+        return view('public.katalog', compact('tanaman', 'kategoris'));
     }
 
     public function detailTanaman($slug)
     {
         // 1. Ambil data tanaman utama beserta kategorinya
         $tanaman = TanamanObat::with('kategoris')->where('slug', $slug)->firstOrFail();
+        
+        // ⚡ PERBAIKAN UTAMA: Tambahkan baris ini agar views bertambah setiap kali detail dibuka!
+        $tanaman->increment('views'); 
     
         // 2. Ambil ID kategori dari tanaman ini
         $kategoriIds = $tanaman->kategoris->pluck('id');
     
         // 3. Cari tanaman lain dengan kategori yang sama (Tanaman Terkait)
-        // Variabel ini WAJIB ada agar error di image_b13581.png baris 141 hilang
         $tanamanTerkait = TanamanObat::whereHas('kategoris', function($q) use ($kategoriIds) {
             $q->whereIn('kategoris.id', $kategoriIds);
         })
-        ->where('id', '!=', $tanaman->id) // Supaya tanaman yang sedang dibuka tidak muncul lagi
-        ->take(4) // Ambil 4 saja untuk rekomendasi di bawah
+        ->where('id', '!=', $tanaman->id)
+        ->take(4)
         ->get();
     
-        // 4. Kirim ke View. Pastikan nama variabel di compact sama dengan di View
+        // 4. Kirim ke View
         return view('public.detail-tanaman', compact('tanaman', 'tanamanTerkait'));
     }
 
@@ -125,17 +122,23 @@ class PublicController extends Controller
         $albums = $query->latest()->paginate(9);
 
         // =======================================================================
-        // ⚡ TAMBAHAN LOGIKA AUTO-COVER: Jangan ganggu kode atas, ini menambal foto tanaman
+        // ⚡ REVISI LOGIKA AUTO-COVER: Memisahkan album Tanaman Obat dengan album Manual biasa
         // =======================================================================
         foreach ($albums as $album) {
-            // Jika di dalam album tersebut ada foto dokumentasi manualnya (tabel galeris)
-            if ($album->galeris_count > 0 && $album->galeris->first()) {
-                // Gunakan foto pertama dari galeri album tersebut sebagai cover sampul
-                $album->foto_sampul = \Storage::url($album->galeris->first()->foto);
-            } else {
-                // JIKA KOSONG (Kasus Album Tanaman Obat), kita pinjam otomatis dari foto TanamanObat terbaru!
-                $tanamanFoto = \App\Models\TanamanObat::whereNotNull('foto')->latest()->first();
+            if (strtolower($album->nama_album) == 'tanaman obat') {
+                // Konsep Khusus: Pinjam otomatis dari foto TanamanObat paling baru yang diinput admin
+                $tanamanFoto = \App\Models\TanamanObat::whereNotNull('foto')
+                                ->where('foto', '!=', '')
+                                ->latest()
+                                ->first();
                 $album->foto_sampul = $tanamanFoto ? \Storage::url($tanamanFoto->foto) : null;
+            } else {
+                // Album Manual Biasa: Gunakan foto pertama dari galeri manualnya (jika ada)
+                if ($album->galeris_count > 0 && $album->galeris->first()) {
+                    $album->foto_sampul = \Storage::url($album->galeris->first()->foto);
+                } else {
+                    $album->foto_sampul = null; // Biarkan null jika benar-benar album manual yang masih kosong
+                }
             }
         }
         // =======================================================================
@@ -194,9 +197,9 @@ class PublicController extends Controller
         // Validasi input dari pengunjung
         $request->validate([
             'nama'    => 'required|string|max:100',
-            'kontak'  => 'nullable|string|max:50', // Ubah jadi nullable (opsional)
+            'kontak'  => 'nullable|string|max:50', 
             'pesan'   => 'required|string',
-            'rating'  => 'required|integer|min:1|max:5', // Validasi rating bintang wajib diisi
+            'rating'  => 'required|integer|min:1|max:5', 
         ]);
     
         // Simpan ke database
@@ -205,9 +208,9 @@ class PublicController extends Controller
             'kontak'       => $request->kontak,
             'pesan'        => $request->pesan,
             'rating'       => $request->rating,
-            'pengirim'     => 'pengunjung', // Default pengirim via form publik
-            'is_read'      => 0,            // Status belum dibaca oleh admin
-            'is_displayed' => 0,            // Default 0 (harus melewati moderasi admin dulu)
+            'pengirim'     => 'pengunjung', 
+            'is_read'      => 0,            
+            'is_displayed' => 0,            
         ]);
     
         return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda telah dikirim dan akan ditampilkan setelah ditinjau oleh pihak pengelola.');

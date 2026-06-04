@@ -10,7 +10,8 @@
     <style>
         * { font-family: 'Poppins', sans-serif; }
         body {
-            min-height: 100vh;
+            height: 100vh; /* ⚡ PERBAIKAN: Mengunci tinggi sesuai layar */
+            overflow: hidden; /* ⚡ PERBAIKAN: Menghilangkan scroll-bar di monitor laptop */
             background: linear-gradient(135deg, #1a5c2a 0%, #2d8a4e 50%, #4caf72 100%);
             display: flex; align-items: center; justify-content: center; padding: 20px;
         }
@@ -21,12 +22,13 @@
         }
         .login-header {
             background: linear-gradient(135deg, #1a5c2a, #2d8a4e);
-            padding: 36px 32px 28px; text-align: center; color: white;
+            padding: 24px 32px 20px; /* ⚡ PERBAIKAN: Mengurangi padding atas-bawah agar ringkas */
+            text-align: center; color: white;
         }
-        .login-icon { font-size: 3rem; margin-bottom: 8px; }
-        .login-header h4 { font-weight: 700; margin: 0; font-size: 1.4rem; }
+        .login-icon { font-size: 2.5rem; margin-bottom: 4px; }
+        .login-header h4 { font-weight: 700; margin: 0; font-size: 1.3rem; }
         .login-header p { opacity: .8; margin: 4px 0 0; font-size: .85rem; }
-        .login-body { padding: 32px; }
+        .login-body { padding: 24px 32px 32px; } /* ⚡ PERBAIKAN: Menyesuaikan padding body */
         .form-control { border-radius: 10px; border: 1.5px solid #ddd; padding: 10px 14px; font-size: .92rem; }
         .form-control:focus { border-color: #2d8a4e; box-shadow: 0 0 0 3px rgba(45,138,78,.12); }
         .form-label { font-weight: 500; color: #444; font-size: .88rem; }
@@ -38,13 +40,24 @@
             transition: all .2s;
         }
         .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,92,42,.35); color: white; }
-        .divider { color: #aaa; font-size: .82rem; text-align: center; margin: 18px 0; position: relative; }
-        .divider::before, .divider::after { content:''; position:absolute; top:50%; width:42%; height:1px; background:#e5e5e5; }
+        .divider { color: #aaa; font-size: .82rem; text-align: center; margin: 14px 0; position: relative; }
+        .divider::before, .divider::after { content:''; position:absolute; top:50%; width:40%; height:1px; background:#e5e5e5; }
         .divider::before { left:0; } .divider::after { right:0; }
-        .back-link { color: #2d8a4e; text-decoration: none; font-size: .85rem; }
-        .back-link:hover { color: #1a5c2a; }
-        .alert { border-radius: 10px; font-size: .88rem; }
-        .info-box { background: #e8f5e9; border-radius: 10px; padding: 12px 16px; font-size: .82rem; color: #1a5c2a; margin-bottom: 20px; }
+        
+        /* ⚡ REVISI UI/UX RAMAH USER: Mengubah lingkaran menjadi Outline Button yang Informatif & Proporsional */
+        .btn-back-website {
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1.5px solid #2d8a4e; color: #2d8a4e; background: transparent;
+            border-radius: 10px; padding: 8px 20px; font-size: 0.88rem; font-weight: 500;
+            text-decoration: none; transition: all 0.2s ease-in-out; width: 100%;
+        }
+        .btn-back-website:hover {
+            background: #2d8a4e; color: white; transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45, 138, 78, 0.15);
+        }
+        
+        .alert { border-radius: 10px; font-size: .88rem; padding: 8px 12px; margin-bottom: 12px; }
+        .info-box { background: #e8f5e9; border-radius: 10px; padding: 10px 14px; font-size: .80rem; color: #1a5c2a; margin-bottom: 16px; }
         .forgot-link { font-size: .85rem; color: #2d8a4e; text-decoration: none; transition: .2s; }
         .forgot-link:hover { color: #1a5c2a; text-decoration: underline; }
     </style>
@@ -91,22 +104,23 @@
                     </div>
                 </div>
 
-                <div class="mb-4 d-flex align-items-center justify-content-between">
-
+                <div class="mb-3 d-flex align-items-center justify-content-between">
                     <a href="javascript:void(0)" class="forgot-link" onclick="alert('Lupa password? \n\nSilakan hubungi Administrator IT Kebun Raya Universitas Pahlawan untuk mereset password akun Anda.')">
                         Lupa Password?
                     </a>
                 </div>
 
                 <button type="submit" class="btn-login">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
                 </button>
             </form>
 
             <div class="divider">atau</div>
+            
+            {{-- ⚡ REVISI UI/UX: Tombol kembali menggunakan kombinasi ikon & teks penjelas yang ramah pengguna --}}
             <div class="text-center">
-                <a href="{{ route('beranda') }}" class="back-link">
-                    <i class="bi bi-arrow-left me-1"></i>Kembali ke Website
+                <a href="{{ route('beranda') }}" class="btn-back-website">
+                    <i class="bi bi-arrow-left me-2"></i> Kembali ke Halaman Beranda
                 </a>
             </div>
         </div>

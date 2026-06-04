@@ -155,7 +155,10 @@
 <nav class="navbar navbar-expand-lg navbar-sitobat sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-            <div style="width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🌿</div>
+            {{-- ⚡ REVISI FINAL ANTI-GESER & ANTI-PECAH: Menghapus background putih lewat CSS Blend Mode Multiply & Meningkatkan Ketajaman Logo --}}
+            <img src="{{ asset('assets/img/logo-sitobat.png') }}" 
+                 alt="" 
+                 style="height: 42px; width: 42px; flex-shrink: 0; object-fit: contain; mix-blend-mode: multiply; filter: contrast(1.15) drop-shadow(0px 2px 4px rgba(0,0,0,0.15));">
             <div>
                 <span class="navbar-brand-text">SITOBAT-UP</span>
                 <span class="navbar-brand-sub">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</span>
@@ -202,8 +205,6 @@
                     </a>
                 </li>
 
-
-
                 {{-- Tombol Login (SUDAH DISULAP JADI HIGHLIGHT PUTIH PREMIUM COCOK UI/UX) --}}
                 <li class="nav-item ms-lg-2">
                     @auth
@@ -237,7 +238,6 @@
                 <ul class="list-unstyled" style="font-size:.9rem;">
                     <li><i class="bi bi-geo-alt me-2"></i>Bangkinang, Kab. Kampar, Riau</li>
                     <li><i class="bi bi-building me-2"></i>Universitas Pahlawan</li>
-  
                 </ul>
             </div>
         </div>
