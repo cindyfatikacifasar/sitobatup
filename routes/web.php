@@ -85,3 +85,7 @@ Route::prefix('pj')->name('pj.')->middleware(['auth', 'role:penanggungjawab'])->
     // TAMBAHAN RUTE PENGAMAN: Meredam error ulasan.show di tombol Lihat agar halaman tidak crash
     Route::get('/ulasan/{id}', [$routingLaporan, 'cetakBerita'])->name('ulasan.show');
 });
+
+/* --- GLOBAL PUBLIC ROUTES (BEBAS DIAKSES SIAPA SAJA TANPA SYARAT LOGIN) --- */
+// ⚡ FIX PERBAIKAN: Mengeluarkan rute pemindah bahasa ke luar grup PJ agar terbaca secara global oleh sistem
+Route::get('lang/{lang}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('lang.switch');

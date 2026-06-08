@@ -61,7 +61,13 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="d-flex align-items-center gap-2 mb-1">
-            <div style="font-size: 1.6rem;">🌿</div>
+            {{-- 📦 KOTAK PENGAMAN SIDEBAR PJ: Mengunci space 40px agar teks SITOBAT-UP tidak bergeser rusak --}}
+            <div style="width: 40px; height: 40px; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                {{-- ⚡ REVISI LOGO PJ RAJA: Memasang file PNG asli transparan, diperbesar murni meluap keluar (100px) menyala terang benderang --}}
+                <img src="{{ asset('assets/img/logo-sitobat.png') }}" 
+                     alt="" 
+                     style="height: 100px; width: 100px; max-width: none; object-fit: contain; position: absolute; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+            </div>
             <div>
                 <h5>SITOBAT-UP</h5>
             </div>
@@ -97,12 +103,12 @@
             <i class="bi bi-flower1"></i> Laporan Tanaman
         </a>
         
-        {{-- 2. TAMBAHAN: Laporan Berita --}}
+        {{-- 2. Laporan Berita --}}
         <a href="{{ route('pj.laporan.berita') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.berita') ? 'active' : '' }}">
             <i class="bi bi-newspaper"></i> Laporan Berita
         </a>
     
-        {{-- 3. TAMBAHAN: Laporan Galeri --}}
+        {{-- 3. Laporan Galeri --}}
         <a href="{{ route('pj.laporan.galeri') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.galeri') ? 'active' : '' }}">
             <i class="bi bi-images"></i> Laporan Galeri
         </a>

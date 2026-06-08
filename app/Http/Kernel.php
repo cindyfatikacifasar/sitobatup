@@ -31,6 +31,9 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // Aktifkan baris di bawah jika file TrackVisitor.php sudah kamu buat
             // \App\Http\Middleware\TrackVisitor::class,
+            
+            // ⚡ REVISI FIX ERROR: Mengubah komentar PHP menjadi gaya yang benar agar tidak crash
+            \App\Http\Middleware\SetLocale::class,
         ],
 
         'api' => [
