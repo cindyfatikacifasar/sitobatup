@@ -82,16 +82,7 @@
             </div>
             @endif
 
-            <div class="info-box shadow-sm">
-                <div class="d-flex align-items-start gap-2">
-                    <i class="bi bi-info-circle-fill mt-0.5" style="font-size: 0.95rem;"></i>
-                    <div>
-                        <strong>Akun Default:</strong><br>
-                        <span class="text-secondary">Admin:</span> admin@sitobat.com / <code class="text-dark fw-bold">admin123</code><br>
-                        <span class="text-secondary">PJ:</span> pj@sitobat.com / <code class="text-dark fw-bold">pj12345</code>
-                    </div>
-                </div>
-            </div>
+
 
             <form method="POST" action="{{ route('login.post') }}">
                 @csrf
