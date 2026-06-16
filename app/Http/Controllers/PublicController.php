@@ -18,26 +18,40 @@ class PublicController extends Controller
         $beritaTerbaru   = Berita::where('is_published', true)->orderBy('created_at', 'desc')->take(3)->get();
         $galeriTerbaru   = Galeri::orderBy('tanggal', 'desc')->take(6)->get();
 
-        // 2. Logika Deteksi Negara
+        // 2. Logika Deteksi Lokasi & Perangkat Aman (Revisi Privasi Sindi)
         $ip = request()->ip();
-        if ($ip == '127.0.0.1' || $ip == '::1') $ip = '103.111.140.10'; 
+        if ($ip == '127.0.0.1' || $ip == '::1') {
+            $ip = '103.111.140.10'; // IP Kampus/Pekanbaru untuk simulasi localhost
+        } 
         
+        $daerah = 'Riau';
         $negara = 'Indonesia'; 
         
         try {
             $response = Http::timeout(2)->get("http://ip-api.com/json/{$ip}");
-            if ($response->successful()) {
-                $negara = $response->json()['country'] ?? 'Indonesia';
+            if ($response->successful() && $response->json()['status'] === 'success') {
+                $dataApi = $response->json();
+                // Menggabungkan nama Kota dan Provinsi (Contoh: Pekanbaru, Riau)
+                $daerah  = ($dataApi['city'] ?? 'Pekanbaru') . ', ' . ($dataApi['regionName'] ?? 'Riau');
+                $negara  = $dataApi['country'] ?? 'Indonesia';
             }
         } catch (\Exception $e) { }
 
-        // 3. Simpan data pengunjung
+        // Filter tipe perangkat makro agar lebih aman dan menjaga privasi pengguna
+        $rawAgent = request()->userAgent();
+        if (preg_match('/(android|iphone|ipad|mobile)/i', $rawAgent)) {
+            $tipePerangkat = 'Mobile / HP';
+        } else {
+            $tipePerangkat = 'Desktop / Laptop';
+        }
+
+        // 3. Simpan data pengunjung (Sesuai Struktur Baru)
         try {
             Pengunjung::create([
-                'ip_address' => $ip,
-                'asal_negara' => $negara,
-                'user_agent' => request()->userAgent(),
-                'tanggal' => now()
+                'ip_address'  => $daerah,          // Menyimpan data daerah (Kota, Provinsi)
+                'asal_negara' => $negara,          // Menyimpan nama negara dinamis
+                'user_agent'  => $tipePerangkat,   // Menyimpan tipe makro yang aman
+                'tanggal'     => now()
             ]);
         } catch (\Exception $e) { }
 

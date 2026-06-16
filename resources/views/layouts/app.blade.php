@@ -62,7 +62,7 @@
         }
         .navbar-nav .nav-item { display: flex; align-items: center; }
 
-        /* Tombol Login */
+        /* Tombol Dashboard (hanya untuk yang sudah login) */
         .btn-login-custom {
             background-color: rgba(255,255,255,0.18) !important;
             color: #ffffff !important;
@@ -273,7 +273,7 @@
                      style="height:115px;width:115px;max-width:none;object-fit:contain;position:absolute;filter:brightness(1.25) contrast(1.2) drop-shadow(0px 0px 10px rgba(255,255,255,0.95)) drop-shadow(0px 3px 6px rgba(0,0,0,0.35));">
             </div>
             <div>
-                <span class="navbar-brand-text">SITOBAT-UP</span>
+                <span class="navbar-brand-text">SITOBAT</span>
                 <span class="navbar-brand-sub">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</span>
             </div>
         </a>
@@ -488,20 +488,16 @@
                     </div>
                 </li>
 
-                {{-- Tombol Login --}}
+                {{-- Tombol Dashboard - hanya tampil jika sudah login sebagai admin/pj --}}
+                @auth
                 <li class="nav-item ms-lg-1 flex-shrink-0">
-                    @auth
-                        <a href="{{ auth()->user()->role == 'admin' ? url('/admin/dashboard') : url('/pj/dashboard') }}"
-                           class="btn btn-login-custom d-flex align-items-center fw-bold">
-                            <i class="bi bi-speedometer2 me-1"></i> {{ __('Dashboard') }}
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                           class="btn btn-login-custom d-flex align-items-center fw-bold">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> {{ __('Login') }}
-                        </a>
-                    @endauth
+                    <a href="{{ auth()->user()->role == 'admin' ? url('/admin/dashboard') : url('/pj/dashboard') }}"
+                       class="btn btn-login-custom d-flex align-items-center fw-bold">
+                        <i class="bi bi-speedometer2 me-1"></i> {{ __('Dashboard') }}
+                    </a>
                 </li>
+                @endauth
+
             </ul>
         </div>
     </div>
@@ -513,7 +509,7 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-md-6">
-                <h5>🌿 SITOBAT-UP</h5>
+                <h5> SITOBAT</h5>
                 <p style="font-size:.9rem;">{{ __('Sistem Informasi Tanaman Obat Taman Koleksi Kebun Raya Universitas Pahlawan Tuanku Tambusai, Bangkinang, Riau.') }}</p>
             </div>
             <div class="col-md-6 text-md-end">
@@ -527,7 +523,7 @@
     </div>
     <div class="footer-bottom mt-4">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} SITOBAT-UP — Cindy Fatika Sari.</p>
+            <p class="mb-0">&copy; {{ date('Y') }} SITOBAT — Cindy Fatika Sari.</p>
         </div>
     </div>
 </footer>

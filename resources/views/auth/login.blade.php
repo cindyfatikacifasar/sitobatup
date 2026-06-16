@@ -111,14 +111,9 @@
                 </button>
             </form>
 
-            <div class="divider">atau</div>
             
             {{-- ⚡ REVISI UI/UX: Tombol kembali menggunakan kombinasi ikon & teks penjelas yang ramah pengguna --}}
-            <div class="text-center">
-                <a href="{{ route('beranda') }}" class="btn-back-website">
-                    <i class="bi bi-arrow-left me-2"></i> Kembali ke Halaman Beranda
-                </a>
-            </div>
+
         </div>
     </div>
 

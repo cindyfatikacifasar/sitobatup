@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') | SITOBAT-UP</title>
+    <title>@yield('title', 'Dashboard') | SITOBAT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -61,15 +61,15 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="d-flex align-items-center gap-2 mb-1">
-            {{-- 📦 KOTAK PENGAMAN SIDEBAR PJ: Mengunci space 40px agar teks SITOBAT-UP tidak bergeser rusak --}}
+            {{-- 📦 KOTAK PENGAMAN SIDEBAR PJ --}}
             <div style="width: 40px; height: 40px; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                {{-- ⚡ REVISI LOGO PJ RAJA: Memasang file PNG asli transparan, diperbesar murni meluap keluar (100px) menyala terang benderang --}}
+                {{-- ⚡ LOGO PJ RAJA TRASPARAN --}}
                 <img src="{{ asset('assets/img/logo-sitobat.png') }}" 
                      alt="" 
                      style="height: 100px; width: 100px; max-width: none; object-fit: contain; position: absolute; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
             </div>
             <div>
-                <h5>SITOBAT-UP</h5>
+                <h5>SITOBAT</h5>
             </div>
         </div>
         
@@ -92,12 +92,10 @@
     </div>
 
     <nav class="py-2">
-        {{-- ⚡ Teks pembatas Menu Utama telah dihapus --}}
         <a href="{{ route('pj.dashboard') }}" class="nav-link mb-1 {{ request()->routeIs('pj.dashboard') ? 'active' : '' }}">
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
     
-        {{-- ⚡ Teks pembatas Laporan telah dihapus --}}
         {{-- 1. Laporan Tanaman --}}
         <a href="{{ route('pj.laporan.tanaman') }}" class="nav-link mb-1 {{ request()->routeIs('pj.laporan.tanaman') ? 'active' : '' }}">
             <i class="bi bi-flower1"></i> Laporan Tanaman
@@ -120,11 +118,11 @@
         
         <a href="{{ route('pj.ulasan.index') }}" class="nav-link mb-1 {{ request()->routeIs('pj.ulasan.*') ? 'active' : '' }}">
             <i class="bi bi-chat-dots"></i> Laporan Ulasan
-            @php $belumBaca = \App\Models\Ulasan::where('pengirim','pengunjung')->where('is_read',false)->count(); @endphp
+            {{-- ✨ REVISI BARIS 123: Pembersihan kolom 'pengirim' agar sinkron dengan database baru --}}
+            @php $belumBaca = \App\Models\Ulasan::where('is_read', false)->count(); @endphp
             @if($belumBaca > 0)<span class="sidebar-badge">{{ $belumBaca }}</span>@endif
         </a>
     
-        {{-- ⚡ Teks pembatas Akun telah dihapus --}}
         <a href="{{ route('pj.profil') }}" class="nav-link mb-1 {{ request()->routeIs('pj.profil') ? 'active' : '' }}">
             <i class="bi bi-person-circle"></i> Profil Saya
         </a>
@@ -147,7 +145,6 @@
             </button>
             <span class="topbar-title">@yield('title','Dashboard')</span>
         </div>
-        {{-- SINKRONISASI: Mengubah tombol website menjadi hijau (btn-outline-success) --}}
         <a href="{{ route('beranda') }}" class="btn btn-sm btn-outline-success" target="_blank">
             <i class="bi bi-globe me-1"></i><span class="d-none d-sm-inline">Website</span>
         </a>

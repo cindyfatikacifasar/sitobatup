@@ -52,7 +52,7 @@
                      style="height: 100px; width: 100px; max-width: none; object-fit: contain; position: absolute; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
             </div>
             <div>
-                <h5>SITOBAT-UP</h5>
+                <h5>SITOBAT</h5>
             </div>
         </div>
         <div class="mt-2 d-flex align-items-center gap-2 px-1">
