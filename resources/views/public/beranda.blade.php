@@ -327,13 +327,18 @@
                 <div class="col-md-3 border-end text-center text-md-start">
                     <h6 class="text-muted small text-uppercase fw-bold mb-1">Akses Online</h6>
                     <h3 class="fw-bold text-success mb-0">SITOBAT-UP</h3>
+                    <div class="mt-2">
+                        <span class="badge bg-success-subtle text-success fw-bold" style="font-size: 0.8rem;">
+                            <i class="bi bi-people-fill me-1"></i>{{ number_format($totalPengunjung) }} Total Pengunjung
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-9 ps-md-4 mt-3 mt-md-0">
                     <h6 class="fw-bold mb-2 small"><i class="bi bi-globe2 text-primary me-2"></i>Jangkauan Akses Berdasarkan Negara:</h6>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach($statsNegara as $sn)
                         <span class="badge bg-light text-dark border py-2 px-3 fw-normal" style="font-size: 0.85rem;">
-                            📍 {{ $sn->asal_negara }}: <span class="fw-bold text-success">{{ $sn->total }}</span>
+                            {{ $sn->bendera }} {{ $sn->asal_negara }}: <span class="fw-bold text-success">{{ $sn->total }}</span>
                         </span>
                         @endforeach
                     </div>

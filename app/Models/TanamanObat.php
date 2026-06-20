@@ -39,6 +39,6 @@ class TanamanObat extends Model
     public function kategoris()
     {
         // Ubah 'tanaman_obat_id' menjadi 'tanaman_id' di bawah ini
-        return $this->belongsToMany(Kategori::class, 'kategori_tanaman', 'tanaman_id', 'kategori_id');
+        return $this->belongsToMany(Kategori::class, 'kategori_tanaman', 'tanaman_obat_id', 'kategori_id');
     }
 }

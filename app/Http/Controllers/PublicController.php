@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TanamanObat, Kategori, Galeri, Berita, Ulasan, Pengunjung};
+use App\Models\TanamanObat;
+use App\Models\Kategori;
+use App\Models\Galeri;
+use App\Models\Berita;
+use App\Models\Ulasan;
+use App\Models\Pengunjung;
 use Illuminate\Support\Facades\{Http, DB};
 
 class PublicController extends Controller
@@ -26,6 +31,7 @@ class PublicController extends Controller
         
         $daerah = 'Riau';
         $negara = 'Indonesia'; 
+        $kodeNegara = 'ID'; // ⚡ TAMBAHAN: dipakai untuk generate icon bendera
         
         try {
             $response = Http::timeout(2)->get("http://ip-api.com/json/{$ip}");
@@ -34,6 +40,7 @@ class PublicController extends Controller
                 // Menggabungkan nama Kota dan Provinsi (Contoh: Pekanbaru, Riau)
                 $daerah  = ($dataApi['city'] ?? 'Pekanbaru') . ', ' . ($dataApi['regionName'] ?? 'Riau');
                 $negara  = $dataApi['country'] ?? 'Indonesia';
+                $kodeNegara = $dataApi['countryCode'] ?? 'ID'; // ⚡ TAMBAHAN
             }
         } catch (\Exception $e) { }
 
@@ -50,19 +57,41 @@ class PublicController extends Controller
             Pengunjung::create([
                 'ip_address'  => $daerah,          // Menyimpan data daerah (Kota, Provinsi)
                 'asal_negara' => $negara,          // Menyimpan nama negara dinamis
+                'kode_negara' => $kodeNegara,       // ⚡ TAMBAHAN: untuk generate icon bendera
                 'user_agent'  => $tipePerangkat,   // Menyimpan tipe makro yang aman
                 'tanggal'     => now()
             ]);
         } catch (\Exception $e) { }
 
         // 4. Ambil statistik negara
-        $statsNegara = Pengunjung::select('asal_negara', DB::raw('count(*) as total'))
-                        ->groupBy('asal_negara')->orderBy('total', 'desc')->get();
+        $statsNegara = Pengunjung::select('asal_negara', 'kode_negara', DB::raw('count(*) as total'))
+                        ->groupBy('asal_negara', 'kode_negara')->orderBy('total', 'desc')->get();
+
+        // ⚡ TAMBAHAN: tempel icon bendera ke setiap baris statistik negara
+        $statsNegara = $statsNegara->map(function ($item) {
+            $item->bendera = $this->kodeKeBendera($item->kode_negara);
+            return $item;
+        });
+
+        // ⚡ TAMBAHAN: total keseluruhan pengunjung yang sudah pernah mengakses web
+        $totalPengunjung = Pengunjung::count();
 
         return view('public.beranda', compact(
             'totalTanaman', 'totalKategori', 'tanamanPopuler', 
-            'beritaTerbaru', 'galeriTerbaru', 'beritaCarousel', 'statsNegara'
+            'beritaTerbaru', 'galeriTerbaru', 'beritaCarousel', 'statsNegara', 'totalPengunjung'
         ));
+    }
+
+    // ⚡ TAMBAHAN: helper konversi kode negara (ISO 2 huruf, mis. "ID") jadi emoji bendera
+    private function kodeKeBendera($kode)
+    {
+        $kode = strtoupper($kode ?? 'ID');
+        if (strlen($kode) !== 2) return '🏳️';
+        $emoji = '';
+        foreach (str_split($kode) as $char) {
+            $emoji .= mb_chr(127397 + ord($char), 'UTF-8');
+        }
+        return $emoji;
     }
 
     public function katalog(Request $request)

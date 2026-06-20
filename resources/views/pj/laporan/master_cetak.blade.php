@@ -68,7 +68,7 @@
 
         {{-- SWITCH TABEL 4: KHUSUS PENGUNJUNG --}}
         @elseif($jenis == 'pengunjung')
-            <thead><tr><th style="width:50px;">No</th><th>IP Address</th><th>Browser Perangkat</th><th>Tanggal Kunjungan</th></tr></thead>
+            <thead><tr><th style="width:50px;">No</th><th>Wilayah</th><th>Browser Perangkat</th><th>Tanggal Kunjungan</th></tr></thead>
             <tbody>
                 @forelse($data as $i => $d)
                 <tr><td class="text-center">{{ $i+1 }}</td><td>{{ $d->ip_address ?? '-' }}</td><td>{{ $d->user_agent ?? '-' }}</td><td class="text-center">{{ $d->created_at->format('d-m-Y H:i') }} WIB</td></tr>
