@@ -3,6 +3,10 @@
 
 @section('content')
 <style>
+    .carousel-item {
+        height: auto !important;
+    }
+
     .carousel-item-custom {
         height: 600px !important;
         background-color: #1a5c2a !important;
