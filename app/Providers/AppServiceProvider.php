@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BrevoApiTransport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Fix untuk MySQL versi lama yang tidak mendukung panjang string default
         Schema::defaultStringLength(191);
+
+        // Registrasi driver custom Brevo HTTP API
+        Mail::extend('brevo-api', function (array $config) {
+            return new BrevoApiTransport($config['key'] ?? env('BREVO_API_KEY'));
+        });
 
         // Force HTTPS jika diakses melalui HTTPS (reverse proxy seperti Railway/Cloudflare)
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
