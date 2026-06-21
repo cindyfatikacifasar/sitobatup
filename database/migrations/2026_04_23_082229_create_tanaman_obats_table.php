@@ -18,10 +18,6 @@ return new class extends Migration
             $table->string('bagian_digunakan')->nullable();
             $table->string('asal_usul')->nullable();
             $table->string('kolektor')->nullable();
-            // PASTIKAN DUA BARIS INI ADA:
-            $table->enum('status_ketersediaan', ['tersedia', 'tidak_tersedia'])->default('tersedia');
-            $table->boolean('is_favourite')->default(false);
-            
             $table->string('foto')->nullable();
             $table->string('qr_code')->nullable();
             $table->integer('views')->default(0);
