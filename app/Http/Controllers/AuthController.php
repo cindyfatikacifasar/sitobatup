@@ -78,15 +78,26 @@ class AuthController extends Controller
             'email.exists'   => 'Email tidak terdaftar dalam sistem.',
         ]);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        try {
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('success', 'Link reset password telah dikirim ke email Anda.');
+            if ($status === Password::RESET_LINK_SENT) {
+                return back()->with('success', 'Link reset password telah dikirim ke email Anda.');
+            }
+
+            // Jika status lain (misalnya throttled)
+            return back()->withErrors(['email' => __($status)]);
+        } catch (\Exception $e) {
+            // Catat ke log error lengkapnya
+            \Log::error('SMTP/Email Error: ' . $e->getMessage());
+
+            // Kembalikan detail error ke user agar mereka tahu kenapa pengiriman gagal
+            return back()->withErrors([
+                'email' => 'Gagal mengirim email. Detail kesalahan: ' . $e->getMessage()
+            ]);
         }
-
-        return back()->withErrors(['email' => 'Gagal mengirim email reset password. Silakan coba lagi.']);
     }
 
     public function showResetPassword(Request $request, $token)
