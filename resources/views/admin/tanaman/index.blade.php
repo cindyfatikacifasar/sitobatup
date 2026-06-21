@@ -3,12 +3,12 @@
 @section('title', 'Kelola Tanaman Obat')
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
     <div>
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Tanaman Obat</h5>
-        <p class="text-muted small">Kelola seluruh data koleksi tanaman obat keluarga (TOGA) beserta klasifikasinya.</p>
+        <p class="text-muted small mb-0">Kelola seluruh data koleksi tanaman obat keluarga (TOGA) beserta klasifikasinya.</p>
     </div>
-    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-color: #1a5c2a;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Tanaman
     </a>
 </div>
@@ -17,10 +17,10 @@
 <div class="card shadow-sm border-0 mb-4" style="border-radius: 10px;">
     <div class="card-body p-3">
         <form method="GET" action="{{ route('admin.tanaman.index') }}" class="row g-2 align-items-center">
-            <div class="col-md-5">
+            <div class="col-12 col-md-5">
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama tanaman (Indonesia / Latin)..." value="{{ request('search') }}" style="border-radius: 5px;">
             </div>
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <select name="kategori" class="form-select form-select-sm" style="border-radius: 5px;">
                     <option value="">Semua Kategori</option>
                     @foreach($kategoris as $k)
@@ -30,28 +30,29 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-auto d-flex gap-1">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+            <div class="col-12 col-md-auto d-flex gap-2 w-100 w-md-auto">
+                <button type="submit" class="btn btn-success btn-sm px-3 flex-fill flex-md-none" style="background-color: #1a5c2a; border-color: #1a5c2a;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('search') || request('kategori'))
-                    <a href="{{ route('admin.tanaman.index') }}" class="btn btn-secondary btn-sm px-3" style="border-radius: 5px;">Reset</a>
+                    <a href="{{ route('admin.tanaman.index') }}" class="btn btn-secondary btn-sm px-3 flex-fill flex-md-none text-center" style="border-radius: 5px;">Reset</a>
                 @endif
             </div>
         </form>
     </div>
 </div>
 
-<div class="card shadow-sm border-0" style="border-radius: 10px;">
-    <div class="card-body p-0">
-        <div class="table-responsive">
+{{-- Tampilan Desktop (Tabel) --}}
+<div class="d-none d-md-block">
+    <div class="card shadow-sm border-0" style="border-radius: 10px;">
+        <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
                         <th class="px-4 py-3 text-secondary" width="60">#</th>
                         <th class="py-3 text-secondary">Nama Tanaman</th>
-                        <th class="py-3 text-secondary d-none d-md-table-cell" style="width: 200px;">Kategori</th>
-                        <th class="py-3 text-secondary d-none d-lg-table-cell" style="width: 100px;">Views</th>
+                        <th class="py-3 text-secondary" style="width: 200px;">Kategori</th>
+                        <th class="py-3 text-secondary" style="width: 100px;">Views</th>
                         <th class="py-3 text-secondary text-center" style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
@@ -72,8 +73,7 @@
                                 </div>
                             </div>
                         </td>
-                        {{-- PERBAIKAN: Menggunakan looping badge kecil untuk menampilkan multi-kategori khasiat dinamis --}}
-                        <td class="d-none d-md-table-cell">
+                        <td>
                             <div class="d-flex flex-wrap gap-1">
                                 @forelse($t->kategoris as $kat)
                                     <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 fw-bold" style="font-size:.72rem; border-radius: 4px;">
@@ -84,7 +84,7 @@
                                 @endforelse
                             </div>
                         </td>
-                        <td class="d-none d-lg-table-cell text-muted small fw-bold">{{ number_format($t->views) }}</td>
+                        <td class="text-muted small fw-bold">{{ number_format($t->views) }}</td>
                         <td class="text-center">
                             <div class="btn-group gap-1 flex-wrap justify-content-center">
                                 <a href="{{ route('admin.tanaman.show', $t->id) }}" class="btn btn-sm btn-outline-primary" style="padding: 2px 6px;" title="Detail">
@@ -117,11 +117,77 @@
             </table>
         </div>
     </div>
-    @if($tanaman->hasPages())
-        <div class="card-footer bg-white border-top-0 py-3">
-            {{ $tanaman->links() }}
+</div>
+
+{{-- Tampilan Mobile (Card List) --}}
+<div class="d-md-none">
+    @if($tanaman->isEmpty())
+        <div class="card shadow-sm border-0 text-center p-4" style="border-radius: 10px;">
+            <p class="text-muted mb-0">Belum ada data tanaman obat yang ditemukan.</p>
         </div>
+    @else
+        @foreach($tanaman as $i => $t)
+        <div class="card shadow-sm border-0 mb-3" style="border-radius: 10px;">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <span class="text-muted small">No. {{ $tanaman->firstItem() + $i }}</span>
+                    <span class="badge bg-light text-muted border border-light-subtle px-2 py-0.5" style="font-size: 0.68rem; border-radius: 4px;">
+                        <i class="bi bi-eye-fill me-1"></i> {{ number_format($t->views) }} views
+                    </span>
+                </div>
+                
+                <div class="d-flex align-items-center gap-2.5 mb-3">
+                    @if($t->foto)
+                        <img src="{{ Storage::url($t->foto) }}" style="width:46px;height:46px;object-fit:cover;border-radius:8px;" class="shadow-sm">
+                    @else
+                        <div style="width:46px;height:46px;background:#e8f5e9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;" class="shadow-sm">🌿</div>
+                    @endif
+                    <div>
+                        <div class="fw-bold text-dark fs-6">{{ $t->nama }}</div>
+                        <div class="text-muted small italic">{{ $t->nama_ilmiah }}</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <span class="text-muted small d-block mb-1">Kategori Khasiat</span>
+                    <div class="d-flex flex-wrap gap-1">
+                        @forelse($t->kategoris as $kat)
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 fw-bold" style="font-size:.68rem; border-radius: 4px;">
+                                {{ $kat->nama_kategori ?? $kat->nama }}
+                            </span>
+                        @empty
+                            <span class="text-muted small"><em>- Tidak ada kategori -</em></span>
+                        @endforelse
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end gap-1 flex-wrap">
+                    <a href="{{ route('admin.tanaman.show', $t->id) }}" class="btn btn-sm btn-outline-primary px-2.5" title="Detail">
+                        <i class="bi bi-eye me-1"></i> Detail
+                    </a>
+                    <a href="{{ route('admin.tanaman.edit',$t) }}" class="btn btn-sm btn-outline-warning px-2.5" title="Edit">
+                        <i class="bi bi-pencil me-1"></i> Edit
+                    </a>
+                    <a href="{{ route('admin.tanaman.qr-download',$t->id) }}" class="btn btn-sm btn-outline-success px-2.5" title="QR">
+                        <i class="bi bi-qr-code me-1"></i> QR
+                    </a>
+                    <form method="POST" action="{{ route('admin.tanaman.destroy',$t) }}" class="d-inline" onsubmit="return confirm('Hapus tanaman ini?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger px-2.5" title="Hapus">
+                            <i class="bi bi-trash me-1"></i> Hapus
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endforeach
     @endif
 </div>
+
+@if($tanaman->hasPages())
+    <div class="mt-3 px-2">
+        {{ $tanaman->links() }}
+    </div>
+@endif
 
 @endsection

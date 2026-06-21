@@ -4,7 +4,7 @@
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-3">
     <a href="{{ route('admin.kategori.index') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">✏️ Edit Kategori: {{ $kategori->nama }}</h5>
+    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">✏️ Edit Kategori: {{ $kategori->nama_kategori }}</h5>
 </div>
 <div class="card" style="max-width:520px;">
     <div class="card-body">
@@ -12,7 +12,7 @@
             @csrf @method('PUT')
             <div class="mb-3">
                 <label class="form-label fw-600" style="font-size:.88rem;">Nama Kategori <span class="text-danger">*</span></label>
-                <input type="text" name="nama_kategori" class="form-control @error('nama_kategori') is-invalid @enderror" value="{{ old('nama', $kategori->nama) }}" required>
+                <input type="text" name="nama_kategori" class="form-control @error('nama_kategori') is-invalid @enderror" value="{{ old('nama_kategori', $kategori->nama_kategori) }}" required>
                 @error('nama_kategori')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 

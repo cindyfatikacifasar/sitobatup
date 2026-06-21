@@ -2,14 +2,14 @@
 @section('title', 'Laporan Tanaman Obat')
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
     <div>
         <h4 class="fw-bold text-dark mb-1">🌿 Laporan Koleksi Tanaman Obat</h4>
         <p class="text-muted small mb-0">Review database tanaman obat keluarga (Apotek Hidup) Universitas Pahlawan.</p>
     </div>
     
     {{-- Tombol Pemicu Modal Pop-up Cetak --}}
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
         <i class="bi bi-printer-fill me-2"></i> Cetak Laporan
     </button>
 </div>
@@ -17,16 +17,16 @@
 {{-- FORM FILTER UTAMA (DI HALAMAN UTAMA) --}}
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
     <div class="card-body p-3">
-        <form action="{{ route('pj.laporan.tanaman') }}" method="GET" class="row g-3 align-items-end">
-            <div class="col-md-5">
+        <form action="{{ route('pj.laporan.tanaman') }}" method="GET" class="row g-2 align-items-end">
+            <div class="col-12 col-md-5">
                 <label class="form-label small fw-bold text-muted mb-1">Dari Tanggal:</label>
                 <input type="date" name="tanggal_mulai" class="form-control form-control-sm" value="{{ request('tanggal_mulai') }}" style="border-radius: 8px;">
             </div>
-            <div class="col-md-5">
+            <div class="col-12 col-md-5">
                 <label class="form-label small fw-bold text-muted mb-1">Sampai Tanggal:</label>
                 <input type="date" name="tanggal_selesai" class="form-control form-control-sm" value="{{ request('tanggal_selesai') }}" style="border-radius: 8px;">
             </div>
-            <div class="col-md-2">
+            <div class="col-12 col-md-2">
                 <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">
                     <i class="bi bi-filter me-1"></i> Terapkan Filter
                 </button>
@@ -35,10 +35,10 @@
     </div>
 </div>
 
-{{-- TABEL DATA TANAMAN OBAT --}}
-<div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
-    <div class="card-body p-0">
-        <div class="table-responsive">
+{{-- Tampilan Desktop (Tabel) --}}
+<div class="d-none d-md-block">
+    <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0" style="font-size: 0.9rem;">
                 <thead class="text-white" style="background-color: #11411c;">
                     <tr>
@@ -67,13 +67,15 @@
                         <td><span class="fw-bold text-dark">{{ $t->nama_lokal ?? $t->nama ?? 'Tanaman Obat' }}</span></td>
                         <td><span class="text-muted"><i>{{ $t->nama_ilmiah ?? '-' }}</i></span></td>
                         <td>
-                            @if(isset($t->kategori))
-                                <span class="badge bg-opacity-10 text-success p-2 small" style="background-color: rgba(26, 92, 42, 0.1); font-weight: 600;">
-                                    {{ $t->kategori->nama_kategori ?? $t->kategori->nama ?? 'Umum' }}
-                                </span>
-                            @else
-                                <span class="text-muted small">-</span>
-                            @endif
+                            <div class="d-flex flex-wrap gap-1">
+                                @forelse($t->kategoris as $kat)
+                                    <span class="badge bg-opacity-10 text-success p-2 small" style="background-color: rgba(26, 92, 42, 0.1); font-weight: 600;">
+                                        {{ $kat->nama_kategori ?? $kat->nama }}
+                                    </span>
+                                @empty
+                                    <span class="text-muted small">-</span>
+                                @endforelse
+                            </div>
                         </td>
                         <td class="text-center">
                             <span class="badge rounded-pill bg-light text-dark px-3 py-2 border fw-bold">
@@ -95,9 +97,59 @@
     </div>
 </div>
 
-<div class="mt-4 d-flex justify-content-center">
-    {{ method_exists($tanamans, 'links') ? $tanamans->links() : '' }}
+{{-- Tampilan Mobile (Card List) --}}
+<div class="d-md-none">
+    @if($tanamans->isEmpty())
+        <div class="card shadow-sm border-0 text-center p-4" style="border-radius: 10px;">
+            <p class="text-muted mb-0">Belum Ada Data Tanaman</p>
+        </div>
+    @else
+        @foreach($tanamans as $index => $t)
+        <div class="card shadow-sm border-0 mb-3" style="border-radius: 10px;">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <span class="text-muted small">No. {{ method_exists($tanamans, 'firstItem') ? $tanamans->firstItem() + $index : $index + 1 }}</span>
+                    <span class="badge rounded-pill bg-light text-dark px-2 py-0.5 border fw-bold" style="font-size: 0.68rem;">
+                        <i class="bi bi-eye text-primary me-1"></i> {{ $t->views ?? 0 }} Kali
+                    </span>
+                </div>
+                
+                <div class="d-flex align-items-center gap-2.5 mb-3">
+                    @php $fileFoto = $t->foto ?? $t->gambar ?? null; @endphp
+                    @if($fileFoto)
+                        <img src="{{ asset('storage/' . $fileFoto) }}" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                    @else
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted shadow-sm" style="width: 50px; height: 50px; font-size: 1.1rem;">🌱</div>
+                    @endif
+                    <div>
+                        <div class="fw-bold text-dark fs-6">{{ $t->nama_lokal ?? $t->nama ?? 'Tanaman Obat' }}</div>
+                        <div class="text-muted small italic">{{ $t->nama_ilmiah ?? '-' }}</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <span class="text-muted small d-block mb-1">Kategori</span>
+                    <div class="d-flex flex-wrap gap-1">
+                        @forelse($t->kategoris as $kat)
+                            <span class="badge bg-opacity-10 text-success p-1.5 px-2 small" style="background-color: rgba(26, 92, 42, 0.1); font-weight: 600; border-radius: 4px;">
+                                {{ $kat->nama_kategori ?? $kat->nama }}
+                            </span>
+                        @empty
+                            <span class="text-muted small"><em>- Tidak ada kategori -</em></span>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    @endif
 </div>
+
+@if(method_exists($tanamans, 'links') && $tanamans->hasPages())
+    <div class="mt-3 px-2">
+        {{ $tanamans->links() }}
+    </div>
+@endif
 
 {{-- MODAL POP-UP CETAK LAPORAN (⚡ REVISI: MENAMBAHKAN RENTANG WAKTU DI DALAM POP-UP BIAR KEMBAR DENGAN BERITA) --}}
 <div class="modal fade" id="modalCetakLaporan" tabindex="-1" aria-labelledby="modalCetakLaporanLabel" aria-hidden="true">

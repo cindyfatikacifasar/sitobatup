@@ -16,10 +16,15 @@ class KategoriController extends Controller
         // 1. Mulai kueri Kategori dengan menyertakan hitungan otomatis relasi tanamanObats
         $query = \App\Models\Kategori::withCount('tanamanObats');
 
+        // Filter pencarian jika parameter 'cari' diisi
+        if ($request->filled('cari')) {
+            $query->where('nama_kategori', 'like', '%' . $request->cari . '%');
+        }
+
         // Jika ada request ?show=all, ambil semua data tanpa paginasi
         if ($request->get('show') === 'all') {
             // Kita pakai paginate dengan jumlah total data agar link pagination tidak error di Blade
-            $totalData = \App\Models\Kategori::count();
+            $totalData = $query->count();
             $kategoris = $query->latest()->paginate($totalData ?: 10);
         } else {
             // Standar bawaan dipotong per 15 data

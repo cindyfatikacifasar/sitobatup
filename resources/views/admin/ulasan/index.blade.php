@@ -9,10 +9,10 @@
     }
 </style>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
     <div>
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">⭐ Kelola Ulasan (Reviews)</h5>
-        <p class="text-muted small">Moderasi ulasan dan rating bintang dari pengunjung Kebun Raya Universitas Pahlawan.</p>
+        <p class="text-muted small mb-0">Moderasi ulasan dan rating bintang dari pengunjung Kebun Raya Universitas Pahlawan.</p>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
 <div class="card shadow-sm border-0 mb-4" style="border-radius: 10px;">
     <div class="card-body p-3">
         <form method="GET" action="{{ route('admin.ulasan.index') }}" class="row g-2 align-items-center">
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <select name="status" class="form-select form-select-sm" style="border-radius: 5px;">
                     <option value="">Semua Status Tampilan</option>
                     <option value="tampil" {{ request('status')=='tampil'?'selected':'' }}>Ditampilkan di Web</option>
@@ -28,7 +28,7 @@
                 </select>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="input-group input-group-sm">
                     <input type="text" name="cari" class="form-control" placeholder="Cari berdasarkan nama pengirim..." value="{{ request('cari') }}" style="border-radius: 5px 0 0 5px;">
                     <button type="submit" class="btn btn-success px-3" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 0 5px 5px 0;">
@@ -38,8 +38,8 @@
             </div>
 
             @if(request('cari') || request('status'))
-                <div class="col-md-auto">
-                    <a href="{{ route('admin.ulasan.index') }}" class="btn btn-secondary btn-sm px-3" style="border-radius: 5px;">Reset</a>
+                <div class="col-12 col-md-auto d-flex justify-content-start">
+                    <a href="{{ route('admin.ulasan.index') }}" class="btn btn-secondary btn-sm px-3 w-100 text-center" style="border-radius: 5px;">Reset</a>
                 </div>
             @endif
         </form>
@@ -57,10 +57,10 @@
     </div>
 @endif
 
-{{-- TABEL UTAMA REVIEWS --}}
-<div class="card shadow-sm border-0" style="border-radius: 10px;">
-    <div class="card-body p-0">
-        <div class="table-responsive">
+{{-- Tampilan Desktop (Tabel) --}}
+<div class="d-none d-md-block">
+    <div class="card shadow-sm border-0" style="border-radius: 10px;">
+        <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
@@ -114,7 +114,6 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group gap-1">
-                                {{-- PERBAIKAN: Menambahkan class btn-baca-ulasan dan data-id untuk memicu aksi AJAX --}}
                                 <button type="button" class="btn btn-sm btn-outline-primary btn-baca-ulasan" data-id="{{ $s->id }}" style="padding: 2px 6px;" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $s->id }}" title="Lihat Ulasan Lengkap">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -139,12 +138,80 @@
             </table>
         </div>
     </div>
-    @if($ulasans->hasPages())
-        <div class="card-footer bg-white border-top-0 py-3">
-            {{ $ulasans->links() }}
-        </div>
-    @endif
 </div>
+
+{{-- Tampilan Mobile (Card List) --}}
+<div class="d-md-none">
+    @forelse($ulasans as $i => $s)
+    <div class="card shadow-sm border-0 mb-3 {{ !$s->is_read ? 'border-start border-4 border-warning' : '' }}" id="row-ulasan-mobile-{{ $s->id }}" style="border-radius: 10px;">
+        <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                <span class="text-muted small">No. {{ $ulasans->firstItem() + $i }}</span>
+                
+                <form action="{{ route('admin.ulasan.toggle-display', $s->id) }}" method="POST">
+                    @csrf @method('PATCH')
+                    @if($s->is_displayed)
+                        <button type="submit" class="btn btn-sm btn-success px-2.5 py-0.5 shadow-sm" style="font-size: 0.68rem; border-radius: 20px;">
+                            <i class="bi bi-eye-fill me-1"></i> Tampil
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-sm btn-outline-secondary px-2.5 py-0.5" style="font-size: 0.68rem; border-radius: 20px;">
+                            <i class="bi bi-eye-slash-fill me-1"></i> Sembunyi
+                        </button>
+                    @endif
+                </form>
+            </div>
+            
+            <div class="mb-2">
+                <div class="nama-pengirim {{ !$s->is_read ? 'fw-bold' : '' }} text-dark fs-6">{{ $s->nama }}</div>
+                @if($s->kontak)
+                    <div class="text-muted small"><i class="bi bi-whatsapp me-1"></i>{{ $s->kontak }}</div>
+                @else
+                    <div class="text-muted small text-black-50"><em>- Tanpa Kontak -</em></div>
+                @endif
+            </div>
+
+            <div class="mb-2">
+                <div class="star-rating" title="Rating: {{ $s->rating }} Bintang">
+                    @for($bintang = 1; $bintang <= 5; $bintang++)
+                        @if($bintang <= $s->rating)
+                            <i class="bi bi-star-fill"></i>
+                        @else
+                            <i class="bi bi-star text-muted opacity-25"></i>
+                        @endif
+                    @endfor
+                </div>
+            </div>
+
+            <div class="p-2 bg-light rounded text-muted mb-3" style="font-size: 0.82rem; line-height: 1.4;">
+                {{ Str::limit($s->pesan, 100) }}
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-sm btn-outline-primary btn-baca-ulasan px-3" data-id="{{ $s->id }}" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $s->id }}">
+                    <i class="bi bi-eye me-1"></i> Detail
+                </button>
+                <form method="POST" action="{{ route('admin.ulasan.destroy', $s->id) }}" class="d-inline" onsubmit="return confirm('Hapus ulasan ini secara permanen?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-danger px-3">
+                        <i class="bi bi-trash me-1"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @empty
+    <div class="card shadow-sm border-0 text-center p-4" style="border-radius: 10px;">
+        <p class="text-muted mb-0">Belum ada ulasan (reviews) dari pengunjung.</p>
+    </div>
+    @endforelse
+</div>
+
+@if($ulasans->hasPages())
+    <div class="mt-3 px-2">
+        {{ $ulasans->links() }}
+    </div>
+@endif
 
 {{-- ==========================================
      KUMPULAN POP-UP MODAL DETAIL LENGKAP
@@ -206,6 +273,7 @@ $(document).ready(function() {
     $('.btn-baca-ulasan').on('click', function() {
         var ulasanId = $(this).data('id');
         var barisTabel = $('#row-ulasan-' + ulasanId);
+        var cardMobile = $('#row-ulasan-mobile-' + ulasanId);
 
         // Kirim permintaan update status via AJAX
         $.ajax({
@@ -216,10 +284,13 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if(response.success) {
-                    // Hilangkan warna background kuning secara real-time
+                    // Hilangkan warna background kuning secara real-time di tabel desktop
                     barisTabel.removeClass('table-warning');
-                    // Ubah font nama pengirim yang tebal menjadi normal
                     barisTabel.find('.nama-pengirim').removeClass('fw-bold');
+                    
+                    // Hilangkan warna background kuning di card mobile
+                    cardMobile.removeClass('border-start border-4 border-warning');
+                    cardMobile.find('.nama-pengirim').removeClass('fw-bold');
                 }
             }
         });

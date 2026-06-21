@@ -12,6 +12,8 @@
         :root { --hijau-tua:#1a5c2a; --hijau-mid:#2d8a4e; --hijau-muda:#4caf72; --sidebar-w:260px; }
         * { font-family:'Poppins',sans-serif; }
         body { background:#f0f4f0; }
+        .btn-hijau { background: var(--hijau-mid); color: white; border: none; border-radius: 8px; font-weight: 500; transition: .2s; padding: 6px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-hijau:hover { background: var(--hijau-tua); color: white; }
         .sidebar {
             position: fixed; top: 0; left: 0; width: var(--sidebar-w);
             height: 100vh; background: linear-gradient(180deg, var(--hijau-tua) 0%, #0f3a1a 100%);
