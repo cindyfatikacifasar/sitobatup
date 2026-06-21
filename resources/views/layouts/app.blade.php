@@ -27,7 +27,7 @@
             padding: 12px 0;
         }
         .navbar-brand-text { color: #fff !important; font-weight: 700; font-size: 1.4rem; line-height: 1.1; }
-        .navbar-brand-sub  { font-size: 0.65rem; font-weight: 400; color: #fff !important; opacity: 1; display: block; }
+        .navbar-brand-sub  { font-size: 0.65rem; font-weight: 400; color: #fff !important; opacity: 1; display: block; white-space: normal; }
         .navbar-sitobat .nav-link {
             color: rgba(255,255,255,0.88) !important;
             font-weight: 500;
@@ -203,10 +203,119 @@
             .navbar-brand-sub { display: none !important; }
             .nav-custom { font-size: 13px; padding: 0.5rem 0.4rem !important; }
         }
+        @media (max-width: 991px) {
+            .navbar-brand {
+                max-width: calc(100% - 60px) !important;
+                margin-right: 0 !important;
+                padding-left: 10px !important;
+            }
+            .navbar-brand img {
+                height: 90px !important;
+                width: 90px !important;
+            }
+            .navbar-brand-sub {
+                font-size: 0.6rem !important;
+                line-height: 1.2 !important;
+            }
+            .navbar-toggler {
+                border: 1px solid rgba(255, 255, 255, 0.25) !important;
+                padding: 6px 10px !important;
+                border-radius: 8px !important;
+            }
+            .navbar-toggler:focus {
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25) !important;
+            }
+            
+            /* Modern Card Look for Collapsed Mobile Menu */
+            .navbar-collapse {
+                background: rgba(20, 75, 34, 0.98) !important;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 12px;
+                padding: 16px !important;
+                margin-top: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            /* Full Width Stacked Nav Links */
+            .navbar-nav {
+                align-items: stretch !important;
+                width: 100%;
+                gap: 6px !important;
+            }
+            .navbar-nav .nav-item {
+                width: 100%;
+                display: block;
+            }
+            .navbar-sitobat .nav-link {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 12px 16px !important;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: all 0.2s ease;
+            }
+            .nav-custom.active-link::after {
+                display: none !important;
+            }
+            .navbar-sitobat .nav-link.active-link {
+                background: rgba(255, 255, 255, 0.12) !important;
+                color: #ffffff !important;
+                font-weight: 600;
+                border-left: 4px solid #ffc107;
+                border-radius: 0 8px 8px 0;
+                padding-left: 12px !important;
+            }
+            
+            /* Mobile Language Switcher Styles */
+            .lang-switcher {
+                width: 100%;
+                margin: 4px 0;
+            }
+            .lang-btn {
+                width: 100%;
+                justify-content: space-between;
+                padding: 12px 16px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+            }
+            .lang-dropdown {
+                position: static !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                background: rgba(0, 0, 0, 0.2) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 8px;
+                margin-top: 8px;
+                max-height: 250px;
+            }
+            .lang-option {
+                color: rgba(255, 255, 255, 0.85) !important;
+                padding: 10px 16px;
+            }
+            .lang-option:hover {
+                background: rgba(255, 255, 255, 0.08) !important;
+                color: #fff !important;
+            }
+            .lang-option.active {
+                background: rgba(255, 255, 255, 0.15) !important;
+                color: #fff !important;
+            }
+            
+            /* Full Width Dashboard CTA Button */
+            .btn-login-custom {
+                width: 100%;
+                justify-content: center;
+                padding: 12px !important;
+                margin-top: 6px;
+            }
+        }
         @media (max-width: 768px) {
             .carousel-item { height: 400px !important; }
             .carousel-caption h1 { font-size: 2rem; }
-            .lang-dropdown { right: auto; left: 0; }
         }
 
         /* ── Slider ── */
@@ -272,7 +381,7 @@
                      alt=""
                      style="height:115px;width:115px;max-width:none;object-fit:contain;position:absolute;filter:brightness(1.25) contrast(1.2) drop-shadow(0px 0px 10px rgba(255,255,255,0.95)) drop-shadow(0px 3px 6px rgba(0,0,0,0.35));">
             </div>
-            <div>
+            <div style="flex: 1; min-width: 0;">
                 <span class="navbar-brand-text">SITOBAT</span>
                 <span class="navbar-brand-sub">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</span>
             </div>
