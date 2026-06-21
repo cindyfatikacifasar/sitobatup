@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
         // Fix untuk MySQL versi lama yang tidak mendukung panjang string default
         Schema::defaultStringLength(191);
 
+        // Force HTTPS jika diakses melalui HTTPS (reverse proxy seperti Railway/Cloudflare)
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Auto-copy assets from backup to mounted volume if empty
         $backupDir = base_path('storage_backup');
         $publicStorageDir = storage_path('app/public');
