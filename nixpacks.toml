@@ -10,7 +10,8 @@ dependsOn = ["install"]
 cmds = [
     "npm install",
     "npm run build",
-    "php artisan storage:link"
+    "php artisan storage:link",
+    "cp -r /app/storage/app/public /app/storage_backup"
 ]
 
 # Set environment variables for Nixpacks
