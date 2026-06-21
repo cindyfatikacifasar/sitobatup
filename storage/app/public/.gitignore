@@ -1,2 +1,16 @@
 *
 !.gitignore
+
+# Allow committing these specific asset folders
+!albums/
+!albums/**
+!berita/
+!berita/**
+!galeri/
+!galeri/**
+!qrcodes/
+!qrcodes/**
+!tanaman/
+!tanaman/**
+!users/
+!users/**
