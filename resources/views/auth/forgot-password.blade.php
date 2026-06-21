@@ -4,37 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login | SITOBAT</title>
+    <title>Lupa Password | SITOBAT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Poppins', sans-serif; }
         body {
-            height: 100vh; /* ⚡ PERBAIKAN: Mengunci tinggi sesuai layar */
-            overflow: hidden; /* ⚡ PERBAIKAN: Menghilangkan scroll-bar di monitor laptop */
+            height: 100vh;
+            overflow: hidden;
             background: linear-gradient(135deg, #1a5c2a 0%, #2d8a4e 50%, #4caf72 100%);
             display: flex; align-items: center; justify-content: center; padding: 20px;
         }
         .login-card {
             background: white; border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            width: 100%; max-width: 420px; overflow: hidden; /* ⚡ PREMIUM UX: Mengunci kelengkungan header atas */
+            width: 100%; max-width: 420px; overflow: hidden;
         }
         .login-header {
             background: linear-gradient(135deg, #1a5c2a, #2d8a4e);
-            padding: 24px 32px 20px; /* ⚡ PERBAIKAN: Mengurangi padding atas-bawah agar ringkas */
+            padding: 24px 32px 20px;
             text-align: center; color: white;
         }
-        .login-icon { font-size: 2.5rem; margin-bottom: 4px; }
         .login-header h4 { font-weight: 700; margin: 0; font-size: 1.3rem; }
-        .login-header p { opacity: .8; margin: 4px 0 0; font-size: .85rem; }
-        .login-body { padding: 32px; } /* ⚡ PREMIUM UX: Menyeimbangkan padding luar seluruh isi form */
+        .login-body { padding: 32px; }
         .form-control { border-radius: 10px; border: 1.5px solid #e2e8f0; padding: 10px 14px; font-size: .92rem; transition: all 0.2s ease; }
         .form-control:focus { border-color: #2d8a4e; box-shadow: 0 0 0 3px rgba(45,138,78,.15); }
         .form-label { font-weight: 500; color: #444; font-size: .88rem; }
-        .input-group .btn { border-radius: 0 10px 10px 0 !important; border: 1.5px solid #e2e8f0; border-left: none; transition: all 0.2s ease; }
-        .input-group .form-control:focus + .btn { border-color: #2d8a4e; }
         .btn-login {
             background: linear-gradient(135deg, #1a5c2a, #2d8a4e);
             color: white; border: none; border-radius: 10px;
@@ -43,33 +39,34 @@
         }
         .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,92,42,.35); color: white; }
         .divider { color: #aaa; font-size: .82rem; text-align: center; margin: 18px 0; position: relative; }
-        .divider::before, .divider::after { content:''; position:absolute; top:50%; width:38%; height:1px; background:#e5e5e5; }
+        .divider::before, .divider::after { content:''; position:absolute; top:50%; width:30%; height:1px; background:#e5e5e5; }
         .divider::before { left:0; } .divider::after { right:0; }
         
-        /* ⚡ REVISI UI/UX RAMAH USER: Mengubah lingkaran menjadi Outline Button yang Informatif & Proporsional */
-        .btn-back-website {
+        .btn-back {
             display: inline-flex; align-items: center; justify-content: center;
             border: 1.5px solid #2d8a4e; color: #2d8a4e; background: transparent;
             border-radius: 10px; padding: 10px 20px; font-size: 0.88rem; font-weight: 500;
             text-decoration: none; transition: all 0.2s ease-in-out; width: 100%;
         }
-        .btn-back-website:hover {
+        .btn-back:hover {
             background: #2d8a4e; color: white; transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(45, 138, 78, 0.15);
         }
         
         .alert { border-radius: 10px; font-size: .88rem; padding: 10px 14px; margin-bottom: 16px; border: none; }
-        .info-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; font-size: .82rem; color: #166534; margin-bottom: 20px; line-height: 1.5; }
-        .forgot-link { font-size: .85rem; color: #2d8a4e; text-decoration: none; transition: .2s; font-weight: 500; }
-        .forgot-link:hover { color: #1a5c2a; text-decoration: underline; }
+        .info-text { font-size: 0.85rem; color: #666; margin-bottom: 20px; line-height: 1.5; }
     </style>
 </head>
 <body>
     <div class="login-card">
         <div class="login-header">
-            <h4>LOGIN</h4>
+            <h4>LUPA PASSWORD</h4>
         </div>
         <div class="login-body">
+            <p class="info-text text-center">
+                Masukkan email terdaftar Anda di bawah. Kami akan mengirimkan tautan (link) untuk mereset password Anda.
+            </p>
+
             @if($errors->any())
             <div class="alert alert-danger shadow-sm">
                 <i class="bi bi-exclamation-circle me-2"></i>{{ $errors->first() }}
@@ -82,53 +79,24 @@
             </div>
             @endif
 
-
-
-            <form method="POST" action="{{ route('login.post') }}">
+            <form method="POST" action="{{ route('password.email') }}">
                 @csrf
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Masukkan email" value="{{ old('email') }}" required autofocus>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <div class="input-group">
-                        <input type="password" name="password" class="form-control" id="passInput" placeholder="Masukkan password" required>
-                        <button type="button" class="btn btn-outline-secondary bg-white" onclick="togglePass()">
-                            <i class="bi bi-eye" id="eyeIcon"></i>
-                        </button>
-                    </div>
+                    <input type="email" name="email" class="form-control" placeholder="Masukkan email terdaftar" value="{{ old('email') }}" required autofocus>
                 </div>
 
-                <div class="mb-4 d-flex align-items-center justify-content-between">
-                    <a href="{{ route('password.request') }}" class="forgot-link">
-                        Lupa Password?
-                    </a>
-                </div>
-
-                <button type="submit" class="btn-login shadow-sm">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
+                <button type="submit" class="btn-login shadow-sm mb-3">
+                    <i class="bi bi-envelope me-2"></i>Kirim Link Reset
                 </button>
             </form>
 
+            <div class="divider">atau</div>
             
-            {{-- ⚡ REVISI UI/UX: Tombol kembali menggunakan kombinasi ikon & teks penjelas yang ramah pengguna --}}
-
+            <a href="{{ route('login') }}" class="btn-back">
+                <i class="bi bi-arrow-left me-2"></i>Kembali ke Login
+            </a>
         </div>
     </div>
-
-    <script>
-    function togglePass() {
-        const inp = document.getElementById('passInput');
-        const ico = document.getElementById('eyeIcon');
-        if (inp.type === 'password') { 
-            inp.type = 'text'; 
-            ico.className = 'bi bi-eye-slash'; 
-        } else { 
-            inp.type = 'password'; 
-            ico.className = 'bi bi-eye'; 
-        }
-    }
-    </script>
 </body>
 </html>
