@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
     <div><h4 class="fw-bold text-dark mb-1">📰 Laporan Publikasi Berita</h4><p class="text-muted small mb-0">Review artikel edukasi Universitas Pahlawan.</p></div>
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak"><i class="bi bi-printer-fill me-1"></i> Cetak Laporan</button>
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak"><i class="bi bi-printer-fill me-1"></i> Cetak Laporan</button>
 </div>
 
 {{-- Saringan Filter (PAKET WAKTU DI SINI SUDAH DIHAPUS TOTAL DAN DIBUAT SEJAJAR RAPI) --}}

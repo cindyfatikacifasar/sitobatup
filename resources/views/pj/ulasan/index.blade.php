@@ -9,7 +9,7 @@
         <p class="text-muted small mb-0">Review kritik, ulasan, dan umpan balik masyarakat terhadap sistem SITOBAT Universitas Pahlawan.</p>
     </div>
     {{-- TAMBAHAN: Tombol Cetak Laporan Saran --}}
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakUlasan">
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakUlasan">
         <i class="bi bi-printer-fill me-2"></i> Cetak Laporan
     </button>
 </div>

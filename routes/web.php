@@ -51,6 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::resource('tanaman', AdminTanaman::class);
     Route::get('/tanaman/{id}/qr-download', [AdminTanaman::class, 'downloadQr'])->name('tanaman.qr-download');
     Route::get('/tanaman/{id}/generate-qr', [AdminTanaman::class, 'generateQr'])->name('tanaman.generate-qr');
+    Route::post('/tanaman/regenerate-all-qr', [AdminTanaman::class, 'regenerateAllQr'])->name('tanaman.regenerate-all-qr');
     
     Route::resource('kategori', AdminKategori::class);
     

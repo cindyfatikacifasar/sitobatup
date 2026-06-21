@@ -69,7 +69,15 @@ class PublicController extends Controller
 
         // ⚡ TAMBAHAN: tempel icon bendera ke setiap baris statistik negara
         $statsNegara = $statsNegara->map(function ($item) {
-            $item->bendera = $this->kodeKeBendera($item->kode_negara);
+            $kode = $item->kode_negara;
+            if (empty($kode)) {
+                if (stripos($item->asal_negara, 'singapore') !== false || stripos($item->asal_negara, 'singapura') !== false) {
+                    $kode = 'SG';
+                } else {
+                    $kode = 'ID';
+                }
+            }
+            $item->bendera = $this->kodeKeBendera($kode);
             return $item;
         });
 

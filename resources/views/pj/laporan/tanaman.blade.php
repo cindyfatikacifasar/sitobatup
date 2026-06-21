@@ -9,7 +9,7 @@
     </div>
     
     {{-- Tombol Pemicu Modal Pop-up Cetak --}}
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm text-center" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
         <i class="bi bi-printer-fill me-2"></i> Cetak Laporan
     </button>
 </div>

@@ -34,7 +34,7 @@ class UlasanController extends Controller
         if (!$ulasan->is_read) {
             $ulasan->update(['is_read' => true]);
         }
-        return view('admin.ulasan.show', compact('lasan'));
+        return view('admin.ulasan.show', compact('ulasan'));
     }
 
     public function tandaiBaca(int $id)

@@ -8,9 +8,17 @@
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Tanaman Obat</h5>
         <p class="text-muted small mb-0">Kelola seluruh data koleksi tanaman obat keluarga (TOGA) beserta klasifikasinya.</p>
     </div>
-    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-color: #1a5c2a;">
-        <i class="bi bi-plus-lg me-1"></i> Tambah Tanaman
-    </a>
+    <div class="d-flex gap-2 flex-wrap w-100 w-sm-auto justify-content-start justify-content-sm-end">
+        <form method="POST" action="{{ route('admin.tanaman.regenerate-all-qr') }}" class="d-inline" onsubmit="return confirm('Regenerate semua QR Code untuk seluruh tanaman dengan domain aktif saat ini?')">
+            @csrf
+            <button type="submit" class="btn btn-outline-success btn-sm px-3 shadow-sm text-center">
+                <i class="bi bi-qr-code me-1"></i> Regenerate Semua QR Code
+            </button>
+        </form>
+        <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm text-center" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+            <i class="bi bi-plus-lg me-1"></i> Tambah Tanaman
+        </a>
+    </div>
 </div>
 
 {{-- FILTER & PENCARIAN BARU: Seragam dan Kompak ala Halaman Berita, Album, Galeri, Kategori, & Saran --}}

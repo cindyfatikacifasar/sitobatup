@@ -4,7 +4,7 @@
 @section('content')
 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-3">
     <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">👥 Akun Penanggungjawab</h5>
-    <a href="{{ route('admin.user.create') }}" class="btn btn-hijau btn-sm w-100 w-sm-auto"><i class="bi bi-plus me-1"></i>Tambah Akun</a>
+    <a href="{{ route('admin.user.create') }}" class="btn btn-hijau btn-sm"><i class="bi bi-plus me-1"></i>Tambah Akun</a>
 </div>
 
 {{-- Tampilan Desktop (Tabel) --}}

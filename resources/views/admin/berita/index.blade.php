@@ -7,7 +7,7 @@
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📰 Berita & Informasi</h5>
         <p class="text-muted small mb-0">Kelola berita kegiatan untuk klasifikasi informasi tanaman obat.</p>
     </div>
-    <a href="{{ route('admin.berita.create') }}" class="btn btn-success btn-sm px-3 shadow-sm w-100 w-sm-auto text-center" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <a href="{{ route('admin.berita.create') }}" class="btn btn-success btn-sm px-3 shadow-sm text-center" style="background-color: #1a5c2a; border-color: #1a5c2a;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Berita
     </a>
 </div>

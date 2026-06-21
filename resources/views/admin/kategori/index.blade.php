@@ -8,7 +8,7 @@
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🏷️ Kategori Khasiat</h5>
         <p class="text-muted small mb-0">Kelola kategori khasiat untuk klasifikasi tanaman obat.</p>
     </div>
-    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#modalTambah" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambah" style="background-color: #1a5c2a; border-color: #1a5c2a;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Kategori
     </button>
 </div>

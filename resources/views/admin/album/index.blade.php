@@ -7,7 +7,7 @@
         <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📁 API Album Galeri</h5>
         <p class="text-muted small mb-0">Kelola koleksi album untuk mengelompokkan foto.</p>
     </div>
-    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#modalTambahAlbum" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambahAlbum" style="background-color: #1a5c2a; border-color: #1a5c2a;">
         <i class="bi bi-plus-lg me-1"></i> Buat Album Baru
     </button>
 </div>
