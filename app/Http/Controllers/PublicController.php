@@ -265,16 +265,26 @@ class PublicController extends Controller
             'rating'  => 'required|integer|min:1|max:5', 
         ]);
     
-        // Simpan ke database
-        \App\Models\Ulasan::create([
-            'nama'         => $request->nama,
-            'kontak'       => $request->kontak,
-            'pesan'        => $request->pesan,
-            'rating'       => $request->rating,
-            'pengirim'     => 'pengunjung', 
-            'is_read'      => 0,            
-            'is_displayed' => 0,            
-        ]);
+        try {
+            // Simpan ke database
+            \App\Models\Ulasan::create([
+                'nama'         => $request->nama,
+                'kontak'       => $request->kontak,
+                'pesan'        => $request->pesan,
+                'rating'       => $request->rating,
+                'pengirim'     => 'pengunjung', 
+                'is_read'      => 0,            
+                'is_displayed' => 0,            
+            ]);
+        } catch (\Exception $e) {
+            // Tampilkan error secara detail jika gagal (untuk keperluan debugging di Railway)
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
+        }
     
         return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda telah dikirim dan akan ditampilkan setelah ditinjau oleh pihak pengelola.');
     }
