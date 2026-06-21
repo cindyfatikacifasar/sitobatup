@@ -35,11 +35,41 @@ class AppServiceProvider extends ServiceProvider
 
         // Jalankan migrasi secara otomatis jika ada tabel/kolom yang belum sinkron di production (cache 7 hari untuk efisiensi)
         try {
-            if (!\Illuminate\Support\Facades\Cache::has('migrations_checked_v3')) {
-                if (Schema::hasTable('ulasans') && (!Schema::hasColumn('ulasans', 'is_displayed') || !Schema::hasColumn('pengunjungs', 'kode_negara'))) {
-                    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            if (!\Illuminate\Support\Facades\Cache::has('migrations_checked_v4')) {
+                // 1. Jalankan migrasi standar
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+
+                // 2. Tambahan Sakti: Perbaiki kolom ulasans jika terlewat/dianggap sudah jalan oleh Laravel
+                if (Schema::hasTable('ulasans')) {
+                    Schema::table('ulasans', function (Blueprint $table) {
+                        if (!Schema::hasColumn('ulasans', 'pengirim')) {
+                            $table->string('pengirim')->default('pengunjung');
+                        }
+                        if (!Schema::hasColumn('ulasans', 'is_read')) {
+                            $table->boolean('is_read')->default(false);
+                        }
+                        if (!Schema::hasColumn('ulasans', 'rating')) {
+                            $table->integer('rating')->default(5);
+                        }
+                        if (!Schema::hasColumn('ulasans', 'is_displayed')) {
+                            $table->boolean('is_displayed')->default(false);
+                        }
+                    });
                 }
-                \Illuminate\Support\Facades\Cache::put('migrations_checked_v3', true, now()->addDays(7));
+
+                // 3. Tambahan Sakti: Perbaiki kolom pengunjungs jika terlewat
+                if (Schema::hasTable('pengunjungs')) {
+                    Schema::table('pengunjungs', function (Blueprint $table) {
+                        if (!Schema::hasColumn('pengunjungs', 'user_agent')) {
+                            $table->string('user_agent')->nullable();
+                        }
+                        if (!Schema::hasColumn('pengunjungs', 'kode_negara')) {
+                            $table->string('kode_negara', 5)->nullable();
+                        }
+                    });
+                }
+
+                \Illuminate\Support\Facades\Cache::put('migrations_checked_v4', true, now()->addDays(7));
             }
         } catch (\Exception $e) {
             // Abaikan error agar tidak menghalangi booting aplikasi saat build atau setup awal

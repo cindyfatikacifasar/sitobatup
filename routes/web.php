@@ -104,9 +104,41 @@ Route::get('/run-migrations', function () {
         abort(403, 'Akses ditolak.');
     }
     try {
+        // 1. Jalankan migrasi standar
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        \Illuminate\Support\Facades\Cache::forget('migrations_checked_v3');
-        return '<h1>Migrasi Sukses!</h1><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+        
+        // 2. Tambahan Sakti: Perbaiki kolom ulasans jika terlewat/dianggap sudah jalan oleh Laravel
+        if (\Illuminate\Support\Facades\Schema::hasTable('ulasans')) {
+            \Illuminate\Support\Facades\Schema::table('ulasans', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'pengirim')) {
+                    $table->string('pengirim')->default('pengunjung');
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'is_read')) {
+                    $table->boolean('is_read')->default(false);
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'rating')) {
+                    $table->integer('rating')->default(5);
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'is_displayed')) {
+                    $table->boolean('is_displayed')->default(false);
+                }
+            });
+        }
+
+        // 3. Tambahan Sakti: Perbaiki kolom pengunjungs jika terlewat
+        if (\Illuminate\Support\Facades\Schema::hasTable('pengunjungs')) {
+            \Illuminate\Support\Facades\Schema::table('pengunjungs', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('pengunjungs', 'user_agent')) {
+                    $table->string('user_agent')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('pengunjungs', 'kode_negara')) {
+                    $table->string('kode_negara', 5)->nullable();
+                }
+            });
+        }
+
+        \Illuminate\Support\Facades\Cache::forget('migrations_checked_v4');
+        return '<h1>Migrasi & Sinkronisasi Kolom Sukses!</h1><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
     } catch (\Exception $e) {
         return '<h1>Migrasi Gagal!</h1><pre>' . $e->getMessage() . '</pre>';
     }
