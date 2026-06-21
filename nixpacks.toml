@@ -1,0 +1,18 @@
+# nixpacks.toml
+
+# Extend the setup phase to ensure Node.js is installed
+[phases.setup]
+nixPkgs = ["...", "nodejs"]
+
+# Custom build phase to compile Laravel Vite assets and set up storage symlink
+[phases.build]
+dependsOn = ["install"]
+cmds = [
+    "npm install",
+    "npm run build",
+    "php artisan storage:link"
+]
+
+# Set environment variables for Nixpacks
+[variables]
+NIXPACKS_PHP_ROOT_DIR = "/app/public"
