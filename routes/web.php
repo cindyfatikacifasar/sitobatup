@@ -97,3 +97,17 @@ Route::prefix('pj')->name('pj.')->middleware(['auth', 'role:penanggungjawab'])->
 /* --- GLOBAL PUBLIC ROUTES (BEBAS DIAKSES SIAPA SAJA TANPA SYARAT LOGIN) --- */
 // ⚡ FIX PERBAIKAN: Mengeluarkan rute pemindah bahasa ke luar grup PJ agar terbaca secara global oleh sistem
 Route::get('lang/{lang}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('lang.switch');
+
+// Rute pengaman untuk menjalankan migrasi database di production (Railway) secara manual & aman
+Route::get('/run-migrations', function () {
+    if (request('secret') !== 'sitobat123') {
+        abort(403, 'Akses ditolak.');
+    }
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Cache::forget('migrations_checked_v3');
+        return '<h1>Migrasi Sukses!</h1><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+    } catch (\Exception $e) {
+        return '<h1>Migrasi Gagal!</h1><pre>' . $e->getMessage() . '</pre>';
+    }
+});

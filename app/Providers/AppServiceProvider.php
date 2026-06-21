@@ -33,6 +33,18 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
+        // Jalankan migrasi secara otomatis jika ada tabel/kolom yang belum sinkron di production (cache 7 hari untuk efisiensi)
+        try {
+            if (!\Illuminate\Support\Facades\Cache::has('migrations_checked_v3')) {
+                if (Schema::hasTable('ulasans') && (!Schema::hasColumn('ulasans', 'is_displayed') || !Schema::hasColumn('pengunjungs', 'kode_negara'))) {
+                    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                }
+                \Illuminate\Support\Facades\Cache::put('migrations_checked_v3', true, now()->addDays(7));
+            }
+        } catch (\Exception $e) {
+            // Abaikan error agar tidak menghalangi booting aplikasi saat build atau setup awal
+        }
+
         // Auto-copy assets from backup to mounted volume if empty
         $backupDir = base_path('storage_backup');
         $publicStorageDir = storage_path('app/public');
