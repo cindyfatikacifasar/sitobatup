@@ -111,3 +111,18 @@ Route::get('/run-migrations', function () {
         return '<h1>Migrasi Gagal!</h1><pre>' . $e->getMessage() . '</pre>';
     }
 });
+
+// Rute pengaman untuk melihat log error di production (Railway)
+Route::get('/view-logs', function () {
+    if (request('secret') !== 'sitobat123') {
+        abort(403, 'Akses ditolak.');
+    }
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return '<h1>Log file tidak ditemukan</h1>';
+    }
+    $logs = file_get_contents($logPath);
+    $lines = explode("\n", $logs);
+    $lastLines = array_slice($lines, -150);
+    return '<h1>150 Baris Log Terakhir</h1><pre>' . htmlspecialchars(implode("\n", $lastLines)) . '</pre>';
+});
