@@ -63,23 +63,35 @@ class PublicController extends Controller
             ]);
         } catch (\Exception $e) { }
 
-        // 4. Ambil statistik negara
-        $statsNegara = Pengunjung::select('asal_negara', 'kode_negara', DB::raw('count(*) as total'))
-                        ->groupBy('asal_negara', 'kode_negara')->orderBy('total', 'desc')->get();
+        // 4. Ambil statistik negara (Dikelompokkan secara dinamis di PHP agar tidak dobel akibat data lama dengan kode_negara NULL)
+        $rawStats = Pengunjung::select('asal_negara', 'kode_negara', DB::raw('count(*) as total'))
+                        ->groupBy('asal_negara', 'kode_negara')->get();
 
-        // ⚡ TAMBAHAN: tempel icon bendera ke setiap baris statistik negara
-        $statsNegara = $statsNegara->map(function ($item) {
-            $kode = $item->kode_negara;
+        $mergedStats = collect();
+
+        foreach ($rawStats as $item) {
+            $negara = ucwords(strtolower(trim($item->asal_negara ?? 'Indonesia')));
+            $kode = strtoupper(trim($item->kode_negara ?? ''));
             if (empty($kode)) {
-                if (stripos($item->asal_negara, 'singapore') !== false || stripos($item->asal_negara, 'singapura') !== false) {
+                if (stripos($negara, 'singapore') !== false || stripos($negara, 'singapura') !== false) {
                     $kode = 'SG';
                 } else {
                     $kode = 'ID';
                 }
             }
-            $item->bendera = $this->kodeKeBendera($kode);
-            return $item;
-        });
+
+            $key = $negara . '_' . $kode;
+            if ($mergedStats->has($key)) {
+                $mergedStats->get($key)->total += $item->total;
+            } else {
+                $item->asal_negara = $negara;
+                $item->kode_negara = $kode;
+                $item->bendera = $this->kodeKeBendera($kode);
+                $mergedStats->put($key, $item);
+            }
+        }
+
+        $statsNegara = $mergedStats->sortByDesc('total')->values();
 
         // ⚡ TAMBAHAN: total keseluruhan pengunjung yang sudah pernah mengakses web
         $totalPengunjung = Pengunjung::count();
