@@ -24,7 +24,16 @@ class PublicController extends Controller
         $galeriTerbaru   = Galeri::orderBy('tanggal', 'desc')->take(6)->get();
 
         // 2. Logika Deteksi Lokasi & Perangkat Aman (Revisi Privasi Sindi)
-        $ip = request()->ip();
+        $ip = request()->header('cf-connecting-ip') 
+            ?? request()->header('x-real-ip') 
+            ?? request()->header('x-forwarded-for') 
+            ?? request()->ip();
+
+        if ($ip && strpos($ip, ',') !== false) {
+            $ips = explode(',', $ip);
+            $ip = trim($ips[0]);
+        }
+
         if ($ip == '127.0.0.1' || $ip == '::1') {
             $ip = '103.111.140.10'; // IP Kampus/Pekanbaru untuk simulasi localhost
         } 
