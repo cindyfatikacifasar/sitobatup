@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
                 // 2. Tambahan Sakti: Perbaiki kolom ulasans jika terlewat/dianggap sudah jalan oleh Laravel
                 if (Schema::hasTable('ulasans')) {
-                    Schema::table('ulasans', function (Blueprint $table) {
+                    Schema::table('ulasans', function ($table) {
                         if (!Schema::hasColumn('ulasans', 'pengirim')) {
                             $table->string('pengirim')->default('pengunjung');
                         }
@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
 
                 // 3. Tambahan Sakti: Perbaiki kolom pengunjungs jika terlewat
                 if (Schema::hasTable('pengunjungs')) {
-                    Schema::table('pengunjungs', function (Blueprint $table) {
+                    Schema::table('pengunjungs', function ($table) {
                         if (!Schema::hasColumn('pengunjungs', 'user_agent')) {
                             $table->string('user_agent')->nullable();
                         }
