@@ -11,7 +11,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">⭐ Kelola Ulasan (Reviews)</h5>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">⭐ Kelola Ulasan (Reviews)</h5>
         <p class="text-muted small">Moderasi ulasan dan rating bintang dari pengunjung Kebun Raya Universitas Pahlawan.</p>
     </div>
 </div>
@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <div class="input-group input-group-sm">
                     <input type="text" name="cari" class="form-control" placeholder="Cari berdasarkan nama pengirim..." value="{{ request('cari') }}" style="border-radius: 5px 0 0 5px;">
-                    <button type="submit" class="btn btn-success px-3" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 0 5px 5px 0;">
+                    <button type="submit" class="btn btn-success px-3" style="background-color:  #43a047; border-color:  #43a047; border-radius: 0 5px 5px 0;">
                         <i class="bi bi-search me-1"></i> Cari
                     </button>
                 </div>
@@ -130,7 +130,7 @@
                     @empty
                     <tr>
                         <td colspan="6" class="text-center text-muted py-5">
-                            <i class="bi bi-star-half fs-1 d-block mb-2" style="color: #1a5c2a; opacity: 0.5;"></i>
+                            <i class="bi bi-star-half fs-1 d-block mb-2" style="color:  #43a047; opacity: 0.5;"></i>
                             Belum ada ulasan (reviews) dari pengunjung.
                         </td>
                     </tr>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login | SITOBAT</title>
+    <title>Login | TAMAN HERBAL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
             width: 100%; max-width: 420px; overflow: hidden; /* ⚡ PREMIUM UX: Mengunci kelengkungan header atas */
         }
         .login-header {
-            background: linear-gradient(135deg, #1a5c2a, #2d8a4e);
+            background: linear-gradient(135deg,  #43a047, #2d8a4e);
             padding: 24px 32px 20px; /* ⚡ PERBAIKAN: Mengurangi padding atas-bawah agar ringkas */
             text-align: center; color: white;
         }
@@ -36,7 +36,7 @@
         .input-group .btn { border-radius: 0 10px 10px 0 !important; border: 1.5px solid #e2e8f0; border-left: none; transition: all 0.2s ease; }
         .input-group .form-control:focus + .btn { border-color: #2d8a4e; }
         .btn-login {
-            background: linear-gradient(135deg, #1a5c2a, #2d8a4e);
+            background: linear-gradient(135deg,  #43a047, #2d8a4e);
             color: white; border: none; border-radius: 10px;
             padding: 12px; font-size: .95rem; font-weight: 600; width: 100%;
             transition: all .2s;
@@ -59,9 +59,9 @@
         }
         
         .alert { border-radius: 10px; font-size: .88rem; padding: 10px 14px; margin-bottom: 16px; border: none; }
-        .info-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; font-size: .82rem; color: #166534; margin-bottom: 20px; line-height: 1.5; }
+        .info-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; font-size: .82rem; color: #43a047; margin-bottom: 20px; line-height: 1.5; }
         .forgot-link { font-size: .85rem; color: #2d8a4e; text-decoration: none; transition: .2s; font-weight: 500; }
-        .forgot-link:hover { color: #1a5c2a; text-decoration: underline; }
+        .forgot-link:hover { color:  #43a047; text-decoration: underline; }
     </style>
 </head>
 <body>

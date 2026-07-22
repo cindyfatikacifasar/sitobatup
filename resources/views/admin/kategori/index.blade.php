@@ -5,10 +5,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🏷️ Kategori Khasiat</h5>
-        <p class="text-muted small">Kelola kategori khasiat untuk klasifikasi tanaman obat.</p>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">🏷️ Kategori Khasiat</h5>
+        <p class="text-muted small">Kelola kategori khasiat untuk klasifikasi tanaman herbal.</p>
     </div>
-    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambah" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambah" style="background-color: #43a047; border-color: #43a047;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Kategori
     </button>
 </div>
@@ -29,7 +29,7 @@
                 <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari nama kategori..." value="{{ request('cari') }}" style="border-radius: 5px;">
             </div>
             <div class="col-md-auto">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color:  #43a047; border-color:  #43a047;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('cari'))
@@ -152,7 +152,7 @@
                     {{-- PERBAIKAN: Menambahkan info total tanaman terikat di dalam modal detail khasiat --}}
                     <div class="mb-3 border-bottom pb-2">
                         <label class="text-muted small d-block mb-1">Total Tanaman</label>
-                        <span class="fw-bold text-success"><i class="bi bi-tree-fill me-1"></i> {{ $k->tanaman_obats_count ?? 0 }} Tanaman Obat</span>
+                        <span class="fw-bold text-success"><i class="bi bi-tree-fill me-1"></i> {{ $k->tanaman_obats_count ?? 0 }} Tanaman Herbal</span>
                     </div>
 
                     <div>
@@ -195,7 +195,7 @@
 <div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow" style="border-radius: 10px;">
-            <div class="modal-header bg-success text-white" style="background-color: #1a5c2a !important;">
+            <div class="modal-header bg-success text-white" style="background-color: #43a047 !important;">
                 <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i> Tambah Kategori Khasiat</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -209,7 +209,7 @@
                 </div>
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success btn-sm px-4" style="background-color: #1a5c2a; border-color: #1a5c2a;">Simpan Kategori</button>
+                    <button type="submit" class="btn btn-success btn-sm px-4" style="background-color:  #43a047; border-color:  #43a047;">Simpan Kategori</button>
                 </div>
             </form>
         </div>

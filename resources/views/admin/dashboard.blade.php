@@ -34,10 +34,10 @@
                     <div class="stat-icon-wrapper" style="background:#e8f5e9;">
                         <span style="font-size: 1.2rem;">🌿</span>
                     </div>
-                    <span class="badge bg-success bg-opacity-10 text-success fw-bold" style="font-size: 0.68rem; border-radius: 30px;">Toga</span>
+                    <span class="badge bg-success bg-opacity-10 text-success fw-bold" style="font-size: 0.68rem; border-radius: 30px;">Herbal</span>
                 </div>
                 <div>
-                    <div style="font-size:1.75rem; font-weight:700; color:#1a5c2a; line-height: 1.2;">{{ $totalTanaman }}</div>
+                    <div style="font-size:1.75rem; font-weight:700; color: #43a047; line-height: 1.2;">{{ $totalTanaman }}</div>
                     <div style="font-size:.75rem; color:#6c757d; font-weight: 500; margin-top: 2px;">Total Tanaman</div>
                 </div>
             </div>

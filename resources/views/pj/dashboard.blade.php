@@ -37,7 +37,7 @@
                     <span class="badge bg-success bg-opacity-10 text-success fw-bold" style="font-size: 0.65rem; border-radius: 30px;">Koleksi</span>
                 </div>
                 <div>
-                    <div style="font-size:1.65rem; font-weight:700; color:#1a5c2a; line-height: 1.2;">{{ $totalTanaman }}</div>
+                    <div style="font-size:1.65rem; font-weight:700; color: #43a047; line-height: 1.2;">{{ $totalTanaman }}</div>
                     <div style="font-size:.72rem; color:#6c757d; font-weight: 500; margin-top: 2px;">Total Tanaman</div>
                 </div>
             </div>

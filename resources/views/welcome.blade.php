@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SITOBAT-UP | Sistem Informasi Tanaman Obat</title>
+        <title>Taman Herbal | Sistem Informasi Tanaman Herbal</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -73,7 +73,7 @@
                 <a class="navbar-brand d-flex align-items-center" href="#">
                     <img src="https://universitaspahlawan.ac.id/wp-content/uploads/2020/01/logo-up-300x300.png" alt="Logo" width="40" height="40" class="me-2">
                     <div>
-                        <span class="fw-bold d-block" style="line-height: 1;">SITOBAT-UP</span>
+                        <span class="fw-bold d-block" style="line-height: 1;">Taman Herbal</span>
                         <small style="font-size: 0.7rem;">Kebun Raya Universitas Pahlawan</small>
                     </div>
                 </a>
@@ -134,8 +134,8 @@
                 @empty
                 <div class="carousel-item active" style="background-color: #222;">
                     <div class="carousel-caption text-center">
-                        <h1>Selamat Datang di SITOBAT-UP</h1>
-                        <p>Informasi tanaman obat Kebun Raya Universitas Pahlawan.</p>
+                        <h1>Selamat Datang di Taman Herbal</h1>
+                        <p>Informasi Taman Herbal Kebun Raya Universitas Pahlawan.</p>
                     </div>
                 </div>
                 @endforelse

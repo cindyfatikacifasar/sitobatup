@@ -5,7 +5,7 @@
 <style>
     .carousel-item-custom {
         height: 600px !important;
-        background-color: #1a5c2a !important;
+        background-color: #43a047 !important;
         background-position: center !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
@@ -72,7 +72,7 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        color: #1a5c2a;
+        color: #43a047;
         font-size: 15px;
     }
     .btn-gmaps {
@@ -108,7 +108,7 @@
     }
 </style>
 
-<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+<div id="beritaCarousel" class="carousel slide shadow" data-bs-ride="carousel" data-bs-interval="7000" data-bs-pause="false">
     <div class="carousel-indicators">
         @foreach($beritaCarousel as $key => $b)
             <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"></button>
@@ -123,7 +123,7 @@
                 <div class="container">
                     <div class="carousel-caption-custom text-white">
                         <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm">
-                            ⭐ Berita Taman Koleksi Tanaman Obat
+                            ⭐ Berita Taman Koleksi Tanaman Herbal
                         </span>
                         <h1 class="display-5 fw-bold mb-3" style="line-height: 1.2;">{{ $b->judul }}</h1>
                         <p class="lead mb-4 opacity-90" style="font-size: 1.05rem; line-height: 1.6;">{{ Str::limit(strip_tags($b->isi), 160) }}</p>
@@ -138,8 +138,8 @@
         <div class="carousel-item active">
             <div style="height: 450px; background: #1a5c2a;" class="d-flex align-items-center text-center">
                 <div class="container text-white">
-                    <h1 class="display-4 fw-bold">Selamat Datang di SITOBAT</h1>
-                    <p class="lead">Sistem Informasi Tanaman Obat Kebun Raya Universitas Pahlawan</p>
+                    <h1 class="display-4 fw-bold">Selamat Datang di Taman Herbal Kebun Raya Universitas Pahlawan</h1>
+                    <p class="lead">Sistem Informasi Taman Herbal Kebun Raya Universitas Pahlawan</p>
                 </div>
             </div>
         </div>
@@ -157,21 +157,21 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <h6 class="text-success fw-bold text-uppercase mb-2">Tentang SITOBAT</h6>
-                <h2 class="fw-bold mb-4" style="color: #1a5c2a;">Digitalisasi Informasi Tanaman Obat Kebun Raya Universitas Pahlawan</h2>
+                <h6 class="text-success fw-bold text-uppercase mb-2">Tentang Taman Herbal</h6>
+                <h2 class="fw-bold mb-4" style="color: #43a047;">Digitalisasi Informasi Taman Herbal Kebun Raya Universitas Pahlawan</h2>
                 <p class="text-muted mb-4" style="text-align: justify;">
-                    SITOBAT merupakan platform digital Kebun Raya Universitas Pahlawan yang dirancang untuk memudahkan masyarakat dalam mengenali berbagai jenis tanaman obat. Kami mengintegrasikan teknologi QR Code untuk akses informasi yang cepat, akurat, dan edukatif.
+                    Taman Koleksi Tanaman Herbal ini dikembangkan sebagai ruang edukasi dan konservasi tanaman berkhasiat herbal yang digunakan dalam pengobatan tradisional Indonesia. Taman ini menampilkan berbagai spesies herbal yang telah terbukti memiliki manfaat kesehatan, mulai dari tanaman antiseptik, antiinflamasi, hingga peningkat imunitas.
                 </p>
             </div>
             <div class="col-lg-6">
                 <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
                     <div class="card-body p-4 p-md-5" style="background: #f8fff9;">
-                        <h4 class="fw-bold mb-4 text-center">Bagaimana Cara Scan QR?</h4>
+                        <h4 class="fw-bold mb-4 text-center">Bagaimana Cara Scan QR Code di Lokasi Taman Herbal?</h4>
                         <div class="d-flex mb-4 gap-3">
                             <div class="flex-shrink-0 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: bold;">1</div>
                             <div>
                                 <h6 class="fw-bold mb-1">Temukan Kode QR</h6>
-                                <p class="text-muted small mb-0">Cari papan informasi tanaman obat di area Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan.</p>
+                                <p class="text-muted small mb-0">Cari papan informasi tanaman obat di area Taman Koleksi Tanaman Herbal Kebun Raya Universitas Pahlawan.</p>
                             </div>
                         </div>
                         <div class="d-flex mb-4 gap-3">
@@ -199,7 +199,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <h2 class="fw-bold mb-0" style="color: #1a5c2a;">Tanaman Terpopuler</h2>
+                <h2 class="fw-bold mb-0" style="color: #43a047;">Tanaman Terpopuler</h2>
                 <p class="text-muted mb-0">Koleksi yang paling sering dilihat</p>
             </div>
             <a href="{{ route('katalog') }}" class="btn btn-outline-success rounded-pill px-4">Lihat Semua</a>
@@ -233,7 +233,7 @@
             <h6 class="text-success fw-bold text-uppercase mb-2">
                 <i class="bi bi-geo-alt-fill me-1"></i>Lokasi Kami
             </h6>
-            <h2 class="fw-bold" style="color: #1a5c2a;">Temukan Taman Koleksi Tanaman Obat</h2>
+            <h2 class="fw-bold" style="color: #43a047;">Temukan Taman Koleksi Tanaman Herbal</h2>
             <p class="text-muted">Kebun Raya Universitas Pahlawan Tuanku Tambusai, Bangkinang, Riau</p>
         </div>
 
@@ -243,7 +243,7 @@
             <div class="col-lg-7">
                 <div class="iframe-wrapper">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.5!2d101.00499!3d0.33360!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5150010bccb33%3A0xa8fef12ef08d1df0!2sTaman%20Koleksi%20Tanaman%20Obat%2C%20Balai%20Bumi%20Perkemahan%20UP!5e0!3m2!1sid!2sid!4v1718500000000"
+                        src="https://www.google.com/maps?q=Taman+Koleksi+Tanaman+Obat+Balai+Bumi+Perkemahan+Universitas+Pahlawan+Bangkinang+Riau&z=17&output=embed"
                         width="100%"
                         height="320"
                         style="border:0; display:block;"
@@ -266,7 +266,7 @@
                 <div class="h-100 d-flex flex-column justify-content-between bg-white rounded-4 shadow-sm p-4 border" style="border-color: #e8f5ec !important;">
 
                     <div>
-                        <h5 class="fw-bold mb-4" style="color: #1a5c2a;">
+                        <h5 class="fw-bold mb-4" style="color: #43a047;">
                             <i class="bi bi-building-fill me-2"></i>Informasi Lokasi
                         </h5>
 
@@ -290,7 +290,7 @@
                             <div class="info-icon"><i class="bi bi-tree-fill"></i></div>
                             <div>
                                 <div class="fw-bold small text-dark">Area</div>
-                                <div class="text-muted small">Taman Koleksi Tanaman Obat — Kebun Raya UP</div>
+                                <div class="text-muted small">Taman Koleksi Tanaman Herbal — Kebun Raya UP</div>
                             </div>
                         </div>
 
@@ -326,7 +326,7 @@
             <div class="row align-items-center">
                 <div class="col-md-3 border-end text-center text-md-start">
                     <h6 class="text-muted small text-uppercase fw-bold mb-1">Akses Online</h6>
-                    <h3 class="fw-bold text-success mb-0">SITOBAT-UP</h3>
+                    <h3 class="fw-bold text-success mb-0">Taman Herbal</h3>
                     <div class="mt-2">
                         <span class="badge bg-success-subtle text-success fw-bold" style="font-size: 0.8rem;">
                             <i class="bi bi-people-fill me-1"></i>{{ number_format($totalPengunjung) }} Total Pengunjung

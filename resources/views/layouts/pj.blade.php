@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') | SITOBAT</title>
+    <title>@yield('title', 'Dashboard') | TAMAN HERBAL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* SINKRONISASI TEMA HIJAU KEBUN RAYA UNIVERSITAS PAHLAWAN */
+        /* SINKRONISASI TEMA HIJAU MUDA — SAMA DENGAN NAVBAR HALAMAN PUBLIK */
         :root { 
-            --hijau-tua: #11411c; 
-            --hijau-mid: #1a5c2a; 
-            --hijau-aksen: #2d8a4e; 
+            --hijau-tua: #4caf50; 
+            --hijau-mid: #66bb6a; 
+            --hijau-aksen: #81c784; 
             --sidebar-w: 260px; 
         }
         * { font-family: 'Poppins', sans-serif; }
@@ -20,7 +20,7 @@
         
         .sidebar {
             position: fixed; top: 0; left: 0; width: var(--sidebar-w);
-            height: 100vh; background: linear-gradient(180deg, var(--hijau-tua) 0%, #0a2410 100%);
+            height: 100vh; background: linear-gradient(180deg, var(--hijau-tua) 0%, var(--hijau-mid) 100%);
             overflow-y: auto; z-index: 1050; transition: transform .3s;
         }
         .sidebar-brand { padding: 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
@@ -61,15 +61,15 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="d-flex align-items-center gap-2 mb-1">
-            {{-- 📦 KOTAK PENGAMAN SIDEBAR PJ --}}
-            <div style="width: 40px; height: 40px; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                {{-- ⚡ LOGO PJ RAJA TRASPARAN --}}
+            {{-- 📦 KOTAK PENGAMAN SIDEBAR PJ: kontainer & gambar disamakan ukurannya supaya logo tidak menabrak teks judul --}}
+            <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                {{-- ⚡ LOGO PJ --}}
                 <img src="{{ asset('assets/img/logo-sitobat.png') }}" 
                      alt="" 
-                     style="height: 100px; width: 100px; max-width: none; object-fit: contain; position: absolute; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+                     style="height: 100%; width: 100%; object-fit: contain; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
             </div>
             <div>
-                <h5>SITOBAT</h5>
+                <h5>TAMAN HERBAL</h5>
             </div>
         </div>
         

@@ -4,7 +4,7 @@
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-3">
     <a href="{{ route('admin.ulasan.index') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">💬 Detail Ulasan</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;">💬 Detail Ulasan</h5>
 </div>
 <div class="row justify-content-center">
     <div class="col-md-7">

@@ -151,7 +151,7 @@
                 <i class="fas fa-leaf fa-lg text-white"></i>
             </div>
             <div>
-                <span>SITOBAT-UP</span>
+                <span>Taman Herbal</span>
                 <small class="d-none d-sm-block">Kebun Raya Universitas Pahlawan</small>
             </div>
         </a>
@@ -161,7 +161,7 @@
         <div class="collapse navbar-collapse" id="navMain">
             <ul class="navbar-nav ms-auto gap-1 mt-2 mt-lg-0">
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.beranda') ? 'active':'' }}" href="{{ route('public.beranda') }}"><i class="fas fa-home me-1"></i>Beranda</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.katalog') ? 'active':'' }}" href="{{ route('public.katalog') }}"><i class="fas fa-seedling me-1"></i>Katalog</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.katalog') ? 'active':'' }}" href="{{ route('public.katalog') }}"><i class="fas fa-seedling me-1"></i>Herbal</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.galeri') ? 'active':'' }}" href="{{ route('public.galeri') }}"><i class="fas fa-images me-1"></i>Galeri</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.berita*') ? 'active':'' }}" href="{{ route('public.berita') }}"><i class="fas fa-newspaper me-1"></i>Berita</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('public.ulasan') ? 'active':'' }}" href="{{ route('public.ulasan') }}"><i class="fas fa-comment-alt me-1"></i>Ulasan</a></li>
@@ -194,9 +194,9 @@
                     <div style="width:38px;height:38px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
                         <i class="fas fa-leaf text-white"></i>
                     </div>
-                    <span style="font-weight:700;font-size:1.05rem;color:white;">SITOBAT-UP</span>
+                    <span style="font-weight:700;font-size:1.05rem;color:white;">Taman Herbal</span>
                 </div>
-                <p style="font-size:.87rem;line-height:1.7;">Sistem Informasi Tanaman Obat Kebun Raya Universitas Pahlawan Tuanku Tambusai.</p>
+                <p style="font-size:.87rem;line-height:1.7;">Sistem Informasi Taman Herbal Kebun Raya Universitas Pahlawan Tuanku Tambusai.</p>
             </div>
             <div class="col-6 col-md-2">
                 <h6 style="font-weight:600;color:white;margin-bottom:12px;font-size:.95rem;">Menu</h6>
@@ -210,7 +210,7 @@
             </div>
             <div class="col-6 col-md-3">
                 <h6 style="font-weight:600;color:white;margin-bottom:12px;font-size:.95rem;">Lokasi</h6>
-                <p style="font-size:.85rem;line-height:1.7;"><i class="fas fa-map-marker-alt me-1 text-warning"></i>Taman Koleksi Tanaman Obat<br>Kebun Raya Universitas Pahlawan<br>Bangkinang, Riau</p>
+                <p style="font-size:.85rem;line-height:1.7;"><i class="fas fa-map-marker-alt me-1 text-warning"></i>Taman Koleksi Tanaman Herbal<br>Kebun Raya Universitas Pahlawan<br>Bangkinang, Riau</p>
             </div>
             <div class="col-12 col-md-3">
                 <h6 style="font-weight:600;color:white;margin-bottom:12px;font-size:.95rem;">Portal Pengelola</h6>
@@ -219,7 +219,7 @@
             </div>
         </div>
         <hr style="border-color:rgba(255,255,255,.15);margin-top:28px;">
-        <p class="text-center mb-0" style="font-size:.8rem;">© {{ date('Y') }} SITOBAT-UP — Kebun Raya Universitas Pahlawan Tuanku Tambusai</p>
+        <p class="text-center mb-0" style="font-size:.8rem;">© {{ date('Y') }} Taman Herbal — Kebun Raya Universitas Pahlawan Tuanku Tambusai</p>
     </div>
 </footer>
 

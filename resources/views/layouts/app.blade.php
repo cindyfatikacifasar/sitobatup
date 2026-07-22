@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'SITOBAT-UP') | Sistem Informasi Tanaman Obat</title>
+    <title>@yield('title', 'SITOBAT-UP') | Sistem Informasi Taman Herbal</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -13,9 +13,9 @@
 
     <style>
         :root {
-            --hijau-tua: #1a5c2a;
-            --hijau-mid: #2d8a4e;
-            --hijau-muda: #4caf72;
+            --hijau-tua: #4caf50;
+            --hijau-mid: #66bb6a;
+            --hijau-muda: #81c784;
         }
         * { font-family: 'Poppins', sans-serif; }
         body { background: #f8faf8; }
@@ -23,11 +23,11 @@
         /* ── Navbar ── */
         .navbar-sitobat {
             background: linear-gradient(135deg, var(--hijau-tua) 0%, var(--hijau-mid) 100%);
-            box-shadow: 0 2px 15px rgba(26,92,42,0.3);
+            box-shadow: 0 2px 15px rgba(76,175,80,0.3);
             padding: 12px 0;
         }
         .navbar-brand-text { color: #fff !important; font-weight: 700; font-size: 1.4rem; line-height: 1.1; }
-        .navbar-brand-sub  { font-size: 0.65rem; font-weight: 400; color: #fff !important; opacity: 1; display: block; }
+        .navbar-brand-sub  { font-size: 0.8rem; font-weight: 500; color: #fff !important; opacity: 1; display: block; }
         .navbar-sitobat .nav-link {
             color: rgba(255,255,255,0.88) !important;
             font-weight: 500;
@@ -199,9 +199,32 @@
         #google_translate_element { display: none !important; }
 
         /* ── Responsive ── */
+        .navbar-nav {
+            flex-wrap: wrap;
+            row-gap: 6px;
+            gap: 0.4rem !important;
+        }
+        .nav-custom {
+            font-size: clamp(11.5px, 1vw, 14px);
+            padding: 0.5rem 0.6rem !important;
+            white-space: nowrap;
+        }
+        .navbar-brand-text {
+            font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+        }
+        .navbar-brand-sub {
+            font-size: clamp(0.68rem, 0.8vw, 0.8rem);
+        }
+        .btn-login-custom {
+            font-size: clamp(12px, 1vw, 14px) !important;
+            padding: 6px 14px !important;
+        }
+        .lang-btn {
+            font-size: clamp(11.5px, 1vw, 13px);
+            padding: 6px 12px;
+        }
         @media (min-width: 992px) and (max-width: 1366px) {
-            .navbar-brand-sub { display: none !important; }
-            .nav-custom { font-size: 13px; padding: 0.5rem 0.4rem !important; }
+            .nav-custom { font-size: 12px; padding: 0.5rem 0.4rem !important; }
         }
         @media (max-width: 768px) {
             .carousel-item { height: 400px !important; }
@@ -265,16 +288,16 @@
 <div id="google_translate_element" style="display:none;"></div>
 
 <nav class="navbar navbar-expand-lg navbar-sitobat sticky-top">
-    <div class="container">
+    <div class="container-fluid px-3 px-lg-4">
         <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-            <div style="width:45px;height:45px;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <div style="width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <img src="{{ asset('assets/img/logo-sitobat.png') }}"
                      alt=""
-                     style="height:115px;width:115px;max-width:none;object-fit:contain;position:absolute;filter:brightness(1.25) contrast(1.2) drop-shadow(0px 0px 10px rgba(255,255,255,0.95)) drop-shadow(0px 3px 6px rgba(0,0,0,0.35));">
+                     style="height:100%;width:100%;object-fit:contain;filter:brightness(1.25) contrast(1.2) drop-shadow(0px 0px 10px rgba(255,255,255,0.95)) drop-shadow(0px 3px 6px rgba(0,0,0,0.35));">
             </div>
             <div>
-                <span class="navbar-brand-text">SITOBAT</span>
-                <span class="navbar-brand-sub">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</span>
+                <span class="navbar-brand-text">Taman Herbal</span>
+                <span class="navbar-brand-sub">Kebun Raya Universitas Pahlawan</span>
             </div>
         </a>
 
@@ -293,7 +316,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link nav-custom {{ request()->is('katalog*') ? 'active-link' : '' }}" href="{{ url('/katalog') }}">
-                        <i class="bi bi-grid me-1"></i>{{ __('Tanaman Obat') }}
+                        <i class="bi bi-grid me-1"></i>{{ __('Tanaman Herbal') }}
                     </a>
                 </li>
 
@@ -509,7 +532,7 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-md-6">
-                <h5> SITOBAT</h5>
+                <h5>Taman Herbal Kebun Raya Univ. Pahlawan</h5>
                 <p style="font-size:.9rem;">{{ __('Sistem Informasi Tanaman Obat Taman Koleksi Kebun Raya Universitas Pahlawan Tuanku Tambusai, Bangkinang, Riau.') }}</p>
             </div>
             <div class="col-md-6 text-md-end">
@@ -523,7 +546,7 @@
     </div>
     <div class="footer-bottom mt-4">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} SITOBAT — Cindy Fatika Sari.</p>
+            <p class="mb-0">&copy; {{ date('Y') }} Taman Herbal Kebun Raya Univ. Pahlawan — Cindy Fatika Sari.</p>
         </div>
     </div>
 </footer>

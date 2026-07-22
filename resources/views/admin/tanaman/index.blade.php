@@ -5,10 +5,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Tanaman Obat</h5>
-        <p class="text-muted small">Kelola seluruh data koleksi tanaman obat keluarga (TOGA) beserta klasifikasinya.</p>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;"> Tanaman Herbal</h5>
+        <p class="text-muted small">Kelola seluruh data koleksi tanaman herbal.</p>
     </div>
-    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <a href="{{ route('admin.tanaman.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #43a047; border-color: #43a047;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Tanaman
     </a>
 </div>
@@ -31,7 +31,7 @@
                 </select>
             </div>
             <div class="col-md-auto d-flex gap-1">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color:  #43a047; border-color: #43a047;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('search') || request('kategori'))
@@ -108,8 +108,8 @@
                     @empty
                     <tr>
                         <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="bi bi-tree-fill fs-1 d-block mb-2" style="color: #1a5c2a; opacity: 0.5;"></i>
-                            Belum ada data tanaman obat yang ditemukan.
+                            <i class="bi bi-tree-fill fs-1 d-block mb-2" style="color: #43a047; opacity: 0.5;"></i>
+                            Belum ada data tanaman herbal yang ditemukan.
                         </td>
                     </tr>
                     @endforelse

@@ -6,7 +6,7 @@
     <a href="{{ route('admin.tanaman.index') }}" class="btn btn-sm btn-outline-secondary" style="border-radius: 5px;">
         <i class="bi bi-arrow-left"></i>
     </a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">🌿 Edit Data Tanaman: {{ $tanaman->nama }}</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;"> Edit Data Tanaman: {{ $tanaman->nama }}</h5>
 </div>
 
 {{-- ⚡ TAMBAHAN UI/UX: Memunculkan kotak pesan error validasi jika terjadi kendala data form --}}

@@ -21,25 +21,25 @@
     }
     .search-section {
         background: #f8fdf9;
-        border-radius: 20px;
-        padding: 30px;
-        margin-top: 20px; /* Diubah dari minus agar tidak tenggelam di bawah navbar */
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-top: -18px;
         position: relative;
         z-index: 10;
     }
     .btn-search {
-        background: #1a5c2a;
+        background: #43a047;
         color: white;
         border-radius: 10px;
         padding: 10px 25px;
     }
     .btn-search:hover {
-        background: #13441e;
+        background: #388e3c;
         color: white;
     }
     .badge-date {
         background: rgba(26, 92, 42, 0.1);
-        color: #1a5c2a;
+        color: #43a047;
         font-weight: 600;
         font-size: 0.8rem;
     }
@@ -58,10 +58,10 @@
 </style>
 
 {{-- Header Hijau --}}
-<div style="background: #1a5c2a; padding: 60px 0 40px 0; color: white;">
+<div style="background: #43a047; padding: 40px 0 32px 0; color: white;">
     <div class="container text-center">
-        <h2 class="fw-bold mb-2">📰 Berita & Informasi</h2>
-        <p class="opacity-75 mb-0">Kabar terbaru dari Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan</p>
+        <h2 class="fw-bold mb-2" style="font-size: 1.6rem;">📰 Berita & Informasi</h2>
+        <p class="opacity-75 mb-0" style="font-size: 0.95rem;">Kabar terbaru dari Taman Herbal Kebun Raya Universitas Pahlawan</p>
     </div>
 </div>
 

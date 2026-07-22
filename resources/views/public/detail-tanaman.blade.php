@@ -2,7 +2,7 @@
 @section('title', $tanaman->nama)
 
 @section('content')
-<div style="background:linear-gradient(135deg,#1a5c2a,#2d8a4e);padding:30px 0 20px;color:white;">
+<div style="background:linear-gradient(135deg, #43a047,#2d8a4e);padding:30px 0 20px;color:white;">
     <div class="container">
         {{-- TAMBAHAN: Tombol Kembali ke Katalog dipasang rapi di atas breadcrumb agar user anti-tersesat --}}
         <div class="mb-3">
@@ -25,7 +25,7 @@
                     @endif
                 </div>
                 <div class="card border-0 shadow-sm p-3 mb-4" style="border-radius: 10px; background-color: #f8f9fa;">
-                    <h6 class="fw-bold mb-3" style="color: #1a5c2a;"><i class="bi bi-info-circle-fill me-1"></i> Informasi Botani Tanaman</h6>
+                    <h6 class="fw-bold mb-3" style="color: #43a047;"><i class="bi bi-info-circle-fill me-1"></i> Informasi Botani Tanaman</h6>
                     <ul class="list-unstyled mb-0" style="font-size: 0.88rem; line-height: 1.8;">
                         <li class="mb-2">
                             <i class="bi bi-bookmark-fill text-success me-2"></i>
@@ -85,7 +85,7 @@
 
             <div class="card mb-3" style="border-left:4px solid #2d8a4e;">
                 <div class="card-header">
-                    <i class="bi bi-heart-pulse me-2" style="color:#2d8a4e;"></i>Asal Tanaman Obat
+                    <i class="bi bi-heart-pulse me-2" style="color:#2d8a4e;"></i>Asal Tanaman Herbal
                 </div>
                 <div class="card-body" style="font-size:.9rem;line-height:1.8;color:#444;">
                     {{ $tanaman->asal_usul }}
@@ -127,7 +127,7 @@
                         <div>
                             <strong style="font-size:.88rem;">Peringatan</strong>
                             <p class="text-muted mb-0" style="font-size:.82rem;">
-                                Informasi ini bersifat edukatif. Consultasikan dengan tenaga medis sebelum menggunakan tanaman obat untuk pengobatan. Data telah divalidasi oleh Penanggungjawab Taman Koleksi Tanaman Obat Kebun Raya UP.
+                                Informasi ini bersifat edukatif. Consultasikan dengan tenaga medis sebelum menggunakan tanaman herbal untuk pengobatan. Data telah divalidasi oleh Penanggungjawab Taman Koleksi Tanaman Obat Kebun Raya UP.
                             </p>
                         </div>
                     </div>

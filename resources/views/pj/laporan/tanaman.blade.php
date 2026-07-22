@@ -4,12 +4,12 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h4 class="fw-bold text-dark mb-1">🌿 Laporan Koleksi Tanaman Obat</h4>
-        <p class="text-muted small mb-0">Review database tanaman obat keluarga (Apotek Hidup) Universitas Pahlawan.</p>
+        <h4 class="fw-bold text-dark mb-1"> Laporan Koleksi Tanaman Herbal</h4>
+        <p class="text-muted small mb-0">Review database tanaman herbal Kebun Raya Universitas Pahlawan.</p>
     </div>
     
     {{-- Tombol Pemicu Modal Pop-up Cetak --}}
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #43a047; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakLaporan">
         <i class="bi bi-printer-fill me-2"></i> Cetak Laporan
     </button>
 </div>
@@ -27,7 +27,7 @@
                 <input type="date" name="tanggal_selesai" class="form-control form-control-sm" value="{{ request('tanggal_selesai') }}" style="border-radius: 8px;">
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">
+                <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #43a047; border-radius: 8px; height: 31px;">
                     <i class="bi bi-filter me-1"></i> Terapkan Filter
                 </button>
             </div>
@@ -40,7 +40,7 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" style="font-size: 0.9rem;">
-                <thead class="text-white" style="background-color: #11411c;">
+                <thead class="text-white" style="background-color: #43a047;">
                     <tr>
                         <th class="ps-4 py-3" style="width: 60px;">No</th>
                         <th style="width: 100px;">Foto</th>
@@ -103,14 +103,14 @@
 <div class="modal fade" id="modalCetakLaporan" tabindex="-1" aria-labelledby="modalCetakLaporanLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-            <div class="modal-header text-white px-4 py-3" style="background-color: #11411c; border-top-left-radius: 14px; border-top-right-radius: 14px;">
+            <div class="modal-header text-white px-4 py-3" style="background-color: #43a047; border-top-left-radius: 14px; border-top-right-radius: 14px;">
                 <h5 class="modal-title fw-bold" id="modalCetakLaporanLabel">🖨️ Cetak Dokumen Laporan Koleksi Tanaman</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('pj.laporan.export') }}" method="GET" target="_blank">
                 <input type="hidden" name="jenis_laporan" value="tanaman">
                 <div class="modal-body p-5">
-                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Silakan tentukan rentang kalender di bawah ini untuk mengunduh berkas fisik laporan data tanaman obat keluarga secara berkala.</p>
+                    <p class="text-muted mb-4" style="font-size: 0.95rem;">Silakan tentukan rentang kalender di bawah ini untuk mengunduh berkas fisik laporan data tanaman herbal secara berkala.</p>
                     
                     {{-- ⚡ REVISI SINKRONISASI: Menambahkan Dropdown Pilihan Paket Cetak (Rentang Waktu) di dalam Modal --}}
                     <div class="mb-4">
@@ -141,7 +141,7 @@
                 </div>
                 <div class="modal-footer bg-light px-4 py-3" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; border-top: 1px solid #eee;">
                     <button type="button" class="btn btn-secondary fw-bold px-4 py-2" style="border-radius: 8px;" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn text-white fw-bold px-5 py-2" style="background-color: #1a5c2a; border-radius: 8px;">
+                    <button type="submit" class="btn text-white fw-bold px-5 py-2" style="background-color: #43a047; border-radius: 8px;">
                         <i class="bi bi-printer-fill me-1"></i> Proses Cetak
                     </button>
                 </div>

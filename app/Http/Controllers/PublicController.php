@@ -245,13 +245,12 @@ class PublicController extends Controller
             'rating'  => 'required|integer|min:1|max:5', 
         ]);
     
-        // Simpan ke database
+        // Simpan ke database (Baris 'pengirim' sudah dihapus bersih agar tidak memicu error column not found)
         \App\Models\Ulasan::create([
             'nama'         => $request->nama,
             'kontak'       => $request->kontak,
             'pesan'        => $request->pesan,
             'rating'       => $request->rating,
-            'pengirim'     => 'pengunjung', 
             'is_read'      => 0,            
             'is_displayed' => 0,            
         ]);

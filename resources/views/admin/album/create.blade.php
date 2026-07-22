@@ -6,7 +6,7 @@
     <a href="{{ route('admin.album.index') }}" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i>
     </a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📁 Buat Album Galeri Baru</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;">📁 Buat Album Baru</h5>
 </div>
 
 <div class="card shadow-sm border-0" style="max-width: 600px;">

@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') | SITOBAT</title>
+    <title>@yield('title', 'Dashboard') | TAMAN HERBAL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --hijau-tua:#1a5c2a; --hijau-mid:#2d8a4e; --hijau-muda:#4caf72; --sidebar-w:260px; }
+        /* SINKRONISASI TEMA HIJAU MUDA — SAMA DENGAN NAVBAR HALAMAN PUBLIK */
+        :root { --hijau-tua:#4caf50; --hijau-mid:#66bb6a; --hijau-muda:#81c784; --sidebar-w:260px; }
         * { font-family:'Poppins',sans-serif; }
         body { background:#f0f4f0; }
         .sidebar {
             position: fixed; top: 0; left: 0; width: var(--sidebar-w);
-            height: 100vh; background: linear-gradient(180deg, var(--hijau-tua) 0%, #0f3a1a 100%);
+            height: 100vh; background: linear-gradient(180deg, var(--hijau-tua) 0%, var(--hijau-mid) 100%);
             overflow-y: auto; z-index: 1050; transition: transform .3s;
         }
         .sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.1); }
@@ -43,16 +44,14 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="d-flex align-items-center gap-2 mb-1">
-            {{-- 📦 KOTAK PENGAMAN SIDEBAR: Mengunci ruang gerak agar teks judul tidak tergeser --}}
-            <div style="width: 40px; height: 40px; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                
-                {{-- ⚡ REVISI UKURAN: Menaikkan ukuran murni gambar logonya saja menjadi 100px agar terlihat jauh lebih besar --}}
+            {{-- 📦 KOTAK PENGAMAN SIDEBAR: kontainer & gambar disamakan ukurannya supaya logo tidak menabrak teks judul --}}
+            <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <img src="{{ asset('assets/img/logo-sitobat.png') }}" 
                      alt="" 
-                     style="height: 100px; width: 100px; max-width: none; object-fit: contain; position: absolute; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+                     style="height: 100%; width: 100%; object-fit: contain; filter: brightness(1.3) contrast(1.2) drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.95)) drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
             </div>
             <div>
-                <h5>SITOBAT</h5>
+                <h5>TAMAN HERBAL</h5>
             </div>
         </div>
         <div class="mt-2 d-flex align-items-center gap-2 px-1">
@@ -77,19 +76,18 @@
     
         {{-- ⚡ Teks pembatas Kelola Data telah dihapus --}}
         <a href="{{ route('admin.tanaman.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.tanaman.*') ? 'active' : '' }}">
-            <i class="bi bi-flower1"></i> Tanaman Obat
+            <i class="bi bi-flower1"></i> Tanaman Herbal
         </a>
         <a href="{{ route('admin.kategori.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
             <i class="bi bi-tags"></i> Kategori
         </a>
         
         <a href="{{ route('admin.album.index') }}" class="nav-link mb-1 {{ request()->is('admin/album*') ? 'active' : '' }}">
-            <i class="bi bi-folder-fill me-2"></i>
-            <span>Galeri Album</span>
+            <i class="bi bi-folder-fill me-2"></i> <span>Album</span>
         </a>
         
         <a href="{{ route('admin.galeri.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
-            <i class="bi bi-images"></i> <span>Galeri (Foto)</span>
+            <i class="bi bi-images"></i> <span>Foto</span>
         </a>
         
         <a href="{{ route('admin.berita.index') }}" class="nav-link mb-1 {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
@@ -111,7 +109,7 @@
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>
-        <a href="#" class="nav-link mt-2" style="color:rgba(255,80,80,.85);" 
+        <a href="#" class="nav-link mt-2" style="color:#ff6b6b; font-weight:600; opacity:1;" 
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="bi bi-box-arrow-left"></i> Logout
         </a>

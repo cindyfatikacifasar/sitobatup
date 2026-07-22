@@ -16,8 +16,8 @@
 <div class="container-fluid my-4">
     <div class="text-center kop-surat">
         <h4 class="fw-bold mb-0">{{ $judul_laporan }}</h4>
-        <h5 class="fw-bold mb-1">TAMAN KOLEKSI TANAMAN OBAT KEBUN RAYA UNIVERSITAS PAHLAWAN TUANKU TAMBUSAI</h5>
-        <p class="text-muted small mb-0">Rentang Dokumen: <b>{{ $keterangan_waktu }}</b> | Dicetak otomatis sistem SITOBAT-UP</p>
+        <h5 class="fw-bold mb-1">TAMAN KOLEKSI TANAMAN HERBAL KEBUN RAYA UNIVERSITAS PAHLAWAN TUANKU TAMBUSAI</h5>
+        <p class="text-muted small mb-0">Rentang Dokumen: <b>{{ $keterangan_waktu }}</b> | Dicetak otomatis sistem Taman Herbal</p>
     </div>
 
     <table class="table table-bordered align-middle w-100">

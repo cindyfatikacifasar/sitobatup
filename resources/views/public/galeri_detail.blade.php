@@ -27,7 +27,7 @@
     }
     .btn-back-uat {
         background: white;
-        color: #1a5c2a !important;
+        color: #43a047 !important;
         font-weight: 600;
         padding: 8px 20px;
         border-radius: 30px;
@@ -74,7 +74,7 @@
     }
 </style>
 
-<div style="background: linear-gradient(135deg, #1a5c2a 0%, #11411c 100%); padding: 50px 0 40px 0; color: white;">
+<div style="background: linear-gradient(135deg, #43a047 0%, #43a047 100%); padding: 50px 0 40px 0; color: white;">
     <div class="container">
         <a href="{{ route('public.galeri') }}" class="btn-back-uat text-decoration-none text-success mb-3">
             <i class="bi bi-arrow-left fw-bold"></i> 

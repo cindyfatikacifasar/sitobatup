@@ -7,7 +7,7 @@
         <a href="{{ route('admin.galeri.index') }}" class="btn btn-sm btn-outline-secondary py-1 px-2">
             <i class="bi bi-arrow-left"></i>
         </a>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📸 Tambah Foto Galeri Baru</h5>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">📸 Tambah Foto Galeri Baru</h5>
     </div>
 </div>
 

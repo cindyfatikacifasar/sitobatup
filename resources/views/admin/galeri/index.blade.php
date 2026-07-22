@@ -4,18 +4,18 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📸 Manajemen Foto Galeri</h5>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">📸 Manajemen Foto Galeri</h5>
         <p class="text-muted small">Kelola semua foto koleksi tanaman dan kegiatan.</p>
     </div>
     {{-- Tombol ini tetap mengarah ke halaman form tambah admin --}}
-    <a href="{{ route('admin.galeri.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <a href="{{ route('admin.galeri.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color:  #43a047; border-color: #43a047;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Foto Baru
     </a>
 </div>
 
 {{-- ALERT SUKSES --}}
 @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center justify-content-between p-3 mb-4" role="alert" style="background-color: #e8f5e9; color: #1a5c2a; border-radius: 10px;">
+    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm d-flex align-items-center justify-content-between p-3 mb-4" role="alert" style="background-color: #e8f5e9; color:  #43a047; border-radius: 10px;">
         <div class="d-flex align-items-center gap-2">
             <i class="bi bi-check-circle-fill fs-5"></i>
             <div>
@@ -35,7 +35,7 @@
                 <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari judul foto atau keterangan..." value="{{ request('cari') }}" style="border-radius: 5px;">
             </div>
             <div class="col-md-auto">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color:  #43a047; border-color:  #43a047;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('cari'))
@@ -104,7 +104,7 @@
                     @empty
                     <tr>
                         <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="bi bi-images fs-1 d-block mb-2" style="color: #1a5c2a; opacity: 0.5;"></i>
+                            <i class="bi bi-images fs-1 d-block mb-2" style="color:  #43a047; opacity: 0.5;"></i>
                             Belum ada foto galeri yang diunggah.
                         </td>
                     </tr>

@@ -2,7 +2,7 @@
 @extends('layouts.admin')
 @section('title','Profil Saya')
 @section('content')
-<h5 class="mb-3 fw-bold" style="color:#1a5c2a;">👤 Profil Administrator</h5>
+<h5 class="mb-3 fw-bold" style="color: #43a047;">👤 Profil Admin</h5>
 <div class="row justify-content-center">
     <div class="col-md-11 col-lg-10"> {{-- Melebarkan container agar pas menyamping --}}
         <div class="card border-0 shadow-sm" style="border-radius: 15px;">
@@ -69,7 +69,7 @@
 
                                 {{-- Tombol Simpan Menggunakan Class Asli Kamu btn-hijau --}}
                                 <div class="col-12 text-end mt-3">
-                                    <button type="submit" class="btn btn-success btn-sm px-4 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 5px;">
+                                    <button type="submit" class="btn btn-success btn-sm px-4 shadow-sm" style="background-color: #43a047; border-color: #43a047; border-radius: 5px;">
                                         <i class="bi bi-check2-circle me-1"></i> Simpan Perubahan
                                     </button> 
                                 </div>

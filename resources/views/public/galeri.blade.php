@@ -21,7 +21,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1a5c2a;
+        color: #43a047;
         position: relative;
         overflow: hidden;
     }
@@ -62,10 +62,10 @@
 </style>
 
 {{-- HEADER HIJAU MELENGKUNG: IDENTIK 100% DENGAN HALAMAN BERITA --}}
-<div class="py-5 text-center text-white" style="background-color: #1a5c2a; border-radius: 0 0 50px 50px; margin-top: -24px; padding-bottom: 60px !important;">
+<div class="py-4 text-center text-white" style="background-color: #43a047; border-radius: 0 0 50px 50px; margin-top: -24px; padding-bottom: 44px !important;">
     <div class="container">
-        <h2 class="fw-bold mb-2">📸 Galeri Dokumentasi</h2>
-        <p class="lead small opacity-75 mb-0">Eksplorasi Kegiatan & Koleksi Tanaman Obat Universitas Pahlawan</p>
+        <h2 class="fw-bold mb-2" style="font-size: 1.6rem;">📸 Galeri Dokumentasi</h2>
+        <p class="lead small opacity-75 mb-0" style="font-size: 0.9rem;">Eksplorasi Kegiatan & Koleksi Taman Herbal Universitas Pahlawan</p>
     </div>
 </div>
 
@@ -81,7 +81,7 @@
                         <input type="text" name="cari" class="form-control py-2 ps-5 text-dark" placeholder="Cari nama atau tema album kegiatan..." value="{{ $cari ?? '' }}" style="border-radius: 10px; border: 1px solid #ced4da; box-shadow: none; font-size: 0.95rem;">
                     </div>
                     {{-- Tombol Cari Hijau Tua Melengkung Terpisah --}}
-                    <button type="submit" class="btn btn-success px-4 py-2 fw-bold" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 10px; min-width: 110px;">
+                    <button type="submit" class="btn btn-success px-4 py-2 fw-bold" style="background-color: #43a047; border-color: #43a047; border-radius: 10px; min-width: 110px;">
                         Cari
                     </button>
                 </form>
@@ -140,7 +140,7 @@
         </div>
         @empty
         <div class="col-12 text-center py-5 text-muted">
-            <i class="bi bi-folder-x" style="font-size: 4rem; color: #1a5c2a;"></i>
+            <i class="bi bi-folder-x" style="font-size: 4rem; color: #43a047;"></i>
             <h5 class="mt-3 fw-bold">Album Tidak Ditemukan</h5>
             <p class="small">Silakan coba cari dengan kata kunci dokumentasi yang lain.</p>
         </div>

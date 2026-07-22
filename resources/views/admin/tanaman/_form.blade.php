@@ -50,7 +50,7 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Asal Tanaman Obat *</label>
+    <label class="form-label">Asal Tanaman Herbal *</label>
     <textarea name="asal_usul" class="form-control" rows="4" required>{{ old('asal_usul', $tanaman->asal_usul ?? '') }}</textarea>
 </div>
 <div class="mb-3">

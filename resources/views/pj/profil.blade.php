@@ -22,7 +22,7 @@
                                 @endif
                             </div>
                             <div class="fw-bold text-dark mt-1" style="font-size: 1.05rem;">{{ $user->name }}</div>
-                            <span class="badge bg-info mt-1" style="font-size: 0.78rem; padding: 5px 12px; border-radius: 20px;">Penanggungjawab Tanaman Obat</span>
+                            <span class="badge bg-info mt-1" style="font-size: 0.78rem; padding: 5px 12px; border-radius: 20px;">Penanggungjawab Taman Herbal</span>
                             
                             {{-- Pindah Input File ke Sisi Bawah Foto Agar Rapi --}}
                             <div class="mt-3 text-start px-2">
@@ -72,7 +72,7 @@
 
                                 {{-- Tombol Simpan Ditarik Sejajar di Kanan Bawah --}}
                                 <div class="col-12 text-end mt-3">
-                                    <button type="submit" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 7px; font-size: 0.88rem; padding: 6px 16px;">
+                                    <button type="submit" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #43a047; border-radius: 7px; font-size: 0.88rem; padding: 6px 16px;">
                                         <i class="bi bi-save me-1"></i>Simpan Perubahan
                                     </button>
                                 </div>

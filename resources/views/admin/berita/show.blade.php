@@ -5,7 +5,7 @@
     <a href="{{ route('admin.berita.index') }}" class="btn btn-sm btn-outline-secondary">
         <i class="bi bi-arrow-left"></i> 
     </a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📰 Detail Review Berita</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;">📰 Detail Review Berita</h5>
 </div>
 
 <div class="card shadow-sm border-0" style="border-radius: 10px;">

@@ -4,10 +4,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📰 Berita & Informasi</h5>
-        <p class="text-muted small">Kelola berita kegiatan untuk klasifikasi informasi tanaman obat.</p>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">📰 Berita & Informasi</h5>
+        <p class="text-muted small">Kelola berita kegiatan untuk klasifikasi informasi tanaman herbal.</p>
     </div>
-    <a href="{{ route('admin.berita.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <a href="{{ route('admin.berita.create') }}" class="btn btn-success btn-sm px-3 shadow-sm" style="background-color:  #43a047; border-color:  #43a047;">
         <i class="bi bi-plus-lg me-1"></i> Tambah Berita
     </a>
 </div>
@@ -20,7 +20,7 @@
                 <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari judul berita..." value="{{ request('cari') }}" style="border-radius: 5px;">
             </div>
             <div class="col-md-auto">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color:  #43a047; border-color:  #43a047;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('cari'))
@@ -90,7 +90,7 @@
                     @empty
                     <tr>
                         <td colspan="6" class="text-center py-5 text-muted">
-                            <i class="bi bi-newspaper fs-1 d-block mb-2" style="color: #1a5c2a; opacity: 0.5;"></i>
+                            <i class="bi bi-newspaper fs-1 d-block mb-2" style="color: #43a047; opacity: 0.5;"></i>
                             Belum ada data berita yang ditambahkan.
                         </td>
                     </tr>

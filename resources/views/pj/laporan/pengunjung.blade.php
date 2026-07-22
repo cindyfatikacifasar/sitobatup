@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div><h4 class="fw-bold text-dark mb-1">📊 Statistik Log Pengunjung</h4><p class="text-muted small mb-0">Review riwayat akses trafik sistem informasi kebun raya.</p></div>
     {{-- ⚡ REVISI: Menambahkan ikon printer fill agar seragam dan konsisten dengan halaman laporan lainnya --}}
-    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak"><i class="bi bi-printer-fill me-1"></i> Cetak Laporan</button>
+    <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #43a047; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetak"><i class="bi bi-printer-fill me-1"></i> Cetak Laporan</button>
 </div>
 
 {{-- Saringan Filter (PAKET WAKTU DI SINI SUDAH DIHAPUS TOTAL DAN DIBUAT SEJAJAR RAPI) --}}
@@ -20,13 +20,13 @@
                 <input type="date" name="tanggal_selesai" class="form-control form-control-sm" value="{{ request('tanggal_selesai') }}" style="border-radius: 8px;">
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #11411c; border-radius: 8px; height: 31px;">🔍 Terapkan</button>
+                <button type="submit" class="btn btn-sm text-white w-100 fw-bold" style="background-color: #43a047; border-radius: 8px; height: 31px;">🔍 Terapkan</button>
             </div>
         </form>
     </div>
 </div>
 
-<div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0" style="font-size: 0.9rem;"><thead class="text-white" style="background-color: #11411c;"><tr><th class="ps-4 py-3" style="width: 60px;">No</th><th>Wilayah</th><th>Perangkat Perambah</th><th class="text-center">Waktu Akses</th></tr></thead><tbody>
+<div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0" style="font-size: 0.9rem;"><thead class="text-white" style="background-color: #43a047;"><tr><th class="ps-4 py-3" style="width: 60px;">No</th><th>Wilayah</th><th>Perangkat Perambah</th><th class="text-center">Waktu Akses</th></tr></thead><tbody>
 @forelse($pengunjungs as $i => $p)<tr><td class="ps-4 text-muted">{{ is_array($pengunjungs) ? $i+1 : $pengunjungs->firstItem() + $i }}</td><td class="fw-bold">{{ $p->ip_address ?? 'Tidak diketahui' }}</td><td class="text-truncate" style="max-width:250px;">{{ $p->user_agent ?? 'Chrome Windows' }}</td><td class="text-center text-muted">{{ $p->created_at ? $p->created_at->format('d-m-Y H:i') : now()->format('d-m-Y H:i') }} WIB</td></tr>@empty<tr><td colspan="4" class="text-center py-4 text-muted">Belum ada data rekaman log trafik pengunjung.</td></tr>@endforelse
 </tbody></table></div></div></div>
 @if(!is_array($pengunjungs))<div class="mt-4 d-flex justify-content-center">{{ $pengunjungs->links() }}</div>@endif
@@ -36,7 +36,7 @@
 <div class="modal fade" id="modalCetak" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius: 15px;">
-            <div class="modal-header text-white" style="background-color: #11411c; border-top-left-radius: 14px; border-top-right-radius: 14px;">
+            <div class="modal-header text-white" style="background-color: #43a047; border-top-left-radius: 14px; border-top-right-radius: 14px;">
                 <h5 class="modal-title fw-bold">🖨️ Cetak Laporan Pengunjung</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
                     <button type="button" class="btn btn-secondary fw-bold px-3" style="border-radius: 8px;" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn text-white fw-bold px-4" style="background-color: #1a5c2a; border-radius: 8px;">Proses Cetak</button>
+                    <button type="submit" class="btn text-white fw-bold px-4" style="background-color: #43a047; border-radius: 8px;">Proses Cetak</button>
                 </div>
             </form>
         </div>

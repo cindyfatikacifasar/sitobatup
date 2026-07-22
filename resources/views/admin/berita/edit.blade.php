@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-flex align-items-center gap-2 mb-3">
     <a href="{{ route('admin.berita.index') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">✏️ Edit Berita</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;">✏️ Edit Berita</h5>
 </div>
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
@@ -32,7 +32,7 @@
                 <div class="col-12 mt-2">
                     <div class="form-check form-switch p-3 border rounded bg-light">
                         <input class="form-check-input ms-0 me-2" type="checkbox" name="is_popular" id="isPopular" value="1" {{ $berita->is_popular ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="isPopular" style="color: #1a5c2a;">
+                        <label class="form-check-label fw-bold" for="isPopular" style="color: #43a047;">
                             <i class="bi bi-star-fill me-1 text-warning"></i> Tampilkan di Carousel Beranda (Berita Populer)
                         </label>
                     </div>

@@ -3,7 +3,7 @@
 @section('title','Kelola Penanggungjawab')
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">👥 Akun Penanggungjawab</h5>
+    <h5 class="mb-0 fw-bold" style="color: #43a047;">👥 Akun Penanggungjawab</h5>
     <a href="{{ route('admin.user.create') }}" class="btn btn-hijau btn-sm"><i class="bi bi-plus me-1"></i>Tambah Akun</a>
 </div>
 <div class="card">

@@ -6,7 +6,7 @@
     <div>
         {{-- Mengubah nama judul halaman menjadi Laporan Saran --}}
         <h4 class="fw-bold text-dark mb-1">💬 Laporan Ulasan Pengunjung</h4>
-        <p class="text-muted small mb-0">Review kritik, ulasan, dan umpan balik masyarakat terhadap sistem SITOBAT Universitas Pahlawan.</p>
+        <p class="text-muted small mb-0">Review kritik, ulasan, dan umpan balik masyarakat terhadap sistem Taman Herbal Kebun Raya Universitas Pahlawan.</p>
     </div>
     {{-- TAMBAHAN: Tombol Cetak Laporan Saran --}}
     <button type="button" class="btn text-white px-4 fw-bold shadow-sm" style="background-color: #1a5c2a; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalCetakUlasan">

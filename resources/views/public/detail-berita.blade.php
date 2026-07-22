@@ -30,7 +30,7 @@
             </div>
 
             {{-- Judul --}}
-            <h1 class="fw-bold mb-4" style="color: #1a5c2a; line-height: 1.3;">{{ $berita->judul }}</h1>
+            <h1 class="fw-bold mb-4" style="color: #43a047; line-height: 1.3;">{{ $berita->judul }}</h1>
 
             {{-- Isi Berita --}}
             <div class="content-berita mb-5" style="font-size: 1.1rem; line-height: 1.8; color: #333; text-align: justify;">

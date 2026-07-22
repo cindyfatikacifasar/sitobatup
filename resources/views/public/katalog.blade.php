@@ -3,10 +3,10 @@
 
 @section('content')
 {{-- HEADER HIJAU MELENGKUNG IDENTIK DENGAN HALAMAN BERITA --}}
-<div class="py-5 text-center text-white" style="background-color: #1a5c2a; border-radius: 0 0 50px 50px; margin-top: -24px;">
+<div class="py-4 text-center text-white" style="background-color: #43a047; border-radius: 0 0 50px 50px; margin-top: -24px; padding-bottom: 55px !important;">
     <div class="container">
-        <h2 class="fw-bold mb-2">🌿Tanaman Obat</h2>
-        <p class="lead small opacity-75 mb-0">Taman Koleksi Tanaman Obat Kebun Raya Universitas Pahlawan &mdash; {{ $tanaman->total() }} tanaman obat</p>
+        <h2 class="fw-bold mb-2" style="font-size: 1.6rem;">Tanaman Herbal</h2>
+        <p class="lead small opacity-75 mb-0" style="font-size: 0.9rem;">Taman Koleksi Tanaman Herbal Kebun Raya Universitas Pahlawan &mdash; {{ $tanaman->total() }} tanaman herbal</p>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
                     <input type="text" name="search" class="form-control py-2 ps-5 text-dark" placeholder="Cari tanaman obat..." value="{{ request('search') }}" style="border-radius: 10px; border: 1px solid #ced4da; box-shadow: none; font-size: 0.95rem;">
                 </div>
                 {{-- Tombol Cari Hijau Tua Melengkung Terpisah --}}
-                <button type="submit" class="btn btn-success px-4 py-2 fw-bold" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 10px; min-width: 110px;">
+                <button type="submit" class="btn btn-success px-4 py-2 fw-bold" style="background-color: #43a047; border-color: #43a047; border-radius: 10px; min-width: 110px;">
                     Cari
                 </button>
             </form>
@@ -36,7 +36,7 @@
             <div style="font-size:4rem;">🔍</div>
             <h5 class="text-muted mt-2">Tanaman tidak ditemukan</h5>
             <p class="text-muted">Coba ubah kata kunci pencarian Anda</p>
-            <a href="{{ route('katalog') }}" class="btn btn-success" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 8px;">Reset Pencarian</a>
+            <a href="{{ route('katalog') }}" class="btn btn-success" style="background-color: #43a047; border-color: #43a047; border-radius: 8px;">Reset Pencarian</a>
         </div>
     @else
         {{-- Menggunakan row-cols agar otomatis responsif dan seimbang --}}
@@ -66,7 +66,7 @@
                                 <span class="text-muted" style="font-size:.75rem;"><i class="bi bi-eye-fill text-success"></i> {{ number_format($item->views) }} views</span>
                                 
                                 @if($item->kategoris && $item->kategoris->isNotEmpty())
-                                    <span class="badge" style="background:#e8f5e9; color:#1a5c2a; font-size:.65rem;">{{ $item->kategoris->first()->nama }}</span>
+                                    <span class="badge" style="background:#e8f5e9; color: #43a047; font-size:.65rem;">{{ $item->kategoris->first()->nama }}</span>
                                 @endif
                             </div>
                         </div>

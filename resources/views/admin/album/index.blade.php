@@ -4,10 +4,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📁 Manajemen Album Galeri</h5>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">📁 Manajemen Album</h5>
         <p class="text-muted small">Kelola koleksi album untuk mengelompokkan foto.</p>
     </div>
-    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambahAlbum" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+    <button type="button" class="btn btn-success btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambahAlbum" style="background-color: #43a047; border-color: #43a047;">
         <i class="bi bi-plus-lg me-1"></i> Buat Album Baru
     </button>
 </div>
@@ -20,7 +20,7 @@
                 <input type="text" name="cari" class="form-control form-control-sm" placeholder="Cari nama album..." value="{{ request('cari') }}" style="border-radius: 5px;">
             </div>
             <div class="col-md-auto">
-                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #1a5c2a; border-color: #1a5c2a;">
+                <button type="submit" class="btn btn-success btn-sm px-3" style="background-color: #43a047; border-color: #43a047;">
                     <i class="bi bi-search me-1"></i> Cari
                 </button>
                 @if(request('cari'))
@@ -132,7 +132,7 @@
                 </div>
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success px-4" style="background-color: #1a5c2a; border-color: #1a5c2a;">Simpan Album</button>
+                    <button type="submit" class="btn btn-success px-4" style="background-color: #43a047; border-color: #43a047;">Simpan Album</button>
                 </div>
             </form>
         </div>

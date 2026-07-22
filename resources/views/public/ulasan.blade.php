@@ -48,7 +48,7 @@
     <div class="text-center mb-5">
         <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 fw-bold mb-2" style="border-radius: 30px; font-size: 0.78rem;">📢 SUARA PENGUNJUNG</span>
         <h2 class="fw-bold text-dark">Laporan Ulasan Masuk</h2>
-        <p class="text-muted mx-auto mb-0" style="max-width: 600px; font-size: 0.92rem;">Apresiasi dan masukan Anda sangat berarti untuk pengembangan fasilitas koleksi tanaman obat Kebun Raya Universitas Pahlawan.</p>
+        <p class="text-muted mx-auto mb-0" style="max-width: 600px; font-size: 0.92rem;">Apresiasi dan masukan Anda sangat berarti untuk pengembangan fasilitas koleksi taman herbal Kebun Raya Universitas Pahlawan.</p>
     </div>
 
     <div class="row g-4 justify-content-center">
@@ -73,7 +73,7 @@
                             <i class="bi bi-check-circle-fill mt-1"></i>
                             <div>
                                 <strong class="d-block mb-1">Ulasan Berhasil Terkirim!</strong>
-                                Terima kasih atas partisipasi Anda. Demi kenyamanan informasi bersama, ulasan Anda telah masuk antrean sistem dan akan segera tampil di halaman ini setelah diverifikasi oleh Admin Sitobat.
+                                Terima kasih atas partisipasi Anda. Demi kenyamanan informasi bersama, ulasan Anda telah masuk antrean sistem dan akan segera tampil di halaman ini setelah diverifikasi oleh Admin.
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     </div>
 
                     {{-- Tombol Kirim --}}
-                    <button type="submit" class="btn text-white w-100 fw-bold py-2 shadow-sm" style="background-color: #1a5c2a; border-radius: 10px; transition: 0.3s;">
+                    <button type="submit" class="btn text-white w-100 fw-bold py-2 shadow-sm" style="background-color: #43a047; border-radius: 10px; transition: 0.3s;">
                         <i class="bi bi-send shadow-sm me-2"></i> Kirim Ulasan
                     </button>
                 </form>

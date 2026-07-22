@@ -5,7 +5,7 @@
 <div class="container-fluid">
     {{-- Header Judul Halaman --}}
     <div class="mb-4">
-        <h5 class="mb-0 fw-bold" style="color:#1a5c2a;">📰 Tambah Berita & Informasi Baru</h5>
+        <h5 class="mb-0 fw-bold" style="color: #43a047;">📰 Tambah Berita & Informasi Baru</h5>
         <p class="text-muted small">Buat artikel kegiatan atau informasi publikasi untuk Kebun Raya Universitas Pahlawan.</p>
     </div>
 
@@ -61,7 +61,7 @@
 
                         <hr class="text-muted opacity-25">
                         
-                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm" style="background-color: #1a5c2a; border-color: #1a5c2a; border-radius: 6px;">
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm" style="background-color: #43a047; border-color: #43a047; border-radius: 6px;">
                             <i class="bi bi-send-fill me-1"></i> Terbitkan Berita
                         </button>
                         <a href="{{ route('admin.berita.index') }}" class="btn btn-light w-100 mt-2 border" style="border-radius: 6px;">Batal</a>
