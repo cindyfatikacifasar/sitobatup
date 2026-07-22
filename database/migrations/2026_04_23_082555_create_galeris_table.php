@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->text('keterangan')->nullable();
             $table->timestamps();
-            $table->foreignId('album_id')->constrained()->onDelete('cascade');
         });
     }
 

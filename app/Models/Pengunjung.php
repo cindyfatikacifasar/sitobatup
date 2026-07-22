@@ -14,7 +14,8 @@ class Pengunjung extends Model
         'user_agent',
         'halaman',
         'tanggal',
-        'asal_negara' 
+        'asal_negara',
+        'kode_negara'
     ];
 
     // Opsional: Jika kamu ingin Laravel otomatis mengurus tanggal, 

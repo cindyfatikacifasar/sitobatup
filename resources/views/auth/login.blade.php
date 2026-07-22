@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="mb-4 d-flex align-items-center justify-content-between">
-                    <a href="javascript:void(0)" class="forgot-link" onclick="alert('Lupa password? \n\nSilakan hubungi Administrator IT Kebun Raya Universitas Pahlawan untuk mereset password akun Anda.')">
+                    <a href="{{ route('password.request') }}" class="forgot-link">
                         Lupa Password?
                     </a>
                 </div>

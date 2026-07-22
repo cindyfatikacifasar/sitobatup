@@ -39,7 +39,13 @@
                     <td class="text-center">{{ $i + 1 }}</td>
                     <td class="fw-bold">{{ $d->nama_lokal ?? $d->nama }}</td>
                     <td><i>{{ $d->nama_ilmiah ?? '-' }}</i></td>
-                    <td>{{ $d->kategori->nama_kategori ?? $d->kategori->nama ?? 'Umum' }}</td>
+                    <td>
+                        @forelse($d->kategoris as $kat)
+                            {{ $kat->nama_kategori ?? $kat->nama }}{{ !$loop->last ? ', ' : '' }}
+                        @empty
+                            -
+                        @endforelse
+                    </td>
                     <td class="text-center">{{ $d->created_at ? $d->created_at->format('d-m-Y') : '-' }}</td>
                     <td class="text-center">{{ $d->views ?? 0 }} Kali</td>
                 </tr>

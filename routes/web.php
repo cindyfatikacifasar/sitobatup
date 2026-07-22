@@ -35,6 +35,13 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middl
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Lupa Password (Reset Password via Email)
+Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request')->middleware('guest');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email')->middleware('guest');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset')->middleware('guest');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update')->middleware('guest');
+
+
 /* --- ADMIN ROUTES --- */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
@@ -44,6 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::resource('tanaman', AdminTanaman::class);
     Route::get('/tanaman/{id}/qr-download', [AdminTanaman::class, 'downloadQr'])->name('tanaman.qr-download');
     Route::get('/tanaman/{id}/generate-qr', [AdminTanaman::class, 'generateQr'])->name('tanaman.generate-qr');
+    Route::post('/tanaman/regenerate-all-qr', [AdminTanaman::class, 'regenerateAllQr'])->name('tanaman.regenerate-all-qr');
     
     Route::resource('kategori', AdminKategori::class);
     
@@ -89,3 +97,64 @@ Route::prefix('pj')->name('pj.')->middleware(['auth', 'role:penanggungjawab'])->
 /* --- GLOBAL PUBLIC ROUTES (BEBAS DIAKSES SIAPA SAJA TANPA SYARAT LOGIN) --- */
 // ⚡ FIX PERBAIKAN: Mengeluarkan rute pemindah bahasa ke luar grup PJ agar terbaca secara global oleh sistem
 Route::get('lang/{lang}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('lang.switch');
+
+// Rute pengaman untuk menjalankan migrasi database di production (Railway) secara manual & aman
+Route::get('/run-migrations', function () {
+    if (request('secret') !== 'sitobat123') {
+        abort(403, 'Akses ditolak.');
+    }
+    try {
+        // 1. Jalankan migrasi standar
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        
+        // 2. Tambahan Sakti: Perbaiki kolom ulasans jika terlewat/dianggap sudah jalan oleh Laravel
+        if (\Illuminate\Support\Facades\Schema::hasTable('ulasans')) {
+            \Illuminate\Support\Facades\Schema::table('ulasans', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'pengirim')) {
+                    $table->string('pengirim')->default('pengunjung');
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'is_read')) {
+                    $table->boolean('is_read')->default(false);
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'rating')) {
+                    $table->integer('rating')->default(5);
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('ulasans', 'is_displayed')) {
+                    $table->boolean('is_displayed')->default(false);
+                }
+            });
+        }
+
+        // 3. Tambahan Sakti: Perbaiki kolom pengunjungs jika terlewat
+        if (\Illuminate\Support\Facades\Schema::hasTable('pengunjungs')) {
+            \Illuminate\Support\Facades\Schema::table('pengunjungs', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('pengunjungs', 'user_agent')) {
+                    $table->string('user_agent')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('pengunjungs', 'kode_negara')) {
+                    $table->string('kode_negara', 5)->nullable();
+                }
+            });
+        }
+
+        \Illuminate\Support\Facades\Cache::forget('migrations_checked_v4');
+        return '<h1>Migrasi & Sinkronisasi Kolom Sukses!</h1><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+    } catch (\Exception $e) {
+        return '<h1>Migrasi Gagal!</h1><pre>' . $e->getMessage() . '</pre>';
+    }
+});
+
+// Rute pengaman untuk melihat log error di production (Railway)
+Route::get('/view-logs', function () {
+    if (request('secret') !== 'sitobat123') {
+        abort(403, 'Akses ditolak.');
+    }
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return '<h1>Log file tidak ditemukan</h1>';
+    }
+    $logs = file_get_contents($logPath);
+    $lines = explode("\n", $logs);
+    $lastLines = array_slice($lines, -150);
+    return '<h1>150 Baris Log Terakhir</h1><pre>' . htmlspecialchars(implode("\n", $lastLines)) . '</pre>';
+});

@@ -200,9 +200,26 @@ class TanamanObatController extends Controller
         return response()->download($path, 'qr-' . $tanaman->slug . '.svg');
     }
 
+    public function regenerateAllQr()
+    {
+        $tanaman = TanamanObat::all();
+        foreach ($tanaman as $t) {
+            $this->buatQrCode($t);
+        }
+        return redirect()->route('admin.tanaman.index')->with('success', 'Seluruh QR Code berhasil diperbarui dengan domain saat ini!');
+    }
+
     private function buatQrCode(TanamanObat $tanaman): void
     {
-        $url  = url('/qr/' . $tanaman->slug);
+        // Gunakan scheme and host dari request aktif agar selalu cocok dengan domain deploy
+        $baseUrl = request()->getSchemeAndHttpHost();
+        
+        // Fallback jika dijalankan via console/seeder (misal http://localhost)
+        if (app()->runningInConsole() || empty(request()->getHost())) {
+            $baseUrl = config('app.url');
+        }
+
+        $url  = rtrim($baseUrl, '/') . '/qr/' . $tanaman->slug;
         $dir  = 'qrcodes';
         $file = $dir . '/qr-' . $tanaman->slug . '.svg';
 

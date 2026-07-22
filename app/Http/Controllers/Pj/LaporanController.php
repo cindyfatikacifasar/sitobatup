@@ -17,7 +17,7 @@ class LaporanController extends Controller
     // ==========================================
     public function tanaman(Request $request)
     {
-        $query = TanamanObat::query();
+        $query = TanamanObat::with('kategoris');
 
         if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
             $query->whereBetween('created_at', [$request->tanggal_mulai . ' 00:00:00', $request->tanggal_selesai . ' 23:59:59']);
@@ -118,7 +118,7 @@ class LaporanController extends Controller
         elseif ($jenis == 'galeri') { $query = Album::withCount('galeris'); $judul = "LAPORAN DATA ALBUM DOKUMENTASI DENTAL"; }
         elseif ($jenis == 'pengunjung') { $query = class_exists(Pengunjung::class) ? Pengunjung::query() : null; $judul = "LAPORAN KUNJUNGAN MONITORING SITOBAT-UP"; }
         elseif ($jenis == 'Ulasan') { $query = Ulasan::query(); $judul = "LAPORAN DATA ULASAN DAN REVIEW PENGUNJUNG"; } // <-- INI TAMBAHANNYA SINDI!
-        else { $query = TanamanObat::query(); $judul = "LAPORAN DATA KOLEKSI TANAMAN OBAT KELUARGA"; }
+        else { $query = TanamanObat::with('kategoris'); $judul = "LAPORAN DATA KOLEKSI TANAMAN OBAT KELUARGA"; }
 
         if (!$query) return "Struktur tabel belum siap.";
 

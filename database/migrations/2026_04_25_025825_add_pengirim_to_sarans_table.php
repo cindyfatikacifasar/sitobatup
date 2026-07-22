@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('sarans', function (Blueprint $table) {
+        Schema::table('ulasans', function (Blueprint $table) {
             // Kita hapus ->after('isi') agar tidak error lagi
-            if (!Schema::hasColumn('sarans', 'pengirim')) {
+            if (!Schema::hasColumn('ulasans', 'pengirim')) {
                 $table->string('pengirim')->default('pengunjung');
             }
-            if (!Schema::hasColumn('sarans', 'is_read')) {
+            if (!Schema::hasColumn('ulasans', 'is_read')) {
                 $table->boolean('is_read')->default(false);
             }
         });
@@ -21,7 +21,7 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::table('sarans', function (Blueprint $table) {
+        Schema::table('ulasans', function (Blueprint $table) {
             $table->dropColumn(['pengirim', 'is_read']);
         });
     }
